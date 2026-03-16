@@ -69,7 +69,7 @@ Thumbs.db
 !model/**/README.md
 
 # Data files
-datasets/
+datasets/benchmarks/
 data/
 
 downloaded_datasets/
@@ -78,3 +78,4 @@ third_party/*
 third_party
 bencharks/
 
+reports/

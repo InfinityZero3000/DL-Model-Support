@@ -1,12 +1,12 @@
-# 📚 Dataset Scripts & Documentation Index
+# Dataset Scripts & Documentation Index
 
 Tất cả files liên quan đến dataset preparation cho LexiLingo training.
 
 ---
 
-## 🔧 Executable Scripts
+## Executable Scripts
 
-### 1. [download_and_inspect_datasets.py](download_and_inspect_datasets.py) (27 KB) ⭐
+### 1. [download_and_inspect_datasets.py](download_and_inspect_datasets.py) (27 KB)
 **Main download script** - Tải 15,000 samples từ HuggingFace + local sources
 
 **Run:**
@@ -24,7 +24,7 @@ python download_and_inspect_datasets.py
 
 ---
 
-### 2. [inspect_datasets.py](inspect_datasets.py) (10 KB) 🔍
+### 2. [inspect_datasets.py](inspect_datasets.py) (10 KB)
 **Quality inspection tool** - Verify data quality và compare vs targets
 
 **Run:**
@@ -43,18 +43,18 @@ python inspect_datasets.py
 
 ---
 
-## 📖 Documentation
+## Documentation
 
-### 3. [README_DATASET_PREPARATION.md](README_DATASET_PREPARATION.md) 📚
+### 3. [README_DATASET_PREPARATION.md](README_DATASET_PREPARATION.md)
 **Comprehensive guide** - Step-by-step workflow từ download → Colab training
 
 **Includes:**
-- ✅ Quick Start (4 bước)
-- ✅ Dataset Details (format specs)
-- ✅ Quality Checks (automated + manual)
-- ✅ Troubleshooting (5 common issues)
-- ✅ Performance Expectations
-- ✅ Tips & Best Practices
+- Quick Start (4 bước)
+- Dataset Details (format specs)
+- Quality Checks (automated + manual)
+- Troubleshooting (5 common issues)
+- Performance Expectations
+- Tips & Best Practices
 
 **Read when:** First time setting up datasets
 
@@ -64,29 +64,29 @@ python inspect_datasets.py
 **Complete documentation** - Technical details về dataset update
 
 **Includes:**
-- ✅ Files created và features
-- ✅ Complete workflow (4 bước chi tiết)
-- ✅ Before/After comparison (5.3K → 15K)
-- ✅ Performance expectations
-- ✅ Data quality features
-- ✅ Troubleshooting
-- ✅ Verification checklist
-- ✅ Best practices
+- Files created và features
+- Complete workflow (4 bước chi tiết)
+- Before/After comparison (5.3K → 15K)
+- Performance expectations
+- Data quality features
+- Troubleshooting
+- Verification checklist
+- Best practices
 
 **Read when:** Need technical details hoặc troubleshooting
 
 ---
 
-### 5. [QUICK_REFERENCE.md](QUICK_REFERENCE.md) (2.7 KB) 🚀
+### 5. [QUICK_REFERENCE.md](QUICK_REFERENCE.md) (2.7 KB)
 **Quick reference card** - Cheat sheet cho common commands
 
 **Includes:**
-- ✅ One-command setup
-- ✅ Expected outputs
-- ✅ Colab workflow
-- ✅ Common commands
-- ✅ Troubleshooting quick fixes
-- ✅ Performance table
+- One-command setup
+- Expected outputs
+- Colab workflow
+- Common commands
+- Troubleshooting quick fixes
+- Performance table
 
 **Read when:** Need quick command lookup
 
@@ -96,34 +96,34 @@ python inspect_datasets.py
 **Dataset expansion guide** - Analysis về current dataset size và cách tăng
 
 **Includes:**
-- ✅ Current vs target comparison (5.3K vs 18.4K)
-- ✅ Detailed gap analysis per task
-- ✅ 3 options: Quick fix / Recommended / Production
-- ✅ Data augmentation techniques
-- ✅ Performance expectations by size
+- Current vs target comparison (5.3K vs 18.4K)
+- Detailed gap analysis per task
+- 3 options: Quick fix / Recommended / Production
+- Data augmentation techniques
+- Performance expectations by size
 
 **Read when:** Need to scale beyond 15K samples
 
 ---
 
-## 🗂️ Modified Files
+## Modified Files
 
 ### 7. [finetune_qwen_lora.v1.4.ipynb](finetune_qwen_lora.v1.4.ipynb)
 **Updated training notebook** - Cell #VSC-67247089 with full dataset loading
 
 **Changes:**
-- ✅ Auto-detect data từ Drive hoặc local
-- ✅ Load from pre-downloaded JSON (5 sec)
-- ✅ Fallback to HuggingFace (10-15 min)
-- ✅ Support 15,000 samples
-- ✅ Detailed progress indicators
-- ✅ Task distribution summary
+- Auto-detect data từ Drive hoặc local
+- Load from pre-downloaded JSON (5 sec)
+- Fallback to HuggingFace (10-15 min)
+- Support 15,000 samples
+- Detailed progress indicators
+- Task distribution summary
 
 **Usage:** Open in Colab, mount Drive, run cells
 
 ---
 
-## 📊 Recommended Reading Order
+## Recommended Reading Order
 
 ### **For first-time setup:**
 1. [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Get overview
@@ -143,7 +143,7 @@ python inspect_datasets.py
 
 ---
 
-## 🚀 Quick Start (TL;DR)
+## Quick Start (TL;DR)
 
 ```bash
 # 1. Download
@@ -163,7 +163,7 @@ tar -czf datasets.tar.gz downloaded_datasets/
 
 ---
 
-## 📞 Support
+## Support
 
 Nếu có issues:
 1. Check [QUICK_REFERENCE.md](QUICK_REFERENCE.md) troubleshooting table
@@ -173,17 +173,17 @@ Nếu có issues:
 
 ---
 
-## ✅ What's Next?
+## What's Next?
 
 After dataset setup:
-1. ✅ Upload to Google Drive
-2. ✅ Open v1.4 notebook in Colab
-3. ✅ Mount Drive
-4. ✅ Run data loading cell → 15K samples loaded
-5. ✅ Train model → 50-60 minutes
-6. ✅ Evaluate metrics vs targets
-7. ✅ Deploy if results good!
+1. Upload to Google Drive
+2. Open v1.4 notebook in Colab
+3. Mount Drive
+4. Run data loading cell → 15K samples loaded
+5. Train model → 50-60 minutes
+6. Evaluate metrics vs targets
+7. Deploy if results good!
 
 ---
 
-**All files ready for production training! 🎉**
+**All files ready for production training!**
