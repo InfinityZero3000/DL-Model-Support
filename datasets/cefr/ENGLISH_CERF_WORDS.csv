@@ -1,0 +1,2333 @@
+word,cefr_level,part_of_speech,definition
+hello,A1,interjection,used as a greeting
+goodbye,A1,interjection,used when leaving
+yes,A1,adverb,used to express agreement
+no,A1,adverb,used to express disagreement
+please,A1,adverb,used in polite requests
+thank,A1,verb,to express gratitude
+water,A1,noun,a clear liquid
+food,A1,noun,something you eat
+day,A1,noun,24 hours
+night,A1,noun,time when it is dark
+good,A1,adjective,of high quality
+bad,A1,adjective,of poor quality
+big,A1,adjective,large in size
+small,A1,adjective,little in size
+happy,A1,adjective,feeling pleasure
+sad,A1,adjective,feeling sorrow
+hot,A1,adjective,having high temperature
+cold,A1,adjective,having low temperature
+new,A1,adjective,recently made
+old,A1,adjective,having existed for a long time
+I,A1,pronoun,used by speaker to refer to themselves
+you,A1,pronoun,referring to the person addressed
+he,A1,pronoun,referring to a male person
+she,A1,pronoun,referring to a female person
+it,A1,pronoun,referring to a thing
+we,A1,pronoun,referring to the speaker and others
+they,A1,pronoun,referring to people or things
+this,A1,pronoun,referring to something near
+that,A1,pronoun,referring to something far
+here,A1,adverb,in this place
+there,A1,adverb,in that place
+now,A1,adverb,at present time
+then,A1,adverb,at that time
+one,A1,number,the number 1
+two,A1,number,the number 2
+three,A1,number,the number 3
+four,A1,number,the number 4
+five,A1,number,the number 5
+man,A1,noun,adult male person
+woman,A1,noun,adult female person
+child,A1,noun,young human being
+boy,A1,noun,male child
+girl,A1,noun,female child
+family,A1,noun,parents and children
+friend,A1,noun,person you like
+house,A1,noun,building to live in
+home,A1,noun,place where you live
+school,A1,noun,place for education
+teacher,A1,noun,person who teaches
+student,A1,noun,person who studies
+book,A1,noun,written work
+pen,A1,noun,writing instrument
+table,A1,noun,piece of furniture
+chair,A1,noun,seat with back
+door,A1,noun,entrance or exit
+window,A1,noun,opening in wall
+car,A1,noun,road vehicle
+bus,A1,noun,large vehicle for passengers
+train,A1,noun,railway vehicle
+plane,A1,noun,aircraft
+time,A1,noun,ongoing sequence of events
+year,A1,noun,365 days
+month,A1,noun,about 30 days
+week,A1,noun,7 days
+hour,A1,noun,60 minutes
+minute,A1,noun,60 seconds
+morning,A1,noun,early part of day
+afternoon,A1,noun,middle part of day
+evening,A1,noun,late part of day
+today,A1,noun,this day
+tomorrow,A1,noun,the day after today
+yesterday,A1,noun,the day before today
+name,A1,noun,what someone is called
+work,A1,noun,job or task
+place,A1,noun,location
+thing,A1,noun,object
+person,A1,noun,human being
+be,A1,verb,to exist
+have,A1,verb,to possess
+do,A1,verb,to perform
+say,A1,verb,to speak
+go,A1,verb,to move
+get,A1,verb,to obtain
+make,A1,verb,to create
+know,A1,verb,to be aware
+think,A1,verb,to use mind
+take,A1,verb,to grab
+see,A1,verb,to use eyes
+come,A1,verb,to move toward
+want,A1,verb,to desire
+look,A1,verb,to direct eyes
+use,A1,verb,to employ
+find,A1,verb,to discover
+give,A1,verb,to provide
+tell,A1,verb,to inform
+work,A1,verb,to do a job
+call,A1,verb,to name
+try,A1,verb,to attempt
+ask,A1,verb,to request
+need,A1,verb,to require
+feel,A1,verb,to experience
+become,A1,verb,to grow to be
+leave,A1,verb,to go away
+put,A1,verb,to place
+mean,A1,verb,to signify
+keep,A1,verb,to retain
+let,A1,verb,to allow
+begin,A1,verb,to start
+seem,A1,verb,to appear
+help,A1,verb,to assist
+show,A1,verb,to display
+hear,A1,verb,to perceive sound
+play,A1,verb,to engage in activity
+run,A1,verb,to move fast
+move,A1,verb,to change position
+like,A1,verb,to enjoy
+live,A1,verb,to be alive
+believe,A1,verb,to accept as true
+bring,A1,verb,to carry
+happen,A1,verb,to occur
+write,A1,verb,to put words on paper
+sit,A1,verb,to be seated
+stand,A1,verb,to be upright
+lose,A1,verb,to be unable to find
+pay,A1,verb,to give money
+meet,A1,verb,to come together
+include,A1,verb,to contain
+continue,A1,verb,to keep going
+set,A1,verb,to put in place
+learn,A1,verb,to gain knowledge
+change,A1,verb,to make different
+lead,A1,verb,to guide
+understand,A1,verb,to comprehend
+watch,A1,verb,to observe
+follow,A1,verb,to go after
+stop,A1,verb,to cease
+create,A1,verb,to make
+speak,A1,verb,to talk
+read,A1,verb,to look at words
+spend,A1,verb,to use money
+grow,A1,verb,to increase
+open,A1,verb,to make accessible
+walk,A1,verb,to move on foot
+win,A1,verb,to be victorious
+teach,A1,verb,to instruct
+offer,A1,verb,to present
+remember,A1,verb,to recall
+consider,A1,verb,to think about
+appear,A1,verb,to come into view
+buy,A1,verb,to purchase
+wait,A1,verb,to stay
+serve,A1,verb,to help
+die,A1,verb,to stop living
+send,A1,verb,to dispatch
+expect,A1,verb,to anticipate
+build,A1,verb,to construct
+stay,A1,verb,to remain
+fall,A1,verb,to drop
+cut,A1,verb,to divide with sharp tool
+reach,A1,verb,to arrive at
+kill,A1,verb,to cause death
+raise,A1,verb,to lift
+pass,A1,verb,to go by
+sell,A1,verb,to exchange for money
+decide,A1,verb,to make choice
+return,A1,verb,to go back
+explain,A1,verb,to make clear
+hope,A1,verb,to wish
+develop,A1,verb,to grow
+carry,A1,verb,to transport
+break,A1,verb,to damage
+receive,A1,verb,to get
+agree,A1,verb,to have same opinion
+support,A1,verb,to help
+hit,A1,verb,to strike
+produce,A1,verb,to make
+eat,A1,verb,to consume food
+cover,A1,verb,to place over
+catch,A1,verb,to grab
+draw,A1,verb,to make picture
+choose,A1,verb,to select
+the,A1,article,definite article
+a,A1,article,indefinite article
+an,A1,article,indefinite article
+and,A1,conjunction,connecting word
+or,A1,conjunction,alternative
+but,A1,conjunction,contrast
+in,A1,preposition,inside
+on,A1,preposition,on top of
+at,A1,preposition,location
+to,A1,preposition,direction
+for,A1,preposition,purpose
+with,A1,preposition,together
+from,A1,preposition,origin
+by,A1,preposition,beside
+about,A1,preposition,concerning
+into,A1,preposition,entering
+through,A1,preposition,via
+after,A1,preposition,following
+before,A1,preposition,earlier than
+between,A1,preposition,in the middle
+under,A1,preposition,below
+above,A1,preposition,over
+important,A2,adjective,having great value
+different,A2,adjective,not the same
+possible,A2,adjective,able to happen
+available,A2,adjective,able to be used
+similar,A2,adjective,alike
+difficult,A2,adjective,hard to do
+interested,A2,adjective,wanting to know
+comfortable,A2,adjective,giving ease
+exciting,A2,adjective,causing excitement
+boring,A2,adjective,not interesting
+amazing,A2,adjective,very surprising
+terrible,A2,adjective,very bad
+wonderful,A2,adjective,very good
+beautiful,A2,adjective,pleasing to look at
+expensive,A2,adjective,costing a lot
+cheap,A2,adjective,low in price
+convenient,A2,adjective,suitable
+dangerous,A2,adjective,likely to cause harm
+safe,A2,adjective,protected from danger
+clean,A2,adjective,free from dirt
+dirty,A2,adjective,not clean
+quiet,A2,adjective,with little sound
+loud,A2,adjective,with much sound
+busy,A2,adjective,having much to do
+empty,A2,adjective,containing nothing
+full,A2,adjective,containing as much as possible
+fast,A2,adjective,quick
+slow,A2,adjective,not fast
+easy,A2,adjective,not difficult
+hard,A2,adjective,difficult
+activity,A2,noun,something done
+advice,A2,noun,suggestion
+airport,A2,noun,place for planes
+answer,A2,noun,response
+apartment,A2,noun,living space
+article,A2,noun,piece of writing
+attention,A2,noun,notice
+bank,A2,noun,financial institution
+beach,A2,noun,sandy shore
+bicycle,A2,noun,two-wheeled vehicle
+boss,A2,noun,manager
+business,A2,noun,commercial activity
+camera,A2,noun,device for photos
+career,A2,noun,profession
+center,A2,noun,middle point
+chance,A2,noun,opportunity
+character,A2,noun,person in story
+choice,A2,noun,option
+church,A2,noun,religious building
+city,A2,noun,large town
+climate,A2,noun,weather conditions
+clothes,A2,noun,garments
+club,A2,noun,organization
+coffee,A2,noun,hot drink
+college,A2,noun,educational institution
+company,A2,noun,business
+computer,A2,noun,electronic device
+concert,A2,noun,musical performance
+conversation,A2,noun,talk
+country,A2,noun,nation
+course,A2,noun,series of lessons
+culture,A2,noun,customs and arts
+customer,A2,noun,buyer
+dance,A2,noun,rhythmic movement
+daughter,A2,noun,female child
+decision,A2,noun,choice made
+difference,A2,noun,distinction
+dinner,A2,noun,evening meal
+direction,A2,noun,way to go
+doctor,A2,noun,medical professional
+dream,A2,noun,sleeping vision
+education,A2,noun,learning process
+email,A2,noun,electronic message
+energy,A2,noun,power
+environment,A2,noun,surroundings
+equipment,A2,noun,tools
+event,A2,noun,happening
+exam,A2,noun,test
+example,A2,noun,instance
+exercise,A2,noun,physical activity
+experience,A2,noun,knowledge from doing
+fact,A2,noun,truth
+factory,A2,noun,production building
+feeling,A2,noun,emotion
+festival,A2,noun,celebration
+film,A2,noun,movie
+floor,A2,noun,bottom surface
+forest,A2,noun,wooded area
+future,A2,noun,time ahead
+game,A2,noun,activity for fun
+garden,A2,noun,planted area
+gift,A2,noun,present
+goal,A2,noun,aim
+government,A2,noun,ruling body
+group,A2,noun,collection
+guest,A2,noun,visitor
+guide,A2,noun,helper
+habit,A2,noun,regular behavior
+health,A2,noun,physical condition
+heart,A2,noun,organ
+history,A2,noun,past events
+holiday,A2,noun,vacation
+hospital,A2,noun,medical facility
+hotel,A2,noun,accommodation
+husband,A2,noun,married man
+idea,A2,noun,thought
+information,A2,noun,knowledge
+interest,A2,noun,curiosity
+internet,A2,noun,global network
+interview,A2,noun,formal meeting
+island,A2,noun,land surrounded by water
+job,A2,noun,employment
+journey,A2,noun,trip
+kind,A2,noun,type
+kitchen,A2,noun,cooking room
+knowledge,A2,noun,understanding
+language,A2,noun,communication system
+law,A2,noun,rule
+letter,A2,noun,written message
+library,A2,noun,book collection
+lifestyle,A2,noun,way of living
+lunch,A2,noun,midday meal
+magazine,A2,noun,periodical publication
+market,A2,noun,place for buying
+meal,A2,noun,food eaten
+medicine,A2,noun,healing substance
+member,A2,noun,part of group
+memory,A2,noun,recollection
+message,A2,noun,communication
+method,A2,noun,way of doing
+mistake,A2,noun,error
+model,A2,noun,example
+moment,A2,noun,brief time
+money,A2,noun,currency
+mountain,A2,noun,high land
+movie,A2,noun,film
+museum,A2,noun,exhibition building
+music,A2,noun,organized sound
+nature,A2,noun,natural world
+neighbor,A2,noun,nearby person
+news,A2,noun,current information
+newspaper,A2,noun,daily publication
+noise,A2,noun,sound
+note,A2,noun,written record
+number,A2,noun,numeral
+office,A2,noun,work room
+opinion,A2,noun,belief
+option,A2,noun,choice
+order,A2,noun,request
+organization,A2,noun,structured group
+owner,A2,noun,possessor
+page,A2,noun,sheet of paper
+paint,A2,noun,coloring substance
+paper,A2,noun,thin sheet
+parent,A2,noun,mother or father
+park,A2,noun,public garden
+part,A2,noun,piece
+party,A2,noun,social gathering
+patient,A2,noun,sick person
+pattern,A2,noun,design
+peace,A2,noun,calm
+period,A2,noun,time span
+phone,A2,noun,telephone
+photo,A2,noun,photograph
+picture,A2,noun,image
+piece,A2,noun,part
+plan,A2,noun,scheme
+plane,A2,noun,aircraft
+planet,A2,noun,celestial body
+plant,A2,noun,living organism
+police,A2,noun,law enforcement
+pollution,A2,noun,contamination
+population,A2,noun,inhabitants
+position,A2,noun,location
+practice,A2,noun,repeated exercise
+president,A2,noun,leader
+price,A2,noun,cost
+problem,A2,noun,difficulty
+product,A2,noun,item
+program,A2,noun,plan
+project,A2,noun,undertaking
+public,A2,noun,people in general
+quality,A2,noun,standard
+question,A2,noun,inquiry
+radio,A2,noun,broadcast device
+rain,A2,noun,water from sky
+reason,A2,noun,cause
+relationship,A2,noun,connection
+report,A2,noun,account
+research,A2,noun,study
+resource,A2,noun,supply
+respect,A2,noun,admiration
+restaurant,A2,noun,eating place
+result,A2,noun,outcome
+river,A2,noun,water flow
+road,A2,noun,path
+rock,A2,noun,stone
+role,A2,noun,function
+room,A2,noun,space
+rule,A2,noun,regulation
+schedule,A2,noun,timetable
+science,A2,noun,systematic study
+sea,A2,noun,ocean
+season,A2,noun,time of year
+seat,A2,noun,place to sit
+section,A2,noun,part
+service,A2,noun,assistance
+shop,A2,noun,store
+sign,A2,noun,symbol
+site,A2,noun,location
+situation,A2,noun,circumstance
+size,A2,noun,dimension
+skill,A2,noun,ability
+sky,A2,noun,space above
+society,A2,noun,community
+son,A2,noun,male child
+song,A2,noun,musical composition
+sound,A2,noun,audible vibration
+space,A2,noun,area
+sport,A2,noun,physical game
+staff,A2,noun,employees
+stage,A2,noun,platform
+star,A2,noun,celestial body
+station,A2,noun,stopping place
+step,A2,noun,movement
+store,A2,noun,shop
+story,A2,noun,narrative
+street,A2,noun,road
+structure,A2,noun,arrangement
+style,A2,noun,manner
+subject,A2,noun,topic
+success,A2,noun,achievement
+summer,A2,noun,warm season
+sun,A2,noun,star
+surface,A2,noun,outer layer
+system,A2,noun,organized scheme
+task,A2,noun,job
+taste,A2,noun,flavor sense
+tax,A2,noun,levy
+team,A2,noun,group
+technology,A2,noun,applied science
+telephone,A2,noun,communication device
+television,A2,noun,broadcast receiver
+temperature,A2,noun,heat level
+text,A2,noun,written words
+theater,A2,noun,performance venue
+theory,A2,noun,explanation
+ticket,A2,noun,pass
+title,A2,noun,name
+topic,A2,noun,subject
+tour,A2,noun,journey
+town,A2,noun,small city
+trade,A2,noun,commerce
+tradition,A2,noun,custom
+traffic,A2,noun,vehicles
+training,A2,noun,instruction
+travel,A2,noun,journey
+tree,A2,noun,woody plant
+trip,A2,noun,journey
+trouble,A2,noun,difficulty
+university,A2,noun,higher education
+vacation,A2,noun,holiday
+valley,A2,noun,low area
+value,A2,noun,worth
+variety,A2,noun,assortment
+vehicle,A2,noun,transport
+video,A2,noun,moving image
+view,A2,noun,sight
+village,A2,noun,small town
+visit,A2,noun,call
+voice,A2,noun,sound
+war,A2,noun,conflict
+waste,A2,noun,refuse
+way,A2,noun,method
+weather,A2,noun,atmospheric condition
+website,A2,noun,internet site
+wife,A2,noun,married woman
+winter,A2,noun,cold season
+wood,A2,noun,tree material
+world,A2,noun,earth
+accept,A2,verb,to receive
+achieve,A2,verb,to accomplish
+add,A2,verb,to put with
+admit,A2,verb,to confess
+affect,A2,verb,to influence
+afford,A2,verb,to have money for
+allow,A2,verb,to permit
+announce,A2,verb,to declare
+apply,A2,verb,to request
+approach,A2,verb,to come near
+argue,A2,verb,to disagree
+arrange,A2,verb,to organize
+arrive,A2,verb,to reach
+attack,A2,verb,to assault
+attempt,A2,verb,to try
+attend,A2,verb,to be present
+attract,A2,verb,to draw interest
+avoid,A2,verb,to stay away from
+base,A2,verb,to found on
+beat,A2,verb,to defeat
+belong,A2,verb,to be owned by
+benefit,A2,verb,to help
+borrow,A2,verb,to use temporarily
+cause,A2,verb,to make happen
+celebrate,A2,verb,to mark occasion
+challenge,A2,verb,to test
+check,A2,verb,to verify
+claim,A2,verb,to assert
+close,A2,verb,to shut
+collect,A2,verb,to gather
+combine,A2,verb,to unite
+compare,A2,verb,to examine similarities
+complain,A2,verb,to express dissatisfaction
+complete,A2,verb,to finish
+concern,A2,verb,to relate to
+confirm,A2,verb,to verify
+connect,A2,verb,to join
+contain,A2,verb,to hold
+control,A2,verb,to direct
+cook,A2,verb,to prepare food
+copy,A2,verb,to duplicate
+cost,A2,verb,to require payment
+count,A2,verb,to enumerate
+cry,A2,verb,to weep
+damage,A2,verb,to harm
+deal,A2,verb,to handle
+deliver,A2,verb,to bring
+depend,A2,verb,to rely
+describe,A2,verb,to tell about
+design,A2,verb,to plan
+destroy,A2,verb,to ruin
+develop,A2,verb,to grow
+discover,A2,verb,to find
+discuss,A2,verb,to talk about
+divide,A2,verb,to separate
+drop,A2,verb,to let fall
+earn,A2,verb,to gain
+encourage,A2,verb,to support
+enjoy,A2,verb,to take pleasure
+enter,A2,verb,to go into
+examine,A2,verb,to inspect
+exist,A2,verb,to be
+experience,A2,verb,to undergo
+express,A2,verb,to convey
+face,A2,verb,to confront
+fail,A2,verb,to not succeed
+fill,A2,verb,to make full
+finish,A2,verb,to complete
+fit,A2,verb,to be right size
+fix,A2,verb,to repair
+fly,A2,verb,to move through air
+focus,A2,verb,to concentrate
+forget,A2,verb,to not remember
+form,A2,verb,to create
+gain,A2,verb,to obtain
+gather,A2,verb,to collect
+guess,A2,verb,to estimate
+handle,A2,verb,to manage
+hang,A2,verb,to suspend
+hate,A2,verb,to dislike strongly
+hide,A2,verb,to conceal
+hold,A2,verb,to grasp
+hurt,A2,verb,to cause pain
+identify,A2,verb,to recognize
+ignore,A2,verb,to disregard
+imagine,A2,verb,to visualize
+improve,A2,verb,to make better
+increase,A2,verb,to make larger
+influence,A2,verb,to affect
+inform,A2,verb,to tell
+intend,A2,verb,to plan
+introduce,A2,verb,to present
+invent,A2,verb,to create
+invite,A2,verb,to request presence
+involve,A2,verb,to include
+join,A2,verb,to connect
+jump,A2,verb,to leap
+kick,A2,verb,to strike with foot
+knock,A2,verb,to strike
+lack,A2,verb,to be without
+land,A2,verb,to arrive
+last,A2,verb,to continue
+laugh,A2,verb,to express amusement
+lay,A2,verb,to place down
+lie,A2,verb,to recline
+lift,A2,verb,to raise
+limit,A2,verb,to restrict
+listen,A2,verb,to hear attentively
+locate,A2,verb,to find
+lock,A2,verb,to secure
+love,A2,verb,to care deeply
+maintain,A2,verb,to keep
+manage,A2,verb,to control
+mark,A2,verb,to indicate
+marry,A2,verb,to wed
+match,A2,verb,to correspond
+matter,A2,verb,to be important
+measure,A2,verb,to determine size
+mention,A2,verb,to refer to
+mind,A2,verb,to object
+miss,A2,verb,to fail to hit
+mix,A2,verb,to combine
+notice,A2,verb,to observe
+obtain,A2,verb,to get
+occur,A2,verb,to happen
+operate,A2,verb,to function
+order,A2,verb,to request
+organize,A2,verb,to arrange
+own,A2,verb,to possess
+pack,A2,verb,to put into container
+paint,A2,verb,to color
+park,A2,verb,to stop vehicle
+participate,A2,verb,to take part
+perform,A2,verb,to carry out
+pick,A2,verb,to select
+plan,A2,verb,to arrange
+plant,A2,verb,to put in ground
+point,A2,verb,to indicate
+practice,A2,verb,to exercise
+prefer,A2,verb,to like better
+prepare,A2,verb,to make ready
+present,A2,verb,to show
+press,A2,verb,to push
+prevent,A2,verb,to stop
+print,A2,verb,to produce text
+promise,A2,verb,to pledge
+protect,A2,verb,to guard
+prove,A2,verb,to demonstrate
+provide,A2,verb,to supply
+publish,A2,verb,to issue
+pull,A2,verb,to draw
+push,A2,verb,to press
+realize,A2,verb,to understand
+recognize,A2,verb,to identify
+recommend,A2,verb,to suggest
+record,A2,verb,to document
+reduce,A2,verb,to decrease
+refer,A2,verb,to mention
+reflect,A2,verb,to show
+refuse,A2,verb,to decline
+regard,A2,verb,to consider
+relate,A2,verb,to connect
+relax,A2,verb,to rest
+release,A2,verb,to free
+remain,A2,verb,to stay
+remove,A2,verb,to take away
+rent,A2,verb,to hire
+repair,A2,verb,to fix
+repeat,A2,verb,to say again
+replace,A2,verb,to substitute
+reply,A2,verb,to answer
+represent,A2,verb,to stand for
+require,A2,verb,to need
+respect,A2,verb,to admire
+respond,A2,verb,to react
+rest,A2,verb,to relax
+reveal,A2,verb,to disclose
+ride,A2,verb,to travel on
+ring,A2,verb,to make sound
+rise,A2,verb,to go up
+roll,A2,verb,to turn over
+save,A2,verb,to keep
+search,A2,verb,to look for
+select,A2,verb,to pick
+separate,A2,verb,to divide
+share,A2,verb,to divide among
+shoot,A2,verb,to fire
+shout,A2,verb,to yell
+shut,A2,verb,to close
+sign,A2,verb,to write name
+sing,A2,verb,to make music
+sleep,A2,verb,to rest
+smile,A2,verb,to show happiness
+sound,A2,verb,to make noise
+spend,A2,verb,to use money
+spread,A2,verb,to extend
+stand,A2,verb,to be upright
+start,A2,verb,to begin
+state,A2,verb,to declare
+stay,A2,verb,to remain
+steal,A2,verb,to take illegally
+stick,A2,verb,to adhere
+store,A2,verb,to keep
+stress,A2,verb,to emphasize
+stretch,A2,verb,to extend
+strike,A2,verb,to hit
+study,A2,verb,to learn
+succeed,A2,verb,to achieve
+suffer,A2,verb,to undergo pain
+suggest,A2,verb,to propose
+supply,A2,verb,to provide
+suppose,A2,verb,to assume
+survive,A2,verb,to continue living
+switch,A2,verb,to change
+taste,A2,verb,to sample
+tend,A2,verb,to be inclined
+test,A2,verb,to examine
+throw,A2,verb,to propel
+tie,A2,verb,to fasten
+touch,A2,verb,to make contact
+train,A2,verb,to teach
+travel,A2,verb,to journey
+treat,A2,verb,to handle
+trust,A2,verb,to believe
+turn,A2,verb,to rotate
+visit,A2,verb,to call on
+vote,A2,verb,to choose
+wake,A2,verb,to stop sleeping
+warn,A2,verb,to alert
+wash,A2,verb,to clean
+waste,A2,verb,to use carelessly
+wear,A2,verb,to have on body
+weigh,A2,verb,to measure weight
+wish,A2,verb,to desire
+wonder,A2,verb,to be curious
+worry,A2,verb,to be anxious
+ability,B1,noun,capacity to do something
+academic,B1,adjective,relating to education
+accurate,B1,adjective,correct and exact
+achievement,B1,noun,accomplished goal
+administration,B1,noun,management
+appropriate,B1,adjective,suitable
+approximately,B1,adverb,about
+assistance,B1,noun,help
+attitude,B1,noun,way of thinking
+authority,B1,noun,power
+awareness,B1,noun,knowledge
+background,B1,noun,personal history
+behavior,B1,noun,conduct
+benefit,B1,noun,advantage
+broad,B1,adjective,wide
+capability,B1,noun,ability
+capacity,B1,noun,capability
+challenge,B1,noun,difficult task
+characteristic,B1,noun,feature
+citizen,B1,noun,member of state
+collaboration,B1,noun,teamwork
+combination,B1,noun,mixture
+commitment,B1,noun,dedication
+communication,B1,noun,exchange of information
+community,B1,noun,group of people
+comparison,B1,noun,contrast
+competition,B1,noun,contest
+complex,B1,adjective,complicated
+component,B1,noun,part
+concept,B1,noun,idea
+conclusion,B1,noun,end result
+condition,B1,noun,state
+confidence,B1,noun,self-assurance
+conflict,B1,noun,disagreement
+consequence,B1,noun,result
+considerable,B1,adjective,substantial
+consideration,B1,noun,thought
+consistent,B1,adjective,uniform
+construction,B1,noun,building
+contact,B1,noun,communication
+contemporary,B1,adjective,modern
+content,B1,noun,substance
+context,B1,noun,circumstances
+contract,B1,noun,agreement
+contrast,B1,noun,difference
+contribution,B1,noun,donation
+convention,B1,noun,custom
+cooperation,B1,noun,working together
+corporation,B1,noun,company
+creation,B1,noun,making
+creativity,B1,noun,inventiveness
+credit,B1,noun,recognition
+crime,B1,noun,illegal act
+criminal,B1,noun,lawbreaker
+crisis,B1,noun,emergency
+criticism,B1,noun,judgment
+crucial,B1,adjective,critical
+debate,B1,noun,discussion
+definitely,B1,adverb,certainly
+democracy,B1,noun,government by people
+demonstrate,B1,verb,to show
+depression,B1,noun,sadness
+despite,B1,preposition,in spite of
+determination,B1,noun,resolve
+disability,B1,noun,impairment
+disadvantage,B1,noun,drawback
+discrimination,B1,noun,prejudice
+distinction,B1,noun,difference
+distribution,B1,noun,allocation
+diversity,B1,noun,variety
+dominant,B1,adjective,main
+dramatic,B1,adjective,striking
+economic,B1,adjective,financial
+economy,B1,noun,financial system
+efficiency,B1,noun,effectiveness
+element,B1,noun,component
+emphasis,B1,noun,stress
+employment,B1,noun,work
+enable,B1,verb,to allow
+encounter,B1,verb,to meet
+enhance,B1,verb,to improve
+enormous,B1,adjective,huge
+ensure,B1,verb,to guarantee
+entertainment,B1,noun,amusement
+entirely,B1,adverb,completely
+environmental,B1,adjective,ecological
+establish,B1,verb,to set up
+estimate,B1,verb,to approximate
+ethnic,B1,adjective,cultural
+eventually,B1,adverb,finally
+evidence,B1,noun,proof
+evolution,B1,noun,development
+exception,B1,noun,exclusion
+exchange,B1,noun,swap
+exclude,B1,verb,to leave out
+expansion,B1,noun,growth
+explanation,B1,noun,clarification
+exploration,B1,noun,investigation
+export,B1,noun,goods sent abroad
+exposure,B1,noun,contact
+extend,B1,verb,to lengthen
+extension,B1,noun,enlargement
+extent,B1,noun,degree
+external,B1,adjective,outside
+facility,B1,noun,building
+factor,B1,noun,element
+feature,B1,noun,characteristic
+financial,B1,adjective,monetary
+flexible,B1,adjective,adaptable
+formal,B1,adjective,official
+framework,B1,noun,structure
+freedom,B1,noun,liberty
+frequency,B1,noun,rate
+function,B1,noun,purpose
+fund,B1,noun,money
+fundamental,B1,adjective,basic
+furthermore,B1,adverb,moreover
+generate,B1,verb,to produce
+generation,B1,noun,age group
+global,B1,adjective,worldwide
+guarantee,B1,noun,assurance
+impact,B1,noun,effect
+implementation,B1,noun,execution
+implication,B1,noun,consequence
+import,B1,noun,goods from abroad
+impose,B1,verb,to force
+improvement,B1,noun,enhancement
+incentive,B1,noun,motivation
+incident,B1,noun,event
+income,B1,noun,earnings
+independence,B1,noun,freedom
+indication,B1,noun,sign
+individual,B1,noun,person
+industrial,B1,adjective,manufacturing
+industry,B1,noun,sector
+infrastructure,B1,noun,basic facilities
+innovation,B1,noun,new idea
+instance,B1,noun,example
+institution,B1,noun,organization
+instruction,B1,noun,direction
+instrument,B1,noun,tool
+insurance,B1,noun,protection
+intellectual,B1,adjective,mental
+intelligence,B1,noun,intellect
+intense,B1,adjective,strong
+interaction,B1,noun,communication
+internal,B1,adjective,inside
+international,B1,adjective,global
+interpretation,B1,noun,explanation
+investigation,B1,noun,inquiry
+investment,B1,noun,funding
+issue,B1,noun,matter
+justice,B1,noun,fairness
+justify,B1,verb,to explain
+label,B1,noun,tag
+labor,B1,noun,work
+layer,B1,noun,level
+lecture,B1,noun,talk
+legislation,B1,noun,laws
+liberal,B1,adjective,open-minded
+license,B1,noun,permit
+link,B1,noun,connection
+literature,B1,noun,written works
+logic,B1,noun,reasoning
+major,B1,adjective,main
+manual,B1,adjective,by hand
+margin,B1,noun,edge
+maximum,B1,adjective,greatest
+meanwhile,B1,adverb,at the same time
+mechanism,B1,noun,process
+media,B1,noun,communication channels
+mental,B1,adjective,psychological
+migration,B1,noun,movement
+military,B1,adjective,armed forces
+minimum,B1,adjective,least
+minority,B1,noun,smaller group
+mode,B1,noun,way
+modification,B1,noun,change
+monitor,B1,verb,to watch
+motivation,B1,noun,drive
+mystery,B1,noun,puzzle
+negative,B1,adjective,bad
+network,B1,noun,system
+neutral,B1,adjective,impartial
+nevertheless,B1,adverb,however
+normal,B1,adjective,usual
+objective,B1,noun,goal
+obligation,B1,noun,duty
+observation,B1,noun,watching
+obvious,B1,adjective,clear
+occupation,B1,noun,job
+occur,B1,verb,to happen
+odd,B1,adjective,strange
+offset,B1,verb,to balance
+ongoing,B1,adjective,continuing
+outcome,B1,noun,result
+output,B1,noun,production
+overall,B1,adjective,total
+overcome,B1,verb,to defeat
+overseas,B1,adverb,abroad
+parallel,B1,adjective,similar
+parameter,B1,noun,limit
+participation,B1,noun,involvement
+partner,B1,noun,associate
+partnership,B1,noun,collaboration
+perception,B1,noun,understanding
+period,B1,noun,time
+permanent,B1,adjective,lasting
+permission,B1,noun,authorization
+perspective,B1,noun,viewpoint
+phenomenon,B1,noun,occurrence
+philosophy,B1,noun,belief system
+physical,B1,adjective,bodily
+policy,B1,noun,plan
+political,B1,adjective,governmental
+positive,B1,adjective,good
+potential,B1,adjective,possible
+poverty,B1,noun,lack of money
+precise,B1,adjective,exact
+predict,B1,verb,to forecast
+previous,B1,adjective,earlier
+primarily,B1,adverb,mainly
+primary,B1,adjective,main
+principle,B1,noun,rule
+priority,B1,noun,importance
+procedure,B1,noun,process
+process,B1,noun,method
+professional,B1,adjective,expert
+profit,B1,noun,gain
+progress,B1,noun,advancement
+project,B1,noun,plan
+promotion,B1,noun,advancement
+proportion,B1,noun,ratio
+prospect,B1,noun,possibility
+psychological,B1,adjective,mental
+publication,B1,noun,printed work
+purchase,B1,noun,buying
+pursue,B1,verb,to follow
+range,B1,noun,variety
+ratio,B1,noun,proportion
+rational,B1,adjective,logical
+reaction,B1,noun,response
+recovery,B1,noun,restoration
+reduction,B1,noun,decrease
+reference,B1,noun,mention
+reform,B1,noun,change
+region,B1,noun,area
+register,B1,verb,to record
+regulation,B1,noun,rule
+reinforce,B1,verb,to strengthen
+reject,B1,verb,to refuse
+relevant,B1,adjective,related
+reliable,B1,adjective,trustworthy
+reluctant,B1,adjective,unwilling
+remove,B1,verb,to take away
+requirement,B1,noun,necessity
+resolution,B1,noun,solution
+resolve,B1,verb,to solve
+respond,B1,verb,to reply
+response,B1,noun,answer
+responsibility,B1,noun,duty
+restriction,B1,noun,limitation
+retain,B1,verb,to keep
+revenue,B1,noun,income
+reverse,B1,verb,to turn around
+revolution,B1,noun,major change
+role,B1,noun,function
+route,B1,noun,path
+scenario,B1,noun,situation
+scheme,B1,noun,plan
+scope,B1,noun,range
+sector,B1,noun,division
+seek,B1,verb,to search
+sequence,B1,noun,order
+series,B1,noun,sequence
+shift,B1,noun,change
+significant,B1,adjective,important
+similar,B1,adjective,alike
+site,B1,noun,location
+source,B1,noun,origin
+specific,B1,adjective,particular
+stability,B1,noun,steadiness
+stable,B1,adjective,steady
+statistic,B1,noun,numerical data
+status,B1,noun,position
+strategy,B1,noun,plan
+stress,B1,noun,pressure
+structure,B1,noun,arrangement
+submit,B1,verb,to present
+subsequent,B1,adjective,following
+substantial,B1,adjective,considerable
+substitute,B1,noun,replacement
+sufficient,B1,adjective,enough
+sum,B1,noun,total
+summary,B1,noun,overview
+survey,B1,noun,study
+sustain,B1,verb,to maintain
+symbol,B1,noun,sign
+target,B1,noun,goal
+task,B1,noun,job
+team,B1,noun,group
+technical,B1,adjective,specialized
+technique,B1,noun,method
+temporary,B1,adjective,short-term
+tense,B1,adjective,stressed
+theme,B1,noun,subject
+tradition,B1,noun,custom
+transfer,B1,verb,to move
+transform,B1,verb,to change
+transition,B1,noun,change
+trend,B1,noun,tendency
+ultimate,B1,adjective,final
+undergo,B1,verb,to experience
+uniform,B1,adjective,consistent
+unique,B1,adjective,one of a kind
+utilise,B1,verb,to use
+valid,B1,adjective,acceptable
+variable,B1,noun,factor
+vary,B1,verb,to change
+version,B1,noun,form
+via,B1,preposition,through
+visible,B1,adjective,able to be seen
+vision,B1,noun,sight
+visual,B1,adjective,relating to sight
+volume,B1,noun,amount
+welfare,B1,noun,wellbeing
+widespread,B1,adjective,common
+abandon,B2,verb,to leave behind
+abolish,B2,verb,to end officially
+abstract,B2,adjective,theoretical
+abundant,B2,adjective,plentiful
+academy,B2,noun,educational institution
+accelerate,B2,verb,to speed up
+accumulate,B2,verb,to gather
+accuracy,B2,noun,correctness
+adjacent,B2,adjective,next to
+adolescent,B2,noun,teenager
+advocate,B2,verb,to support publicly
+aftermath,B2,noun,consequences
+aggregate,B2,noun,total
+allocate,B2,verb,to distribute
+alter,B2,verb,to change
+ambiguous,B2,adjective,unclear
+analogy,B2,noun,comparison
+anonymous,B2,adjective,unnamed
+anticipate,B2,verb,to expect
+arbitrary,B2,adjective,random
+assert,B2,verb,to state firmly
+assumption,B2,noun,belief without proof
+assure,B2,verb,to guarantee
+attribute,B2,noun,characteristic
+behalf,B2,noun,in support of
+bias,B2,noun,prejudice
+capacity,B2,noun,ability
+cease,B2,verb,to stop
+challenge,B2,noun,difficult task
+clarify,B2,verb,to make clear
+coherent,B2,adjective,logical
+coincide,B2,verb,to occur together
+collapse,B2,verb,to fall down
+commence,B2,verb,to begin
+commodity,B2,noun,product
+compensate,B2,verb,to make up for
+compile,B2,verb,to collect
+complement,B2,verb,to complete
+complex,B2,adjective,complicated
+comply,B2,verb,to obey
+component,B2,noun,part
+comprehensive,B2,adjective,complete
+comprise,B2,verb,to consist of
+concede,B2,verb,to admit
+conceive,B2,verb,to imagine
+confer,B2,verb,to discuss
+confine,B2,verb,to restrict
+conform,B2,verb,to comply
+consensus,B2,noun,agreement
+consequent,B2,adjective,resulting
+considerable,B2,adjective,significant
+consist,B2,verb,to be made up of
+constant,B2,adjective,unchanging
+constitute,B2,verb,to form
+constrain,B2,verb,to limit
+consult,B2,verb,to seek advice
+contemporary,B2,adjective,modern
+contradict,B2,verb,to oppose
+contrary,B2,adjective,opposite
+contrast,B2,noun,difference
+contribute,B2,verb,to give
+controversy,B2,noun,dispute
+convene,B2,verb,to gather
+conventional,B2,adjective,traditional
+converse,B2,adjective,opposite
+convert,B2,verb,to change
+cooperate,B2,verb,to work together
+coordinate,B2,verb,to organize
+core,B2,noun,center
+corporate,B2,adjective,relating to corporation
+correspond,B2,verb,to match
+credible,B2,adjective,believable
+cumulative,B2,adjective,increasing
+currency,B2,noun,money
+cycle,B2,noun,sequence
+debate,B2,noun,discussion
+decline,B2,verb,to decrease
+deduce,B2,verb,to conclude
+defect,B2,noun,flaw
+demonstrate,B2,verb,to show
+denote,B2,verb,to indicate
+deny,B2,verb,to refuse
+depress,B2,verb,to sadden
+derive,B2,verb,to obtain
+detect,B2,verb,to discover
+deviate,B2,verb,to diverge
+device,B2,noun,tool
+devote,B2,verb,to dedicate
+differentiate,B2,verb,to distinguish
+dimension,B2,noun,measurement
+diminish,B2,verb,to reduce
+discrete,B2,adjective,separate
+discriminate,B2,verb,to distinguish
+displace,B2,verb,to move
+display,B2,verb,to show
+dispose,B2,verb,to get rid of
+distinct,B2,adjective,different
+distort,B2,verb,to twist
+diverse,B2,adjective,varied
+document,B2,verb,to record
+domain,B2,noun,area
+domestic,B2,adjective,relating to home
+dominate,B2,verb,to control
+dramatic,B2,adjective,striking
+duration,B2,noun,length of time
+dynamic,B2,adjective,energetic
+elaborate,B2,adjective,detailed
+eliminate,B2,verb,to remove
+emerge,B2,verb,to appear
+emphasise,B2,verb,to stress
+empirical,B2,adjective,based on observation
+enable,B2,verb,to allow
+encounter,B2,verb,to meet
+enforce,B2,verb,to compel
+enhance,B2,verb,to improve
+enormous,B2,adjective,very large
+ensure,B2,verb,to guarantee
+entity,B2,noun,thing
+equate,B2,verb,to consider equal
+equilibrium,B2,noun,balance
+equip,B2,verb,to provide
+equivalent,B2,adjective,equal
+erode,B2,verb,to wear away
+error,B2,noun,mistake
+ethic,B2,noun,moral principle
+eventual,B2,adjective,final
+evident,B2,adjective,obvious
+evolve,B2,verb,to develop
+exceed,B2,verb,to go beyond
+exclude,B2,verb,to leave out
+exhibit,B2,verb,to display
+expand,B2,verb,to grow
+explicit,B2,adjective,clear
+exploit,B2,verb,to use
+expose,B2,verb,to reveal
+external,B2,adjective,outside
+extract,B2,verb,to remove
+facilitate,B2,verb,to make easier
+factor,B2,noun,element
+feature,B2,noun,characteristic
+federal,B2,adjective,relating to federation
+file,B2,noun,document
+final,B2,adjective,last
+finance,B2,noun,money management
+finite,B2,adjective,limited
+flexible,B2,adjective,adaptable
+fluctuate,B2,verb,to vary
+focus,B2,verb,to concentrate
+format,B2,noun,arrangement
+formula,B2,noun,method
+forthcoming,B2,adjective,upcoming
+foundation,B2,noun,basis
+framework,B2,noun,structure
+function,B2,noun,purpose
+fundamental,B2,adjective,basic
+furthermore,B2,adverb,in addition
+generate,B2,verb,to produce
+generation,B2,noun,age group
+global,B2,adjective,worldwide
+grade,B2,noun,level
+grant,B2,verb,to give
+guarantee,B2,verb,to promise
+guideline,B2,noun,recommendation
+hence,B2,adverb,therefore
+hierarchy,B2,noun,ranking system
+highlight,B2,verb,to emphasize
+hypothesis,B2,noun,theory
+identical,B2,adjective,same
+identify,B2,verb,to recognize
+ideology,B2,noun,belief system
+ignorance,B2,noun,lack of knowledge
+illustrate,B2,verb,to show
+image,B2,noun,picture
+immigrate,B2,verb,to move to country
+impact,B2,noun,effect
+implement,B2,verb,to carry out
+implicate,B2,verb,to involve
+implicit,B2,adjective,implied
+imply,B2,verb,to suggest
+impose,B2,verb,to force
+incentive,B2,noun,motivation
+incidence,B2,noun,occurrence
+incline,B2,verb,to lean
+income,B2,noun,earnings
+incorporate,B2,verb,to include
+index,B2,noun,list
+indicate,B2,verb,to show
+individual,B2,noun,person
+induce,B2,verb,to cause
+inevitable,B2,adjective,unavoidable
+infer,B2,verb,to conclude
+infrastructure,B2,noun,basic facilities
+inherent,B2,adjective,intrinsic
+inhibit,B2,verb,to prevent
+initial,B2,adjective,first
+initiate,B2,verb,to begin
+innovation,B2,noun,new idea
+input,B2,noun,contribution
+insert,B2,verb,to put in
+insight,B2,noun,understanding
+inspect,B2,verb,to examine
+instance,B2,noun,example
+institute,B2,noun,organization
+instruct,B2,verb,to teach
+integral,B2,adjective,essential
+integrate,B2,verb,to combine
+integrity,B2,noun,honesty
+intelligence,B2,noun,mental ability
+intense,B2,adjective,extreme
+interact,B2,verb,to communicate
+intermediate,B2,adjective,middle
+internal,B2,adjective,inside
+interpret,B2,verb,to explain
+interval,B2,noun,gap
+intervene,B2,verb,to interfere
+intrinsic,B2,adjective,inherent
+invest,B2,verb,to put money
+investigate,B2,verb,to examine
+invoke,B2,verb,to call upon
+involve,B2,verb,to include
+isolate,B2,verb,to separate
+issue,B2,noun,matter
+item,B2,noun,thing
+job,B2,noun,work
+journal,B2,noun,periodical
+justify,B2,verb,to explain
+label,B2,noun,tag
+labour,B2,noun,work
+layer,B2,noun,level
+lecture,B2,noun,speech
+legal,B2,adjective,lawful
+legislate,B2,verb,to make laws
+levy,B2,verb,to impose
+liberal,B2,adjective,open-minded
+licence,B2,noun,permit
+likewise,B2,adverb,similarly
+link,B2,noun,connection
+locate,B2,verb,to find
+logic,B2,noun,reasoning
+maintain,B2,verb,to keep
+major,B2,adjective,main
+manipulate,B2,verb,to control
+manual,B2,adjective,done by hand
+margin,B2,noun,edge
+mature,B2,adjective,fully developed
+maximise,B2,verb,to increase to maximum
+mechanism,B2,noun,system
+media,B2,noun,communication channels
+mediate,B2,verb,to negotiate
+medical,B2,adjective,relating to medicine
+medium,B2,noun,means
+mental,B2,adjective,relating to mind
+method,B2,noun,way
+migrate,B2,verb,to move
+military,B2,adjective,relating to army
+minimal,B2,adjective,smallest
+minimise,B2,verb,to reduce
+minimum,B2,noun,smallest amount
+ministry,B2,noun,government department
+minor,B2,adjective,small
+mode,B2,noun,manner
+modify,B2,verb,to change
+monitor,B2,verb,to watch
+motive,B2,noun,reason
+mutual,B2,adjective,shared
+negate,B2,verb,to nullify
+network,B2,noun,system
+neutral,B2,adjective,impartial
+nevertheless,B2,adverb,however
+nonetheless,B2,adverb,nevertheless
+norm,B2,noun,standard
+normal,B2,adjective,usual
+notion,B2,noun,idea
+notwithstanding,B2,preposition,despite
+nuclear,B2,adjective,relating to nucleus
+objective,B2,noun,goal
+obtain,B2,verb,to get
+obvious,B2,adjective,clear
+occupy,B2,verb,to fill
+occur,B2,verb,to happen
+odd,B2,adjective,strange
+offset,B2,verb,to counterbalance
+ongoing,B2,adjective,continuing
+option,B2,noun,choice
+orient,B2,verb,to position
+outcome,B2,noun,result
+output,B2,noun,production
+overall,B2,adjective,general
+overlap,B2,verb,to partly cover
+overseas,B2,adjective,foreign
+panel,B2,noun,group
+paradigm,B2,noun,model
+paragraph,B2,noun,text section
+parallel,B2,adjective,similar
+parameter,B2,noun,limit
+participate,B2,verb,to take part
+partner,B2,noun,associate
+passive,B2,adjective,inactive
+perceive,B2,verb,to notice
+percent,B2,noun,part of hundred
+period,B2,noun,time span
+persist,B2,verb,to continue
+perspective,B2,noun,viewpoint
+phase,B2,noun,stage
+phenomenon,B2,noun,occurrence
+philosophy,B2,noun,study of knowledge
+physical,B2,adjective,relating to body
+plus,B2,preposition,in addition to
+policy,B2,noun,plan
+portion,B2,noun,part
+pose,B2,verb,to present
+positive,B2,adjective,good
+potential,B2,adjective,possible
+practitioner,B2,noun,professional
+precede,B2,verb,to come before
+precise,B2,adjective,exact
+predict,B2,verb,to forecast
+predominant,B2,adjective,main
+preliminary,B2,adjective,initial
+presume,B2,verb,to assume
+previous,B2,adjective,earlier
+primary,B2,adjective,main
+prime,B2,adjective,main
+principal,B2,adjective,main
+principle,B2,noun,rule
+prior,B2,adjective,earlier
+priority,B2,noun,importance
+proceed,B2,verb,to continue
+process,B2,noun,procedure
+professional,B2,adjective,expert
+prohibit,B2,verb,to forbid
+project,B2,noun,plan
+promote,B2,verb,to encourage
+proportion,B2,noun,ratio
+prospect,B2,noun,possibility
+protocol,B2,noun,procedure
+psychology,B2,noun,study of mind
+publication,B2,noun,published work
+publish,B2,verb,to produce
+purchase,B2,verb,to buy
+pursue,B2,verb,to follow
+qualitative,B2,adjective,relating to quality
+quote,B2,verb,to cite
+radical,B2,adjective,extreme
+random,B2,adjective,without pattern
+range,B2,noun,variety
+ratio,B2,noun,proportion
+rational,B2,adjective,logical
+react,B2,verb,to respond
+recover,B2,verb,to get back
+refine,B2,verb,to improve
+regime,B2,noun,government
+region,B2,noun,area
+register,B2,verb,to record
+regulate,B2,verb,to control
+reinforce,B2,verb,to strengthen
+reject,B2,verb,to refuse
+relax,B2,verb,to rest
+release,B2,verb,to free
+relevant,B2,adjective,pertinent
+reluctance,B2,noun,unwillingness
+rely,B2,verb,to depend
+remove,B2,verb,to take away
+require,B2,verb,to need
+research,B2,noun,study
+reside,B2,verb,to live
+resolve,B2,verb,to solve
+resource,B2,noun,supply
+respond,B2,verb,to reply
+restore,B2,verb,to return
+restrain,B2,verb,to limit
+restrict,B2,verb,to limit
+retain,B2,verb,to keep
+reveal,B2,verb,to show
+revenue,B2,noun,income
+reverse,B2,verb,to turn backward
+revise,B2,verb,to change
+revolution,B2,noun,major change
+rigid,B2,adjective,stiff
+role,B2,noun,function
+route,B2,noun,path
+scenario,B2,noun,situation
+schedule,B2,noun,timetable
+scheme,B2,noun,plan
+scope,B2,noun,extent
+section,B2,noun,part
+sector,B2,noun,area
+secure,B2,verb,to obtain
+seek,B2,verb,to search
+select,B2,verb,to choose
+similar,B2,adjective,alike
+simulate,B2,verb,to imitate
+site,B2,noun,location
+so-called,B2,adjective,named
+sole,B2,adjective,only
+somewhat,B2,adverb,to some extent
+sophisticated,B2,adjective,complex
+source,B2,noun,origin
+specific,B2,adjective,particular
+specify,B2,verb,to state clearly
+sphere,B2,noun,area
+stable,B2,adjective,steady
+statistic,B2,noun,numerical data
+status,B2,noun,position
+straightforward,B2,adjective,simple
+strategy,B2,noun,plan
+stress,B2,verb,to emphasize
+structure,B2,noun,arrangement
+style,B2,noun,manner
+submit,B2,verb,to present
+subordinate,B2,adjective,lower in rank
+subsequent,B2,adjective,following
+subsidy,B2,noun,financial aid
+substitute,B2,noun,replacement
+successor,B2,noun,one who follows
+sufficient,B2,adjective,enough
+sum,B2,noun,total
+summary,B2,noun,overview
+supplement,B2,noun,addition
+survey,B2,noun,study
+survive,B2,verb,to continue living
+suspend,B2,verb,to stop temporarily
+sustain,B2,verb,to maintain
+symbol,B2,noun,sign
+tape,B2,noun,recording
+target,B2,noun,goal
+task,B2,noun,job
+team,B2,noun,group
+technical,B2,adjective,specialized
+technique,B2,noun,method
+technology,B2,noun,applied science
+temporary,B2,adjective,short-term
+tense,B2,adjective,stressed
+terminate,B2,verb,to end
+text,B2,noun,written work
+theme,B2,noun,subject
+theory,B2,noun,hypothesis
+thereby,B2,adverb,by that means
+thesis,B2,noun,argument
+topic,B2,noun,subject
+trace,B2,verb,to find
+tradition,B2,noun,custom
+transfer,B2,verb,to move
+transform,B2,verb,to change
+transit,B2,noun,passage
+transmit,B2,verb,to send
+transport,B2,verb,to carry
+trend,B2,noun,tendency
+trigger,B2,verb,to cause
+ultimate,B2,adjective,final
+undergo,B2,verb,to experience
+undertake,B2,verb,to begin
+uniform,B2,adjective,consistent
+unify,B2,verb,to unite
+unique,B2,adjective,one of a kind
+utilise,B2,verb,to use
+utility,B2,noun,usefulness
+valid,B2,adjective,acceptable
+vary,B2,verb,to change
+vehicle,B2,noun,transport
+version,B2,noun,form
+via,B2,preposition,through
+violate,B2,verb,to break
+virtual,B2,adjective,nearly
+visible,B2,adjective,able to be seen
+vision,B2,noun,sight
+visual,B2,adjective,relating to sight
+volume,B2,noun,amount
+voluntary,B2,adjective,willing
+welfare,B2,noun,wellbeing
+whereas,B2,conjunction,while
+whereby,B2,adverb,by which
+widespread,B2,adjective,common
+abstract,C1,noun,summary
+academy,C1,noun,institution of learning
+access,C1,verb,to obtain
+accommodate,C1,verb,to provide space
+accompany,C1,verb,to go with
+accumulate,C1,verb,to gather
+accurate,C1,adjective,correct
+achieve,C1,verb,to accomplish
+acknowledge,C1,verb,to recognize
+acquire,C1,verb,to obtain
+adapt,C1,verb,to adjust
+adequate,C1,adjective,sufficient
+adjacent,C1,adjective,next to
+adjust,C1,verb,to change
+administrate,C1,verb,to manage
+adult,C1,noun,grown person
+advocate,C1,noun,supporter
+affect,C1,verb,to influence
+aggregate,C1,verb,to combine
+aid,C1,verb,to help
+albeit,C1,conjunction,although
+allocate,C1,verb,to distribute
+alter,C1,verb,to change
+alternative,C1,noun,option
+ambiguity,C1,noun,uncertainty
+amend,C1,verb,to modify
+analogy,C1,noun,comparison
+analyse,C1,verb,to examine
+annual,C1,adjective,yearly
+anticipate,C1,verb,to expect
+apparent,C1,adjective,clear
+append,C1,verb,to add
+appreciate,C1,verb,to value
+approach,C1,noun,method
+appropriate,C1,adjective,suitable
+approximate,C1,adjective,nearly exact
+arbitrary,C1,adjective,random
+area,C1,noun,region
+aspect,C1,noun,feature
+assemble,C1,verb,to gather
+assess,C1,verb,to evaluate
+assign,C1,verb,to allocate
+assist,C1,verb,to help
+assume,C1,verb,to suppose
+assure,C1,verb,to guarantee
+attach,C1,verb,to connect
+attain,C1,verb,to achieve
+attitude,C1,noun,viewpoint
+attribute,C1,verb,to ascribe
+author,C1,noun,writer
+authority,C1,noun,power
+automate,C1,verb,to mechanize
+available,C1,adjective,accessible
+aware,C1,adjective,conscious
+behalf,C1,noun,in support of
+benefit,C1,noun,advantage
+bias,C1,noun,prejudice
+bond,C1,noun,connection
+brief,C1,adjective,short
+bulk,C1,noun,large quantity
+capable,C1,adjective,able
+capacity,C1,noun,ability
+category,C1,noun,class
+cease,C1,verb,to stop
+challenge,C1,verb,to question
+channel,C1,noun,route
+chapter,C1,noun,section
+chart,C1,noun,diagram
+chemical,C1,noun,substance
+circumstance,C1,noun,condition
+cite,C1,verb,to quote
+civil,C1,adjective,relating to citizens
+clarify,C1,verb,to make clear
+classic,C1,adjective,traditional
+clause,C1,noun,provision
+code,C1,noun,system
+coherent,C1,adjective,logical
+coincide,C1,verb,to occur together
+collapse,C1,noun,breakdown
+colleague,C1,noun,coworker
+commence,C1,verb,to begin
+comment,C1,noun,remark
+commission,C1,noun,authority
+commit,C1,verb,to pledge
+commodity,C1,noun,product
+communicate,C1,verb,to share information
+community,C1,noun,group
+compatible,C1,adjective,able to coexist
+compensate,C1,verb,to make up for
+compile,C1,verb,to collect
+complement,C1,noun,addition
+complex,C1,noun,group of related things
+component,C1,noun,part
+compound,C1,noun,mixture
+comprehensive,C1,adjective,complete
+comprise,C1,verb,to consist of
+compute,C1,verb,to calculate
+conceive,C1,verb,to imagine
+concentrate,C1,verb,to focus
+concept,C1,noun,idea
+conclude,C1,verb,to finish
+concurrent,C1,adjective,simultaneous
+conduct,C1,verb,to carry out
+confer,C1,verb,to discuss
+confine,C1,verb,to restrict
+confirm,C1,verb,to verify
+conflict,C1,noun,disagreement
+conform,C1,verb,to comply
+consent,C1,noun,permission
+consequent,C1,adjective,resulting
+considerable,C1,adjective,significant
+consist,C1,verb,to be made up of
+constant,C1,noun,unchanging value
+constitute,C1,verb,to form
+constrain,C1,verb,to limit
+construct,C1,verb,to build
+consult,C1,verb,to seek advice
+consume,C1,verb,to use
+contact,C1,noun,communication
+contemporary,C1,noun,person of same time
+context,C1,noun,setting
+contract,C1,noun,agreement
+contradict,C1,verb,to oppose
+contrary,C1,noun,opposite
+contrast,C1,verb,to compare
+contribute,C1,verb,to give
+controversy,C1,noun,dispute
+convene,C1,verb,to gather
+converse,C1,verb,to talk
+convert,C1,verb,to change
+convince,C1,verb,to persuade
+cooperate,C1,verb,to work together
+coordinate,C1,noun,position
+core,C1,adjective,central
+corporate,C1,adjective,relating to corporation
+correspond,C1,verb,to match
+couple,C1,noun,pair
+create,C1,verb,to make
+credit,C1,noun,acknowledgment
+criteria,C1,noun,standards
+crucial,C1,adjective,critical
+culture,C1,noun,way of life
+currency,C1,noun,money
+cycle,C1,verb,to repeat
+data,C1,noun,information
+debate,C1,verb,to discuss
+decade,C1,noun,ten years
+decline,C1,noun,decrease
+deduce,C1,verb,to conclude
+define,C1,verb,to explain
+definite,C1,adjective,certain
+demonstrate,C1,verb,to show
+denote,C1,verb,to indicate
+deny,C1,verb,to refuse
+depress,C1,verb,to sadden
+derive,C1,verb,to obtain
+design,C1,noun,plan
+despite,C1,preposition,in spite of
+detect,C1,verb,to discover
+deviate,C1,verb,to diverge
+device,C1,noun,tool
+devote,C1,verb,to dedicate
+differentiate,C1,verb,to distinguish
+dimension,C1,noun,measurement
+diminish,C1,verb,to reduce
+discrete,C1,adjective,separate
+discriminate,C1,verb,to distinguish
+displace,C1,verb,to move
+display,C1,noun,exhibition
+dispose,C1,verb,to get rid of
+distinct,C1,adjective,different
+distort,C1,verb,to twist
+distribute,C1,verb,to give out
+diverse,C1,adjective,varied
+document,C1,noun,record
+domain,C1,noun,area
+domestic,C1,adjective,relating to home
+dominate,C1,verb,to control
+draft,C1,noun,preliminary version
+drama,C1,noun,play
+duration,C1,noun,length of time
+dynamic,C1,noun,force
+economy,C1,noun,financial system
+edit,C1,verb,to revise
+element,C1,noun,component
+eliminate,C1,verb,to remove
+emerge,C1,verb,to appear
+emphasis,C1,noun,stress
+empirical,C1,adjective,based on observation
+enable,C1,verb,to allow
+encounter,C1,noun,meeting
+energy,C1,noun,power
+enforce,C1,verb,to compel
+enhance,C1,verb,to improve
+enormous,C1,adjective,very large
+ensure,C1,verb,to guarantee
+entity,C1,noun,thing
+environment,C1,noun,surroundings
+equate,C1,verb,to consider equal
+equip,C1,verb,to provide
+equivalent,C1,noun,equal thing
+erode,C1,verb,to wear away
+error,C1,noun,mistake
+establish,C1,verb,to set up
+estate,C1,noun,property
+estimate,C1,verb,to calculate
+ethic,C1,noun,moral principle
+ethnic,C1,adjective,relating to culture
+evaluate,C1,verb,to assess
+eventual,C1,adjective,final
+evident,C1,adjective,obvious
+evolve,C1,verb,to develop
+exceed,C1,verb,to go beyond
+exclude,C1,verb,to leave out
+exhibit,C1,noun,display
+expand,C1,verb,to grow
+expert,C1,noun,specialist
+explicit,C1,adjective,clear
+exploit,C1,noun,achievement
+export,C1,verb,to send abroad
+expose,C1,verb,to reveal
+external,C1,adjective,outside
+extract,C1,noun,excerpt
+facilitate,C1,verb,to make easier
+factor,C1,verb,to include
+feature,C1,verb,to include
+federal,C1,adjective,relating to federation
+fee,C1,noun,charge
+file,C1,verb,to submit
+final,C1,noun,last part
+finance,C1,verb,to fund
+finite,C1,adjective,limited
+flexible,C1,adjective,adaptable
+fluctuate,C1,verb,to vary
+focus,C1,noun,center of attention
+format,C1,verb,to arrange
+formula,C1,noun,method
+forthcoming,C1,adjective,upcoming
+found,C1,verb,to establish
+foundation,C1,noun,basis
+framework,C1,noun,structure
+function,C1,verb,to work
+fund,C1,noun,money
+fundamental,C1,noun,basic principle
+furthermore,C1,adverb,in addition
+gender,C1,noun,sex
+generate,C1,verb,to produce
+generation,C1,noun,age group
+globe,C1,noun,world
+goal,C1,noun,aim
+grade,C1,verb,to classify
+grant,C1,noun,gift
+guarantee,C1,noun,promise
+guideline,C1,noun,recommendation
+hence,C1,adverb,therefore
+hierarchy,C1,noun,ranking system
+highlight,C1,noun,best part
+hypothesis,C1,noun,theory
+abdicate,C2,verb,to renounce power
+aberrant,C2,adjective,deviating from normal
+abeyance,C2,noun,temporary suspension
+abjure,C2,verb,to renounce under oath
+abstruse,C2,adjective,difficult to understand
+acerbic,C2,adjective,harsh in tone
+acquiesce,C2,verb,to accept reluctantly
+acrimonious,C2,adjective,bitter and harsh
+acumen,C2,noun,keen insight
+adamant,C2,adjective,refusing to change
+admonish,C2,verb,to warn firmly
+adroit,C2,adjective,skillful
+adulation,C2,noun,excessive praise
+adversary,C2,noun,opponent
+aesthetic,C2,adjective,relating to beauty
+affable,C2,adjective,friendly
+aggregate,C2,adjective,formed by combining
+alacrity,C2,noun,eager willingness
+albeit,C2,conjunction,although
+alleviate,C2,verb,to reduce severity
+allusion,C2,noun,indirect reference
+aloof,C2,adjective,distant
+altruistic,C2,adjective,selfless
+amalgamate,C2,verb,to combine
+ambivalent,C2,adjective,having mixed feelings
+ameliorate,C2,verb,to improve
+amenable,C2,adjective,willing to cooperate
+amiable,C2,adjective,friendly
+anomaly,C2,noun,deviation from norm
+antagonistic,C2,adjective,hostile
+antipathy,C2,noun,strong dislike
+antiquated,C2,adjective,outdated
+apathy,C2,noun,lack of interest
+apprehensive,C2,adjective,anxious
+arbitrary,C2,adjective,based on random choice
+arcane,C2,adjective,mysterious
+archaic,C2,adjective,very old
+arduous,C2,adjective,difficult
+articulate,C2,adjective,well-spoken
+ascertain,C2,verb,to find out
+ascetic,C2,adjective,practicing self-denial
+assiduous,C2,adjective,diligent
+assuage,C2,verb,to make less severe
+astute,C2,adjective,shrewd
+audacious,C2,adjective,bold
+augment,C2,verb,to increase
+auspicious,C2,adjective,favorable
+austere,C2,adjective,severe
+avarice,C2,noun,greed
+banal,C2,adjective,lacking originality
+bellicose,C2,adjective,warlike
+benevolent,C2,adjective,kind
+benign,C2,adjective,gentle
+bolster,C2,verb,to support
+boorish,C2,adjective,rude
+brevity,C2,noun,conciseness
+bureaucratic,C2,adjective,excessively complicated
+burgeon,C2,verb,to grow rapidly
+cacophony,C2,noun,harsh mixture of sounds
+cajole,C2,verb,to persuade by flattery
+callous,C2,adjective,emotionally hardened
+candor,C2,noun,honesty
+capitulate,C2,verb,to surrender
+capricious,C2,adjective,unpredictable
+castigate,C2,verb,to criticize severely
+catalyst,C2,noun,agent of change
+caustic,C2,adjective,sarcastic
+censure,C2,verb,to criticize formally
+charlatan,C2,noun,fraud
+chastise,C2,verb,to punish
+chicanery,C2,noun,deception
+circumspect,C2,adjective,cautious
+circumvent,C2,verb,to avoid
+clandestine,C2,adjective,secret
+clemency,C2,noun,mercy
+coalesce,C2,verb,to unite
+coerce,C2,verb,to force
+cogent,C2,adjective,convincing
+cognizant,C2,adjective,aware
+commensurate,C2,adjective,proportionate
+compel,C2,verb,to force
+complacent,C2,adjective,self-satisfied
+conciliatory,C2,adjective,intended to pacify
+condone,C2,verb,to accept
+confound,C2,verb,to confuse
+congenial,C2,adjective,pleasant
+conjecture,C2,noun,speculation
+connoisseur,C2,noun,expert judge
+conscientious,C2,adjective,thorough
+consolation,C2,noun,comfort
+conspicuous,C2,adjective,obvious
+contentious,C2,adjective,controversial
+contrite,C2,adjective,remorseful
+convoluted,C2,adjective,complex
+copious,C2,adjective,abundant
+corroborate,C2,verb,to confirm
+credulous,C2,adjective,too willing to believe
+cryptic,C2,adjective,mysterious
+cursory,C2,adjective,hasty
+curtail,C2,verb,to reduce
+cynical,C2,adjective,distrustful
+dearth,C2,noun,scarcity
+debacle,C2,noun,disaster
+debilitate,C2,verb,to weaken
+decorum,C2,noun,proper behavior
+deferential,C2,adjective,respectful
+deleterious,C2,adjective,harmful
+delineate,C2,verb,to describe precisely
+demagogue,C2,noun,political agitator
+demure,C2,adjective,modest
+denigrate,C2,verb,to criticize unfairly
+deride,C2,verb,to mock
+derivative,C2,adjective,unoriginal
+desiccate,C2,verb,to dry out
+desultory,C2,adjective,lacking purpose
+deter,C2,verb,to discourage
+detrimental,C2,adjective,harmful
+devious,C2,adjective,dishonest
+dexterous,C2,adjective,skillful
+dichotomy,C2,noun,division into two
+didactic,C2,adjective,instructive
+diffident,C2,adjective,shy
+digress,C2,verb,to deviate from topic
+dilapidated,C2,adjective,run-down
+diligent,C2,adjective,hardworking
+discern,C2,verb,to perceive
+discord,C2,noun,disagreement
+discrepancy,C2,noun,inconsistency
+discretion,C2,noun,careful judgment
+disdain,C2,noun,contempt
+disparage,C2,verb,to belittle
+disparate,C2,adjective,fundamentally different
+disseminate,C2,verb,to spread
+dissonance,C2,noun,lack of harmony
+divergent,C2,adjective,differing
+divulge,C2,verb,to reveal
+dogmatic,C2,adjective,stubbornly opinionated
+dormant,C2,adjective,inactive
+dubious,C2,adjective,doubtful
+dupe,C2,verb,to deceive
+ebullient,C2,adjective,cheerful
+eclectic,C2,adjective,diverse
+efficacious,C2,adjective,effective
+effrontery,C2,noun,audacity
+egalitarian,C2,adjective,believing in equality
+egregious,C2,adjective,outstandingly bad
+elicit,C2,verb,to draw out
+elucidate,C2,verb,to clarify
+elude,C2,verb,to escape
+emaciated,C2,adjective,extremely thin
+embellish,C2,verb,to decorate
+emulate,C2,verb,to imitate
+endemic,C2,adjective,native to region
+enigma,C2,noun,mystery
+enmity,C2,noun,hostility
+ephemeral,C2,adjective,short-lived
+equanimity,C2,noun,composure
+equivocal,C2,adjective,ambiguous
+erudite,C2,adjective,scholarly
+esoteric,C2,adjective,obscure
+espouse,C2,verb,to adopt
+ethereal,C2,adjective,delicate
+eulogy,C2,noun,praise speech
+euphemism,C2,noun,mild expression
+evanescent,C2,adjective,fleeting
+exacerbate,C2,verb,to worsen
+exacting,C2,adjective,demanding
+exculpate,C2,verb,to clear of blame
+execrable,C2,adjective,extremely bad
+exemplary,C2,adjective,serving as model
+exhaustive,C2,adjective,thorough
+exhort,C2,verb,to urge strongly
+exonerate,C2,verb,to absolve
+expedient,C2,adjective,convenient
+expedite,C2,verb,to speed up
+extol,C2,verb,to praise highly
+extraneous,C2,adjective,irrelevant
+extrapolate,C2,verb,to estimate
+extricate,C2,verb,to free
+exuberant,C2,adjective,enthusiastic
+fabricate,C2,verb,to invent falsely
+facetious,C2,adjective,treating serious issues with humor
+fallacious,C2,adjective,based on false logic
+fastidious,C2,adjective,very attentive to detail
+fatuous,C2,adjective,silly
+fecund,C2,adjective,fertile
+fervent,C2,adjective,passionate
+fidelity,C2,noun,faithfulness
+filibuster,C2,noun,obstruction of legislation
+flagrant,C2,adjective,obviously offensive
+fledgling,C2,noun,beginner
+florid,C2,adjective,elaborate
+flout,C2,verb,to openly disregard
+foment,C2,verb,to instigate
+fortuitous,C2,adjective,happening by chance
+fracas,C2,noun,noisy disturbance
+frugal,C2,adjective,economical
+furtive,C2,adjective,secretive
+garrulous,C2,adjective,talkative
+genial,C2,adjective,friendly
+germane,C2,adjective,relevant
+glut,C2,noun,excess
+grandiose,C2,adjective,impressive
+gratuitous,C2,adjective,unnecessary
+gregarious,C2,adjective,sociable
+guile,C2,noun,cunning
+hackneyed,C2,adjective,overused
+hapless,C2,adjective,unlucky
+harbinger,C2,noun,forerunner
+hedonist,C2,noun,pleasure-seeker
+hegemony,C2,noun,dominance
+heresy,C2,noun,controversial belief
+homogeneous,C2,adjective,uniform
+hubris,C2,noun,excessive pride
+hyperbole,C2,noun,exaggeration
+iconoclast,C2,noun,one who attacks tradition
+idiosyncrasy,C2,noun,peculiarity
+ignominious,C2,adjective,humiliating
+illicit,C2,adjective,illegal
+imminent,C2,adjective,about to happen
+immutable,C2,adjective,unchangeable
+impartial,C2,adjective,unbiased
+impeccable,C2,adjective,flawless
+impecunious,C2,adjective,poor
+impede,C2,verb,to hinder
+impervious,C2,adjective,impenetrable
+impetuous,C2,adjective,impulsive
+implacable,C2,adjective,unable to be appeased
+implicit,C2,adjective,implied
+importune,C2,verb,to harass persistently
+impregnable,C2,adjective,impossible to capture
+improvident,C2,adjective,not planning ahead
+impudent,C2,adjective,disrespectful
+impugn,C2,verb,to challenge
+impute,C2,verb,to attribute
+inadvertent,C2,adjective,unintentional
+inane,C2,adjective,silly
+inchoate,C2,adjective,just beginning
+incisive,C2,adjective,sharp
+incontrovertible,C2,adjective,undeniable
+incorrigible,C2,adjective,unable to be corrected
+indefatigable,C2,adjective,tireless
+indigenous,C2,adjective,native
+indigent,C2,adjective,poor
+indolent,C2,adjective,lazy
+indomitable,C2,adjective,impossible to defeat
+ineffable,C2,adjective,indescribable
+inert,C2,adjective,inactive
+inexorable,C2,adjective,relentless
+ingenuous,C2,adjective,innocent
+inherent,C2,adjective,intrinsic
+innate,C2,adjective,inborn
+innocuous,C2,adjective,harmless
+insatiable,C2,adjective,impossible to satisfy
+insidious,C2,adjective,proceeding harmfully but subtly
+insinuate,C2,verb,to suggest indirectly
+insipid,C2,adjective,lacking flavor
+insolent,C2,adjective,disrespectful
+instigate,C2,verb,to provoke
+insular,C2,adjective,narrow-minded
+intractable,C2,adjective,stubborn
+intransigent,C2,adjective,uncompromising
+intrepid,C2,adjective,fearless
+inundate,C2,verb,to overwhelm
+invective,C2,noun,abusive language
+inveterate,C2,adjective,habitual
+invidious,C2,adjective,likely to cause resentment
+irascible,C2,adjective,easily angered
+ire,C2,noun,anger
+irresolute,C2,adjective,uncertain
+itinerant,C2,adjective,traveling
+jubilant,C2,adjective,joyful
+judicious,C2,adjective,wise
+juxtapose,C2,verb,to place side by side
+lackadaisical,C2,adjective,lacking enthusiasm
+laconic,C2,adjective,brief
+languid,C2,adjective,weak
+largesse,C2,noun,generosity
+latent,C2,adjective,hidden
+laud,C2,verb,to praise
+lethargic,C2,adjective,sluggish
+levity,C2,noun,lightness
+litigate,C2,verb,to engage in lawsuit
+loquacious,C2,adjective,talkative
+lucid,C2,adjective,clear
+luminous,C2,adjective,bright
+magnanimous,C2,adjective,generous
+maladroit,C2,adjective,clumsy
+malevolent,C2,adjective,malicious
+malign,C2,verb,to speak ill of
+malleable,C2,adjective,easily influenced
+maverick,C2,noun,nonconformist
+mawkish,C2,adjective,overly sentimental
+mellifluous,C2,adjective,sweet-sounding
+mendacious,C2,adjective,lying
+mercurial,C2,adjective,changeable
+meticulous,C2,adjective,very careful
+mimicry,C2,noun,imitation
+misanthrope,C2,noun,one who hates people
+mitigate,C2,verb,to lessen severity
+mollify,C2,verb,to soothe
+morose,C2,adjective,gloomy
+mundane,C2,adjective,ordinary
+munificent,C2,adjective,generous
+myriad,C2,adjective,countless
+nadir,C2,noun,lowest point
+nascent,C2,adjective,emerging
+nebulous,C2,adjective,vague
+nefarious,C2,adjective,wicked
+neophyte,C2,noun,beginner
+obdurate,C2,adjective,stubborn
+obfuscate,C2,verb,to confuse
+oblique,C2,adjective,indirect
+obsequious,C2,adjective,overly obedient
+obstinate,C2,adjective,stubborn
+obtuse,C2,adjective,slow to understand
+officious,C2,adjective,interfering
+ominous,C2,adjective,threatening
+onerous,C2,adjective,burdensome
+opaque,C2,adjective,not transparent
+opprobrium,C2,noun,harsh criticism
+ornate,C2,adjective,elaborately decorated
+oscillate,C2,verb,to swing back and forth
+ostentatious,C2,adjective,showy
+palliate,C2,verb,to make less severe
+palpable,C2,adjective,tangible
+panacea,C2,noun,cure-all
+paradigm,C2,noun,model
+paradox,C2,noun,contradiction
+paragon,C2,noun,model of excellence
+partisan,C2,adjective,biased
+paucity,C2,noun,scarcity
+pedantic,C2,adjective,overly concerned with details
+pellucid,C2,adjective,transparent
+penchant,C2,noun,liking
+penurious,C2,adjective,poor
+perfidious,C2,adjective,treacherous
+perfunctory,C2,adjective,done without care
+pernicious,C2,adjective,harmful
+perturb,C2,verb,to disturb
+pervasive,C2,adjective,widespread
+phlegmatic,C2,adjective,calm
+piety,C2,noun,religious devotion
+pinnacle,C2,noun,peak
+pious,C2,adjective,religious
+placate,C2,verb,to calm
+platitude,C2,noun,cliché
+plethora,C2,noun,excess
+poignant,C2,adjective,emotionally moving
+ponderous,C2,adjective,heavy
+portent,C2,noun,omen
+pragmatic,C2,adjective,practical
+precarious,C2,adjective,risky
+precipitate,C2,verb,to cause to happen suddenly
+preclude,C2,verb,to prevent
+precocious,C2,adjective,advanced for age
+predilection,C2,noun,preference
+preponderance,C2,noun,superiority in weight
+presage,C2,verb,to foretell
+prescient,C2,adjective,having foresight
+prestige,C2,noun,high status
+presumptuous,C2,adjective,overconfident
+pretentious,C2,adjective,showy
+prevaricate,C2,verb,to lie
+pristine,C2,adjective,unspoiled
+probity,C2,noun,integrity
+proclivity,C2,noun,tendency
+procrastinate,C2,verb,to delay
+prodigal,C2,adjective,wasteful
+prodigious,C2,adjective,enormous
+profane,C2,adjective,disrespectful
+profligate,C2,adjective,recklessly extravagant
+profound,C2,adjective,deep
+profuse,C2,adjective,abundant
+proliferate,C2,verb,to multiply
+prolific,C2,adjective,productive
+propensity,C2,noun,tendency
+propitious,C2,adjective,favorable
+prosaic,C2,adjective,dull
+proscribe,C2,verb,to forbid
+proverbial,C2,adjective,well-known
+prudent,C2,adjective,wise
+puerile,C2,adjective,childish
+pugnacious,C2,adjective,combative
+punctilious,C2,adjective,very careful
+pungent,C2,adjective,sharp-smelling
+quaint,C2,adjective,charmingly old-fashioned
+quandary,C2,noun,dilemma
+querulous,C2,adjective,complaining
+quixotic,C2,adjective,idealistic
+quotidian,C2,adjective,daily
+ramification,C2,noun,consequence
+rancor,C2,noun,bitterness
+rapacious,C2,adjective,greedy
+recalcitrant,C2,adjective,stubbornly defiant
+recant,C2,verb,to withdraw statement
+recondite,C2,adjective,obscure
+redress,C2,noun,remedy
+refute,C2,verb,to disprove
+relegate,C2,verb,to demote
+relinquish,C2,verb,to give up
+remiss,C2,adjective,negligent
+renegade,C2,noun,traitor
+replete,C2,adjective,filled
+reprehensible,C2,adjective,deserving blame
+repudiate,C2,verb,to reject
+rescind,C2,verb,to revoke
+resilient,C2,adjective,able to recover
+resolute,C2,adjective,determined
+respite,C2,noun,rest
+reticent,C2,adjective,reserved
+revere,C2,verb,to respect deeply
+rhetoric,C2,noun,art of persuasion
+rife,C2,adjective,widespread
+robust,C2,adjective,strong
+ruminate,C2,verb,to think deeply
+sagacious,C2,adjective,wise
+salient,C2,adjective,most noticeable
+salubrious,C2,adjective,healthy
+sanction,C2,noun,penalty
+sanguine,C2,adjective,optimistic
+sardonic,C2,adjective,mocking
+satiate,C2,verb,to satisfy fully
+scrupulous,C2,adjective,very careful
+scrutinize,C2,verb,to examine closely
+secular,C2,adjective,non-religious
+seditious,C2,adjective,inciting rebellion
+sensory,C2,adjective,relating to senses
+sententious,C2,adjective,preachy
+serpentine,C2,adjective,winding
+servile,C2,adjective,submissive
+sever,C2,verb,to cut off
+slander,C2,noun,false spoken statement
+sobriety,C2,noun,seriousness
+solicitous,C2,adjective,concerned
+solvent,C2,adjective,able to pay debts
+soporific,C2,adjective,sleep-inducing
+sovereign,C2,adjective,supreme
+sparse,C2,adjective,thinly scattered
+specious,C2,adjective,seemingly true but false
+sporadic,C2,adjective,occasional
+spurious,C2,adjective,false
+squalid,C2,adjective,dirty
+squander,C2,verb,to waste
+stagnant,C2,adjective,not moving
+static,C2,adjective,unchanging
+steadfast,C2,adjective,loyal
+stigma,C2,noun,mark of disgrace
+stipulate,C2,verb,to specify
+stoic,C2,adjective,unemotional
+stratagem,C2,noun,scheme
+strident,C2,adjective,harsh-sounding
+stringent,C2,adjective,strict
+stymie,C2,verb,to obstruct
+subjugate,C2,verb,to conquer
+sublime,C2,adjective,awe-inspiring
+substantiate,C2,verb,to prove
+subversive,C2,adjective,undermining
+succinct,C2,adjective,brief
+suffrage,C2,noun,right to vote
+superfluous,C2,adjective,unnecessary
+supplant,C2,verb,to replace
+suppress,C2,verb,to restrain
+surfeit,C2,noun,excess
+surmise,C2,verb,to guess
+surreptitious,C2,adjective,secret
+sycophant,C2,noun,flatterer
+tacit,C2,adjective,implied
+taciturn,C2,adjective,reserved
+tangential,C2,adjective,peripheral
+tangible,C2,adjective,touchable
+tawdry,C2,adjective,cheap
+temerity,C2,noun,audacity
+temperance,C2,noun,moderation
+tenable,C2,adjective,defensible
+tenacious,C2,adjective,persistent
+tentative,C2,adjective,uncertain
+tenuous,C2,adjective,weak
+terse,C2,adjective,brief
+tirade,C2,noun,angry speech
+torpor,C2,noun,inactivity
+tortuous,C2,adjective,winding
+tractable,C2,adjective,obedient
+tranquil,C2,adjective,calm
+transgress,C2,verb,to violate
+transient,C2,adjective,temporary
+travesty,C2,noun,mockery
+trepidation,C2,noun,fear
+trite,C2,adjective,overused
+trivial,C2,adjective,unimportant
+truculent,C2,adjective,aggressive
+truncate,C2,verb,to shorten
+turbulent,C2,adjective,chaotic
+turgid,C2,adjective,swollen
+turpitude,C2,noun,wickedness
+tyranny,C2,noun,oppressive rule
+ubiquitous,C2,adjective,everywhere
+ulterior,C2,adjective,hidden
+umbrage,C2,noun,offense
+unassuming,C2,adjective,modest
+uncanny,C2,adjective,mysterious
+unctuous,C2,adjective,excessively flattering
+undermine,C2,verb,to weaken
+unequivocal,C2,adjective,clear
+unfettered,C2,adjective,unrestricted
+unprecedented,C2,adjective,never done before
+unwitting,C2,adjective,unaware
+urbane,C2,adjective,sophisticated
+usurp,C2,verb,to seize power
+utilitarian,C2,adjective,practical
+utopia,C2,noun,ideal place
+vacillate,C2,verb,to waver
+vacuous,C2,adjective,empty
+vanguard,C2,noun,forefront
+vapid,C2,adjective,dull
+variegated,C2,adjective,diverse
+vehement,C2,adjective,passionate
+venal,C2,adjective,corrupt
+venerable,C2,adjective,respected
+venerate,C2,verb,to respect
+veracity,C2,noun,truthfulness
+verbose,C2,adjective,wordy
+verdant,C2,adjective,green
+vestige,C2,noun,trace
+vex,C2,verb,to annoy
+viable,C2,adjective,feasible
+vicarious,C2,adjective,experienced through another
+vicissitude,C2,noun,change
+vigilant,C2,adjective,watchful
+vilify,C2,verb,to defame
+vindicate,C2,verb,to clear of blame
+vindictive,C2,adjective,vengeful
+virulent,C2,adjective,poisonous
+viscous,C2,adjective,thick
+vitriolic,C2,adjective,caustic
+vituperate,C2,verb,to abuse verbally
+vivacious,C2,adjective,lively
+vociferous,C2,adjective,loud
+volatile,C2,adjective,unstable
+volition,C2,noun,free will
+voracious,C2,adjective,very hungry
+wane,C2,verb,to decrease
+wanton,C2,adjective,reckless
+wary,C2,adjective,cautious
+waive,C2,verb,to give up
+welter,C2,noun,confusion
+whimsical,C2,adjective,playful
+wily,C2,adjective,cunning
+wistful,C2,adjective,yearning
+wizened,C2,adjective,shriveled
+wrath,C2,noun,intense anger
+wry,C2,adjective,ironic
+xenophobia,C2,noun,fear of foreigners
+zealot,C2,noun,fanatic
+zenith,C2,noun,highest point
