@@ -1,0 +1,153 @@
+{
+  "dataset": "/Users/nguyenhuuthang/Documents/RepoGitHub/LexiLingo/model-development/datasets/benchmarks/2wikimultihopqa/validation.jsonl",
+  "dataset_preset": "2wikimultihopqa",
+  "comparison_profile": "public_cag_compare",
+  "view": "application_level_reuse",
+  "description": "Application-layer benchmark view for GraphCAG, vanilla CAG, and HippoRAG-style baselines.",
+  "reported_metrics": [
+    "R@1",
+    "R@3",
+    "R@5",
+    "MRR@5",
+    "EM",
+    "F1",
+    "ROUGE-L",
+    "BLEU-1",
+    "Cache Hit Rate",
+    "L0 Rate",
+    "L1 Rate",
+    "Latency Mean",
+    "Latency P50",
+    "Latency P95"
+  ],
+  "summaries": {
+    "cag_vanilla": {
+      "n": 64,
+      "n_total": 64,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.21875,
+        "recall_at_3": 0.421875,
+        "recall_at_5": 0.53125,
+        "mrr_at_5": 0.6526041666666667,
+        "exact_match": 0.125,
+        "token_f1": 0.18810399159663865,
+        "rouge_l_f1": 0.18810399159663865,
+        "bleu1": 0.1779592803030303
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.0,
+        "l0_rate": 0.0,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2913.65625,
+        "p50_ms": 2922.0,
+        "p95_ms": 3145.0
+      }
+    },
+    "hipporag_proxy": {
+      "n": 64,
+      "n_total": 64,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.23046875,
+        "recall_at_3": 0.4921875,
+        "recall_at_5": 0.56640625,
+        "mrr_at_5": 0.6572916666666667,
+        "exact_match": 0.1875,
+        "token_f1": 0.240187324929972,
+        "rouge_l_f1": 0.240187324929972,
+        "bleu1": 0.23004261363636364
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.0,
+        "l0_rate": 0.0,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2956.671875,
+        "p50_ms": 2937.0,
+        "p95_ms": 3151.0
+      }
+    },
+    "graphcag_rapid": {
+      "n": 64,
+      "n_total": 64,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.23828125,
+        "recall_at_3": 0.44140625,
+        "recall_at_5": 0.5546875,
+        "mrr_at_5": 0.678125,
+        "exact_match": 0.1875,
+        "token_f1": 0.25395220588235295,
+        "rouge_l_f1": 0.25395220588235295,
+        "bleu1": 0.2451467803030303
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.0,
+        "l0_rate": 0.0,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2953.890625,
+        "p50_ms": 2914.0,
+        "p95_ms": 3180.0
+      }
+    }
+  },
+  "state_drift": {
+    "cag_vanilla": {
+      "available": true,
+      "n": 64,
+      "label_grounded_n": 0,
+      "label_coverage": 0.0,
+      "metric_basis": "quality-fallback",
+      "pcc_precision": null,
+      "pcc_recall": null,
+      "level_isolation_rate": null,
+      "drift_detection_accuracy": 1.0,
+      "incorrect_reuse_rate": null,
+      "reuse_count": 0,
+      "patch_count": 0,
+      "full_count": 64,
+      "cache_hit_count": 0
+    },
+    "hipporag_proxy": {
+      "available": false,
+      "n": 64,
+      "pcc_precision": null,
+      "pcc_recall": null,
+      "level_isolation_rate": null,
+      "drift_detection_accuracy": null,
+      "incorrect_reuse_rate": null,
+      "reuse_count": 0,
+      "patch_count": 0,
+      "full_count": 0,
+      "cache_hit_count": 0
+    },
+    "graphcag_rapid": {
+      "available": true,
+      "n": 64,
+      "label_grounded_n": 0,
+      "label_coverage": 0.0,
+      "metric_basis": "quality-fallback",
+      "pcc_precision": null,
+      "pcc_recall": null,
+      "level_isolation_rate": null,
+      "drift_detection_accuracy": 1.0,
+      "incorrect_reuse_rate": null,
+      "reuse_count": 0,
+      "patch_count": 0,
+      "full_count": 64,
+      "cache_hit_count": 0
+    }
+  }
+}

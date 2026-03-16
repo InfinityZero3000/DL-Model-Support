@@ -18,8 +18,8 @@ The benchmark accepts either:
 - flat JSONL samples with a top-level ``text`` field, or
 - instruction/chat JSONL samples with ``messages`` and optional ``task`` metadata.
 
-Usage (from repo root):
-  python DL-Model-Support/scripts/benchmark_rag_policies.py --n 20 --repeats 2
+Usage (from model-development root):
+  python scripts/benchmark_rag_policies.py --n 20 --repeats 2
 
 Notes:
 - Requires the ai-service dependencies installed (sentence-transformers, langgraph, etc.).
@@ -33,6 +33,7 @@ import argparse
 import asyncio
 import importlib
 import json
+import os
 import random
 import statistics
 import time
@@ -41,13 +42,14 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DATASET = REPO_ROOT / "DL-Model-Support" / "datasets" / "wi+locness" / "json" / "A.dev.json"
+REPO_ROOT = Path(__file__).resolve().parents[2]  # LexiLingo repo root (contains ai-service/)
+MODEL_DEV_ROOT = Path(__file__).resolve().parents[1]  # model-development/ (contains datasets/)
+DEFAULT_DATASET = MODEL_DEV_ROOT / "datasets" / "wi+locness" / "json" / "A.dev.json"
 DATASET_PRESETS: dict[str, Path] = {
     "wi_locness": DEFAULT_DATASET,
-    "graphcag_drift_probes": REPO_ROOT / "DL-Model-Support" / "datasets" / "benchmarks" / "graphcag_drift_probes" / "validation.jsonl",
-    "hotpotqa": REPO_ROOT / "DL-Model-Support" / "datasets" / "benchmarks" / "hotpotqa" / "validation.jsonl",
-    "2wikimultihopqa": REPO_ROOT / "DL-Model-Support" / "datasets" / "benchmarks" / "2wikimultihopqa" / "validation.jsonl",
+    "graphcag_drift_probes": MODEL_DEV_ROOT / "datasets" / "benchmarks" / "graphcag_drift_probes" / "validation.jsonl",
+    "hotpotqa": MODEL_DEV_ROOT / "datasets" / "benchmarks" / "hotpotqa" / "validation.jsonl",
+    "2wikimultihopqa": MODEL_DEV_ROOT / "datasets" / "benchmarks" / "2wikimultihopqa" / "validation.jsonl",
 }
 
 
@@ -239,6 +241,16 @@ def _normalize_response(text: str) -> str:
 
 async def _build_pipeline(*, use_gemini_fallback: bool) -> Any:
     import sys
+
+    # ai-service Settings expects DEBUG to be a parseable boolean. Some local
+    # setups use values like "release", which will crash BaseSettings parsing.
+    raw_debug = os.getenv("DEBUG", "").strip().lower()
+    if raw_debug and raw_debug not in {"0", "1", "true", "false", "yes", "no", "on", "off"}:
+        os.environ["DEBUG"] = "false"
+
+    # KuzuDB writes a WAL file; default path lives under ai-service/, which may be
+    # read-only in some sandboxed runs. Point it to a writable location.
+    os.environ.setdefault("KUZU_DB_PATH", str(Path("/tmp") / "graphcag_kuzu"))
 
     ai_service_root = REPO_ROOT / "ai-service"
     if str(ai_service_root) not in sys.path:
@@ -584,7 +596,7 @@ def main() -> None:
         type=str,
         default=None,
         choices=sorted(DATASET_PRESETS.keys()),
-        help="Named benchmark dataset preset under DL-Model-Support/datasets/benchmarks/",
+        help="Named benchmark dataset preset under datasets/benchmarks/",
     )
     parser.add_argument("--n", type=int, default=20, help="Number of unique samples")
     parser.add_argument("--repeats", type=int, default=2, help="How many times to repeat each sample")

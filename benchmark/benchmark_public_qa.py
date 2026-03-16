@@ -715,6 +715,30 @@ def _clear_provider_throttle(provider: str) -> None:
         mod._PROVIDER_NEXT_REQUEST_AT.pop(provider, None)  # type: ignore[attr-defined]
 
 
+def _clear_graphcag_inprocess_caches() -> None:
+    """
+    Reset GraphCAG in-process caches between modes.
+
+    The ai-service implementation uses module-level in-memory caches as a Redis
+    fallback. The GraphCAG pipeline is a singleton, so those caches can leak
+    across benchmark modes unless we clear them explicitly.
+    """
+
+    mod = sys.modules.get("api.services.graph_cag.nodes_v2")
+    if mod is None:
+        try:
+            import importlib
+
+            mod = importlib.import_module("api.services.graph_cag.nodes_v2")
+        except Exception:
+            return
+
+    for attr in ("_MEM_RESPONSE_CACHE", "_MEM_GRAPH_BUCKETS", "_MEM_BUCKET_VERSIONS"):
+        store = getattr(mod, attr, None)
+        if isinstance(store, dict):
+            store.clear()
+
+
 async def _analyze_with_key_rotation(
     pipeline: Any,
     sample: Any,
@@ -904,6 +928,9 @@ async def _run_mode(
             _LOG.warning("checkpoint  Could not load checkpoint (%s), starting fresh", exc)
             results = []
             start_index = 0
+
+    if start_index == 0:
+        _clear_graphcag_inprocess_caches()
 
     for index, sample in enumerate(samples):
         if index < start_index:
@@ -1517,6 +1544,29 @@ def main() -> None:
             args.dataset_preset, len(samples), args.comparison_profile,
             args.llm_provider, args.groq_model, args.groq_rpm, args.enable_gemini_fallback,
         )
+
+        # Warm-up once to pay one-time costs (graph compile, KG seed) outside the
+        # measured sample loop. Use template generation to avoid LLM spend.
+        try:
+            pipeline = await _build_pipeline(use_gemini_fallback=args.enable_gemini_fallback)
+            warm_sample = samples[0]
+            warm_level = _resolve_sample_level(warm_sample, args.level)
+            warm_metadata = dict(warm_sample.metadata or {})
+            warm_metadata["_benchmark_ranker"] = "flat"
+            await pipeline.analyze(  # type: ignore[call-arg]
+                warm_sample.text,
+                session_id="paper_warmup",
+                learner_profile={"level": warm_level},
+                cache_policy="off",
+                retrieval_policy="full",
+                diagnosis_policy="rules",
+                generation_policy="template",
+                benchmark_task=warm_sample.task,
+                benchmark_context=str(warm_sample.metadata.get("context") or ""),
+                benchmark_metadata=warm_metadata,
+            )
+        except Exception as exc:
+            _LOG.info("warmup  skipped (%s)", exc)
 
         for i, mode in enumerate(mode_configs):
             print()

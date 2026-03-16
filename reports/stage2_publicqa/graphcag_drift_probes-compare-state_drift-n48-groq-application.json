@@ -1,0 +1,153 @@
+{
+  "dataset": "/Users/nguyenhuuthang/Documents/RepoGitHub/LexiLingo/model-development/datasets/benchmarks/graphcag_drift_probes/validation.jsonl",
+  "dataset_preset": "graphcag_drift_probes",
+  "comparison_profile": "state_drift",
+  "view": "application_level_reuse",
+  "description": "Application-layer benchmark view for GraphCAG, vanilla CAG, and HippoRAG-style baselines.",
+  "reported_metrics": [
+    "R@1",
+    "R@3",
+    "R@5",
+    "MRR@5",
+    "EM",
+    "F1",
+    "ROUGE-L",
+    "BLEU-1",
+    "Cache Hit Rate",
+    "L0 Rate",
+    "L1 Rate",
+    "Latency Mean",
+    "Latency P50",
+    "Latency P95"
+  ],
+  "summaries": {
+    "cag_vanilla": {
+      "n": 48,
+      "n_total": 48,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.4375,
+        "recall_at_3": 0.875,
+        "recall_at_5": 0.875,
+        "mrr_at_5": 0.875,
+        "exact_match": 0.8541666666666666,
+        "token_f1": 0.9384259259259259,
+        "rouge_l_f1": 0.9384259259259259,
+        "bleu1": 0.9191468253968254
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.125,
+        "l0_rate": 0.125,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2511.3333333333335,
+        "p50_ms": 2888.0,
+        "p95_ms": 3099.0
+      }
+    },
+    "hipporag_proxy": {
+      "n": 48,
+      "n_total": 48,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.5,
+        "recall_at_3": 1.0,
+        "recall_at_5": 1.0,
+        "mrr_at_5": 1.0,
+        "exact_match": 0.8333333333333334,
+        "token_f1": 0.9083333333333333,
+        "rouge_l_f1": 0.9083333333333333,
+        "bleu1": 0.8923611111111112
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.0,
+        "l0_rate": 0.0,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2968.25,
+        "p50_ms": 2956.0,
+        "p95_ms": 3099.0
+      }
+    },
+    "graphcag_rapid": {
+      "n": 48,
+      "n_total": 48,
+      "n_fallback": 0,
+      "fallback_rate": 0.0,
+      "fallback_providers": [],
+      "retrieval_quality": {
+        "recall_at_1": 0.4375,
+        "recall_at_3": 0.875,
+        "recall_at_5": 0.875,
+        "mrr_at_5": 0.875,
+        "exact_match": 0.8541666666666666,
+        "token_f1": 0.9384259259259259,
+        "rouge_l_f1": 0.9384259259259259,
+        "bleu1": 0.9191468253968254
+      },
+      "reuse_controller": {
+        "cache_hit_rate": 0.125,
+        "l0_rate": 0.125,
+        "l1_rate": 0.0
+      },
+      "latency": {
+        "mean_ms": 2628.4166666666665,
+        "p50_ms": 2957.0,
+        "p95_ms": 3222.0
+      }
+    }
+  },
+  "state_drift": {
+    "cag_vanilla": {
+      "available": true,
+      "n": 48,
+      "label_grounded_n": 48,
+      "label_coverage": 1.0,
+      "metric_basis": "labels",
+      "pcc_precision": 1.0,
+      "pcc_recall": 0.5,
+      "level_isolation_rate": 1.0,
+      "drift_detection_accuracy": 0.875,
+      "incorrect_reuse_rate": 0.0,
+      "reuse_count": 6,
+      "patch_count": 0,
+      "full_count": 42,
+      "cache_hit_count": 6
+    },
+    "hipporag_proxy": {
+      "available": false,
+      "n": 48,
+      "pcc_precision": null,
+      "pcc_recall": null,
+      "level_isolation_rate": null,
+      "drift_detection_accuracy": null,
+      "incorrect_reuse_rate": null,
+      "reuse_count": 0,
+      "patch_count": 0,
+      "full_count": 0,
+      "cache_hit_count": 0
+    },
+    "graphcag_rapid": {
+      "available": true,
+      "n": 48,
+      "label_grounded_n": 48,
+      "label_coverage": 1.0,
+      "metric_basis": "labels",
+      "pcc_precision": 1.0,
+      "pcc_recall": 0.5,
+      "level_isolation_rate": 1.0,
+      "drift_detection_accuracy": 0.875,
+      "incorrect_reuse_rate": 0.0,
+      "reuse_count": 6,
+      "patch_count": 0,
+      "full_count": 42,
+      "cache_hit_count": 6
+    }
+  }
+}
