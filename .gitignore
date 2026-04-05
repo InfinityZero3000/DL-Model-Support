@@ -41,6 +41,7 @@ env/
 .venv
 .venv/bin
 .env
+.venv_*
 
 # IDE
 .vscode/
