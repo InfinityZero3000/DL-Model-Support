@@ -1,0 +1,898 @@
+{
+  "vocabulary:candide": {
+    "id": "vocabulary:candide",
+    "label": "Candide",
+    "type": "Vocabulary",
+    "aliases": [
+      "candide"
+    ],
+    "description": "Title of a novel by Voltaire",
+    "properties": {
+      "example_sentence": [
+        "concept:optimism"
+      ]
+    },
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "example_sentence",
+        "target": "concept:optimism",
+        "target_label": "optimism",
+        "confidence": 1.0,
+        "uncertain": false
+      },
+      {
+        "type": "outgoing",
+        "relation": "has_error_pattern",
+        "target": "errorpattern:article_omission",
+        "target_label": "article omission",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "example_sentence",
+        "value": "concept:optimism",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Candide, although remaining true to the ideals of optimism, always appears to be sceptical of it."
+      }
+    ]
+  },
+  "concept:optimism": {
+    "id": "concept:optimism",
+    "label": "optimism",
+    "type": "Concept",
+    "aliases": [
+      "optimism",
+      "optimistic"
+    ],
+    "description": "Philosophical outlook emphasizing the good in life",
+    "properties": {
+      "defined_as": [
+        "Philosophical outlook emphasizing the good in life"
+      ]
+    },
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "example_sentence",
+        "source": "vocabulary:candide",
+        "source_label": "Candide",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "Philosophical outlook emphasizing the good in life",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "optimism"
+      }
+    ]
+  },
+  "vocabulary:sceptical": {
+    "id": "vocabulary:sceptical",
+    "label": "sceptical",
+    "type": "Vocabulary",
+    "aliases": [
+      "sceptical",
+      "skeptical"
+    ],
+    "description": "Having doubts or questioning the truth",
+    "properties": {
+      "defined_as": [
+        "Having doubts or questioning the truth"
+      ]
+    },
+    "relations": [],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "Having doubts or questioning the truth",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "sceptical"
+      }
+    ]
+  },
+  "concept:expectations": {
+    "id": "concept:expectations",
+    "label": "Expectations",
+    "type": "Concept",
+    "aliases": [
+      "anticipation",
+      "expectations",
+      "hopes"
+    ],
+    "description": "A feeling of anticipation or hope about a future event.",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "related_to",
+        "target": "concept:stakes",
+        "target_label": "Stakes",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:stakes": {
+    "id": "concept:stakes",
+    "label": "Stakes",
+    "type": "Concept",
+    "aliases": [
+      "consequences",
+      "importance",
+      "stakes"
+    ],
+    "description": "The level of importance or consequences of a situation.",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "related_to",
+        "source": "concept:expectations",
+        "source_label": "Expectations",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:lower": {
+    "id": "vocabulary:lower",
+    "label": "Lower",
+    "type": "Vocabulary",
+    "aliases": [
+      "decrease",
+      "lower",
+      "reduce"
+    ],
+    "description": "To make something smaller or less in amount.",
+    "properties": {
+      "defined_as": [
+        "To make something smaller or less in amount."
+      ]
+    },
+    "relations": [],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "To make something smaller or less in amount.",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Lower"
+      }
+    ]
+  },
+  "vocabulary:higher": {
+    "id": "vocabulary:higher",
+    "label": "Higher",
+    "type": "Vocabulary",
+    "aliases": [
+      "higher",
+      "increase",
+      "raise"
+    ],
+    "description": "To make something larger or more in amount.",
+    "properties": {
+      "defined_as": [
+        "To make something larger or more in amount."
+      ]
+    },
+    "relations": [],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "To make something larger or more in amount.",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Higher"
+      }
+    ]
+  },
+  "concept:the_present_simple_tense": {
+    "id": "concept:the_present_simple_tense",
+    "label": "The Present Simple tense",
+    "type": "Concept",
+    "aliases": [
+      "present simple",
+      "present tense",
+      "simple present",
+      "the present simple tense"
+    ],
+    "description": "A verb tense used to describe general truths, habits, or routines.",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "errorpattern:errorpattern": {
+    "id": "errorpattern:errorpattern",
+    "label": "ErrorPattern",
+    "type": "ErrorPattern",
+    "aliases": [
+      "errorpattern",
+      "fluency problems",
+      "grammatical issues"
+    ],
+    "description": "A mistake in grammar or sentence structure that affects fluency.",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "concept:punitive_tax": {
+    "id": "concept:punitive_tax",
+    "label": "Punitive tax",
+    "type": "Concept",
+    "aliases": [
+      "punitive tax",
+      "punitive tax on litterers"
+    ],
+    "description": "A tax imposed on people who litter",
+    "properties": {
+      "defined_as": [
+        "A tax imposed on people who litter"
+      ]
+    },
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "related_to",
+        "source": "vocabulary:litter",
+        "source_label": "Litter",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "A tax imposed on people who litter",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Maybe you could convince the government to implement a punitive tax on people who litter."
+      }
+    ]
+  },
+  "vocabulary:litter": {
+    "id": "vocabulary:litter",
+    "label": "Litter",
+    "type": "Vocabulary",
+    "aliases": [
+      "litter",
+      "littering"
+    ],
+    "description": "The act of throwing trash or waste on the ground",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "related_to",
+        "target": "concept:punitive_tax",
+        "target_label": "Punitive tax",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "domain:government": {
+    "id": "domain:government",
+    "label": "Government",
+    "type": "Domain",
+    "aliases": [
+      "authorities",
+      "government"
+    ],
+    "description": "The system of people who make and enforce laws",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "belongs_to_domain",
+        "target": "domain:domain",
+        "target_label": "Domain",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "errorpattern:grammar_error": {
+    "id": "errorpattern:grammar_error",
+    "label": "Grammar error",
+    "type": "ErrorPattern",
+    "aliases": [
+      "grammar error",
+      "grammar mistake",
+      "sentence structure error"
+    ],
+    "description": "A mistake in sentence structure or syntax",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "has_error_pattern",
+        "source": "vocabulary:tom_hanks",
+        "source_label": "Tom Hanks",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "cefrlevel:a2": {
+    "id": "cefrlevel:a2",
+    "label": "A2",
+    "type": "CEFRLevel",
+    "aliases": [
+      "a2",
+      "elementary"
+    ],
+    "description": "A level of English proficiency",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "has_cefr_level",
+        "target": "concept:fluency",
+        "target_label": "Fluency",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:fluency": {
+    "id": "concept:fluency",
+    "label": "Fluency",
+    "type": "Concept",
+    "aliases": [
+      "communication skills",
+      "fluency"
+    ],
+    "description": "The ability to express oneself clearly and effectively",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "has_cefr_level",
+        "source": "cefrlevel:a2",
+        "source_label": "A2",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:sunshine_flower_shop": {
+    "id": "vocabulary:sunshine_flower_shop",
+    "label": "Sunshine Flower Shop",
+    "type": "Vocabulary",
+    "aliases": [
+      "flower shop",
+      "sunshine flower shop"
+    ],
+    "description": "A shop that sells flowers",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:tom_hanks": {
+    "id": "vocabulary:tom_hanks",
+    "label": "Tom Hanks",
+    "type": "Vocabulary",
+    "aliases": [
+      "person",
+      "shareen",
+      "tom hanks"
+    ],
+    "description": "A person's name",
+    "properties": {
+      "example_sentence": [
+        "Hello, Sunshine Flower Shop. This is Shareen speaking."
+      ]
+    },
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "has_cefr_level",
+        "target": "cefrlevel:b1",
+        "target_label": "B1",
+        "confidence": 1.0,
+        "uncertain": false
+      },
+      {
+        "type": "outgoing",
+        "relation": "has_error_pattern",
+        "target": "errorpattern:grammar_error",
+        "target_label": "Grammar error",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "example_sentence",
+        "value": "Hello, Sunshine Flower Shop. This is Shareen speaking.",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Hello, Sunshine Flower Shop. This is Shareen speaking."
+      }
+    ]
+  },
+  "vocabulary:hello": {
+    "id": "vocabulary:hello",
+    "label": "Hello",
+    "type": "Vocabulary",
+    "aliases": [
+      "greeting",
+      "hello"
+    ],
+    "description": "A way to start a conversation",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "cefrlevel:b1": {
+    "id": "cefrlevel:b1",
+    "label": "B1",
+    "type": "CEFRLevel",
+    "aliases": [
+      "b1",
+      "b1 level"
+    ],
+    "description": "A level of English proficiency",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "has_cefr_level",
+        "source": "vocabulary:tom_hanks",
+        "source_label": "Tom Hanks",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:dozen": {
+    "id": "vocabulary:dozen",
+    "label": "dozen",
+    "type": "Vocabulary",
+    "aliases": [
+      "dozen",
+      "twelve"
+    ],
+    "description": "A quantity of twelve",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:red_carnations": {
+    "id": "vocabulary:red_carnations",
+    "label": "red carnations",
+    "type": "Vocabulary",
+    "aliases": [
+      "flowers",
+      "red carnations"
+    ],
+    "description": "A type of flower",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:mother": {
+    "id": "vocabulary:mother",
+    "label": "mother",
+    "type": "Vocabulary",
+    "aliases": [
+      "mother",
+      "parent"
+    ],
+    "description": "A person's parent",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:person1": {
+    "id": "vocabulary:person1",
+    "label": "Person1",
+    "type": "Vocabulary",
+    "aliases": [
+      "caller",
+      "person1"
+    ],
+    "description": "A person making a phone call",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:person2": {
+    "id": "vocabulary:person2",
+    "label": "Person2",
+    "type": "Vocabulary",
+    "aliases": [
+      "assistant",
+      "person2"
+    ],
+    "description": "A person helping with a task",
+    "properties": {},
+    "relations": [],
+    "literal_properties": []
+  },
+  "vocabulary:fruit": {
+    "id": "vocabulary:fruit",
+    "label": "Fruit",
+    "type": "Vocabulary",
+    "aliases": [
+      "fruit",
+      "fruits"
+    ],
+    "description": "A type of food that grows on trees or bushes",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "related_to",
+        "target": "vocabulary:tree",
+        "target_label": "Tree",
+        "confidence": 1.0,
+        "uncertain": false
+      },
+      {
+        "type": "outgoing",
+        "relation": "related_to",
+        "target": "vocabulary:ground",
+        "target_label": "Ground",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:ground": {
+    "id": "vocabulary:ground",
+    "label": "Ground",
+    "type": "Vocabulary",
+    "aliases": [
+      "earth",
+      "ground",
+      "soil"
+    ],
+    "description": "The surface of the Earth",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "related_to",
+        "source": "vocabulary:fruit",
+        "source_label": "Fruit",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:tree": {
+    "id": "vocabulary:tree",
+    "label": "Tree",
+    "type": "Vocabulary",
+    "aliases": [
+      "tree",
+      "trees"
+    ],
+    "description": "A perennial plant with a single stem or trunk",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "related_to",
+        "source": "vocabulary:fruit",
+        "source_label": "Fruit",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:subject_verb_agreement": {
+    "id": "concept:subject_verb_agreement",
+    "label": "Subject-Verb Agreement",
+    "type": "Concept",
+    "aliases": [
+      "subject verb agreement",
+      "subject-verb agreement"
+    ],
+    "description": "A grammatical rule that states the subject and verb must agree in number",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "has_cefr_level",
+        "target": "cefrlevel:a1",
+        "target_label": "A1",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:subjunctive_mood": {
+    "id": "concept:subjunctive_mood",
+    "label": "Subjunctive Mood",
+    "type": "Concept",
+    "aliases": [
+      "subjunctive",
+      "subjunctive mood"
+    ],
+    "description": "Verb form used to express doubt, uncertainty, or possibility",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "has_error_pattern",
+        "target": "errorpattern:article_omission",
+        "target_label": "article omission",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "vocabulary:will_give": {
+    "id": "vocabulary:will_give",
+    "label": "will give",
+    "type": "Vocabulary",
+    "aliases": [
+      "future simple of give",
+      "will give"
+    ],
+    "description": "Future tense of the verb give",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "part_of_speech",
+        "target": "wordclass:noun",
+        "target_label": "Noun",
+        "confidence": 0.9,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "errorpattern:article_omission": {
+    "id": "errorpattern:article_omission",
+    "label": "article omission",
+    "type": "ErrorPattern",
+    "aliases": [
+      "article omission",
+      "missing article"
+    ],
+    "description": "Error pattern where an article is missing",
+    "properties": {
+      "defined_as": [
+        "Error pattern where an article is missing"
+      ]
+    },
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "has_error_pattern",
+        "source": "vocabulary:candide",
+        "source_label": "Candide",
+        "confidence": 0.8,
+        "uncertain": false
+      },
+      {
+        "type": "incoming",
+        "relation": "has_error_pattern",
+        "source": "concept:present_simple",
+        "source_label": "Present Simple",
+        "confidence": 0.8,
+        "uncertain": false
+      },
+      {
+        "type": "incoming",
+        "relation": "has_error_pattern",
+        "source": "concept:subjunctive_mood",
+        "source_label": "Subjunctive Mood",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "defined_as",
+        "value": "Error pattern where an article is missing",
+        "confidence": 0.9,
+        "uncertain": false,
+        "evidence": "The more he reads, the more books I wonder to whom he will give."
+      }
+    ]
+  },
+  "wordclass:noun": {
+    "id": "wordclass:noun",
+    "label": "Noun",
+    "type": "WordClass",
+    "aliases": [
+      "common noun",
+      "noun",
+      "proper noun"
+    ],
+    "description": "Part of speech used to identify people, places, and things",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "part_of_speech",
+        "source": "vocabulary:will_give",
+        "source_label": "will give",
+        "confidence": 0.9,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "domain:domain": {
+    "id": "domain:domain",
+    "label": "Domain",
+    "type": "Domain",
+    "aliases": [
+      "domain"
+    ],
+    "description": "Semantic domain: Domain",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "belongs_to_domain",
+        "source": "domain:government",
+        "source_label": "Government",
+        "confidence": 1.0,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:tom_hanks": {
+    "id": "concept:tom_hanks",
+    "label": "Tom Hanks",
+    "type": "Concept",
+    "aliases": [
+      "tom hanks"
+    ],
+    "description": "Auto-generated node",
+    "properties": {
+      "example_sentence": [
+        "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance."
+      ]
+    },
+    "relations": [],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "example_sentence",
+        "value": "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance.",
+        "confidence": 1.0,
+        "uncertain": false,
+        "evidence": "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance."
+      }
+    ]
+  },
+  "concept:present_simple": {
+    "id": "concept:present_simple",
+    "label": "Present Simple",
+    "type": "Concept",
+    "aliases": [
+      "present simple"
+    ],
+    "description": "Auto-generated node",
+    "properties": {},
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "has_cefr_level",
+        "target": "cefrlevel:a1",
+        "target_label": "A1",
+        "confidence": 0.8,
+        "uncertain": false
+      },
+      {
+        "type": "outgoing",
+        "relation": "has_error_pattern",
+        "target": "errorpattern:article_omission",
+        "target_label": "article omission",
+        "confidence": 0.8,
+        "uncertain": false
+      },
+      {
+        "type": "incoming",
+        "relation": "example_sentence",
+        "source": "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give",
+        "source_label": "The more he reads, the more books I wonder to whom he will give.",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "cefrlevel:a1": {
+    "id": "cefrlevel:a1",
+    "label": "A1",
+    "type": "CEFRLevel",
+    "aliases": [
+      "a1"
+    ],
+    "description": "CEFR Level A1",
+    "properties": {},
+    "relations": [
+      {
+        "type": "incoming",
+        "relation": "has_cefr_level",
+        "source": "concept:present_simple",
+        "source_label": "Present Simple",
+        "confidence": 0.8,
+        "uncertain": false
+      },
+      {
+        "type": "incoming",
+        "relation": "has_cefr_level",
+        "source": "concept:subject_verb_agreement",
+        "source_label": "Subject-Verb Agreement",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": []
+  },
+  "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give": {
+    "id": "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give",
+    "label": "The more he reads, the more books I wonder to whom he will give.",
+    "type": "Concept",
+    "aliases": [
+      "the more he reads the more books i wonder to whom he will give"
+    ],
+    "description": "Auto-generated node",
+    "properties": {
+      "example_sentence": [
+        "concept:present_simple"
+      ]
+    },
+    "relations": [
+      {
+        "type": "outgoing",
+        "relation": "example_sentence",
+        "target": "concept:present_simple",
+        "target_label": "Present Simple",
+        "confidence": 0.8,
+        "uncertain": false
+      }
+    ],
+    "literal_properties": [
+      {
+        "type": "property",
+        "relation": "example_sentence",
+        "value": "concept:present_simple",
+        "confidence": 0.8,
+        "uncertain": false,
+        "evidence": "The more he reads, the more books I wonder to whom he will give."
+      }
+    ]
+  }
+}

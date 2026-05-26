@@ -1,0 +1,454 @@
+[
+  {
+    "id": "vocabulary:candide",
+    "label": "Candide",
+    "aliases": [
+      "candide"
+    ],
+    "type": "Vocabulary",
+    "description": "Title of a novel by Voltaire",
+    "properties": {
+      "example_sentence": [
+        "concept:optimism"
+      ]
+    }
+  },
+  {
+    "id": "concept:optimism",
+    "label": "optimism",
+    "aliases": [
+      "optimism",
+      "optimistic"
+    ],
+    "type": "Concept",
+    "description": "Philosophical outlook emphasizing the good in life",
+    "properties": {
+      "defined_as": [
+        "Philosophical outlook emphasizing the good in life"
+      ]
+    }
+  },
+  {
+    "id": "vocabulary:sceptical",
+    "label": "sceptical",
+    "aliases": [
+      "sceptical",
+      "skeptical"
+    ],
+    "type": "Vocabulary",
+    "description": "Having doubts or questioning the truth",
+    "properties": {
+      "defined_as": [
+        "Having doubts or questioning the truth"
+      ]
+    }
+  },
+  {
+    "id": "concept:expectations",
+    "label": "Expectations",
+    "aliases": [
+      "anticipation",
+      "expectations",
+      "hopes"
+    ],
+    "type": "Concept",
+    "description": "A feeling of anticipation or hope about a future event.",
+    "properties": {}
+  },
+  {
+    "id": "concept:stakes",
+    "label": "Stakes",
+    "aliases": [
+      "consequences",
+      "importance",
+      "stakes"
+    ],
+    "type": "Concept",
+    "description": "The level of importance or consequences of a situation.",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:lower",
+    "label": "Lower",
+    "aliases": [
+      "decrease",
+      "lower",
+      "reduce"
+    ],
+    "type": "Vocabulary",
+    "description": "To make something smaller or less in amount.",
+    "properties": {
+      "defined_as": [
+        "To make something smaller or less in amount."
+      ]
+    }
+  },
+  {
+    "id": "vocabulary:higher",
+    "label": "Higher",
+    "aliases": [
+      "higher",
+      "increase",
+      "raise"
+    ],
+    "type": "Vocabulary",
+    "description": "To make something larger or more in amount.",
+    "properties": {
+      "defined_as": [
+        "To make something larger or more in amount."
+      ]
+    }
+  },
+  {
+    "id": "concept:the_present_simple_tense",
+    "label": "The Present Simple tense",
+    "aliases": [
+      "present simple",
+      "present tense",
+      "simple present",
+      "the present simple tense"
+    ],
+    "type": "Concept",
+    "description": "A verb tense used to describe general truths, habits, or routines.",
+    "properties": {}
+  },
+  {
+    "id": "errorpattern:errorpattern",
+    "label": "ErrorPattern",
+    "aliases": [
+      "errorpattern",
+      "fluency problems",
+      "grammatical issues"
+    ],
+    "type": "ErrorPattern",
+    "description": "A mistake in grammar or sentence structure that affects fluency.",
+    "properties": {}
+  },
+  {
+    "id": "concept:punitive_tax",
+    "label": "Punitive tax",
+    "aliases": [
+      "punitive tax",
+      "punitive tax on litterers"
+    ],
+    "type": "Concept",
+    "description": "A tax imposed on people who litter",
+    "properties": {
+      "defined_as": [
+        "A tax imposed on people who litter"
+      ]
+    }
+  },
+  {
+    "id": "vocabulary:litter",
+    "label": "Litter",
+    "aliases": [
+      "litter",
+      "littering"
+    ],
+    "type": "Vocabulary",
+    "description": "The act of throwing trash or waste on the ground",
+    "properties": {}
+  },
+  {
+    "id": "domain:government",
+    "label": "Government",
+    "aliases": [
+      "authorities",
+      "government"
+    ],
+    "type": "Domain",
+    "description": "The system of people who make and enforce laws",
+    "properties": {}
+  },
+  {
+    "id": "errorpattern:grammar_error",
+    "label": "Grammar error",
+    "aliases": [
+      "grammar error",
+      "grammar mistake",
+      "sentence structure error"
+    ],
+    "type": "ErrorPattern",
+    "description": "A mistake in sentence structure or syntax",
+    "properties": {}
+  },
+  {
+    "id": "cefrlevel:a2",
+    "label": "A2",
+    "aliases": [
+      "a2",
+      "elementary"
+    ],
+    "type": "CEFRLevel",
+    "description": "A level of English proficiency",
+    "properties": {}
+  },
+  {
+    "id": "concept:fluency",
+    "label": "Fluency",
+    "aliases": [
+      "communication skills",
+      "fluency"
+    ],
+    "type": "Concept",
+    "description": "The ability to express oneself clearly and effectively",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:sunshine_flower_shop",
+    "label": "Sunshine Flower Shop",
+    "aliases": [
+      "flower shop",
+      "sunshine flower shop"
+    ],
+    "type": "Vocabulary",
+    "description": "A shop that sells flowers",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:tom_hanks",
+    "label": "Tom Hanks",
+    "aliases": [
+      "person",
+      "shareen",
+      "tom hanks"
+    ],
+    "type": "Vocabulary",
+    "description": "A person's name",
+    "properties": {
+      "example_sentence": [
+        "Hello, Sunshine Flower Shop. This is Shareen speaking."
+      ]
+    }
+  },
+  {
+    "id": "vocabulary:hello",
+    "label": "Hello",
+    "aliases": [
+      "greeting",
+      "hello"
+    ],
+    "type": "Vocabulary",
+    "description": "A way to start a conversation",
+    "properties": {}
+  },
+  {
+    "id": "cefrlevel:b1",
+    "label": "B1",
+    "aliases": [
+      "b1",
+      "b1 level"
+    ],
+    "type": "CEFRLevel",
+    "description": "A level of English proficiency",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:dozen",
+    "label": "dozen",
+    "aliases": [
+      "dozen",
+      "twelve"
+    ],
+    "type": "Vocabulary",
+    "description": "A quantity of twelve",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:red_carnations",
+    "label": "red carnations",
+    "aliases": [
+      "flowers",
+      "red carnations"
+    ],
+    "type": "Vocabulary",
+    "description": "A type of flower",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:mother",
+    "label": "mother",
+    "aliases": [
+      "mother",
+      "parent"
+    ],
+    "type": "Vocabulary",
+    "description": "A person's parent",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:person1",
+    "label": "Person1",
+    "aliases": [
+      "caller",
+      "person1"
+    ],
+    "type": "Vocabulary",
+    "description": "A person making a phone call",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:person2",
+    "label": "Person2",
+    "aliases": [
+      "assistant",
+      "person2"
+    ],
+    "type": "Vocabulary",
+    "description": "A person helping with a task",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:fruit",
+    "label": "Fruit",
+    "aliases": [
+      "fruit",
+      "fruits"
+    ],
+    "type": "Vocabulary",
+    "description": "A type of food that grows on trees or bushes",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:ground",
+    "label": "Ground",
+    "aliases": [
+      "earth",
+      "ground",
+      "soil"
+    ],
+    "type": "Vocabulary",
+    "description": "The surface of the Earth",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:tree",
+    "label": "Tree",
+    "aliases": [
+      "tree",
+      "trees"
+    ],
+    "type": "Vocabulary",
+    "description": "A perennial plant with a single stem or trunk",
+    "properties": {}
+  },
+  {
+    "id": "concept:subject_verb_agreement",
+    "label": "Subject-Verb Agreement",
+    "aliases": [
+      "subject verb agreement",
+      "subject-verb agreement"
+    ],
+    "type": "Concept",
+    "description": "A grammatical rule that states the subject and verb must agree in number",
+    "properties": {}
+  },
+  {
+    "id": "concept:subjunctive_mood",
+    "label": "Subjunctive Mood",
+    "aliases": [
+      "subjunctive",
+      "subjunctive mood"
+    ],
+    "type": "Concept",
+    "description": "Verb form used to express doubt, uncertainty, or possibility",
+    "properties": {}
+  },
+  {
+    "id": "vocabulary:will_give",
+    "label": "will give",
+    "aliases": [
+      "future simple of give",
+      "will give"
+    ],
+    "type": "Vocabulary",
+    "description": "Future tense of the verb give",
+    "properties": {}
+  },
+  {
+    "id": "errorpattern:article_omission",
+    "label": "article omission",
+    "aliases": [
+      "article omission",
+      "missing article"
+    ],
+    "type": "ErrorPattern",
+    "description": "Error pattern where an article is missing",
+    "properties": {
+      "defined_as": [
+        "Error pattern where an article is missing"
+      ]
+    }
+  },
+  {
+    "id": "wordclass:noun",
+    "label": "Noun",
+    "aliases": [
+      "common noun",
+      "noun",
+      "proper noun"
+    ],
+    "type": "WordClass",
+    "description": "Part of speech used to identify people, places, and things",
+    "properties": {}
+  },
+  {
+    "id": "domain:domain",
+    "label": "Domain",
+    "aliases": [
+      "domain"
+    ],
+    "type": "Domain",
+    "description": "Semantic domain: Domain",
+    "properties": {}
+  },
+  {
+    "id": "concept:tom_hanks",
+    "label": "Tom Hanks",
+    "aliases": [
+      "tom hanks"
+    ],
+    "type": "Concept",
+    "description": "Auto-generated node",
+    "properties": {
+      "example_sentence": [
+        "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance."
+      ]
+    }
+  },
+  {
+    "id": "concept:present_simple",
+    "label": "Present Simple",
+    "aliases": [
+      "present simple"
+    ],
+    "type": "Concept",
+    "description": "Auto-generated node",
+    "properties": {}
+  },
+  {
+    "id": "cefrlevel:a1",
+    "label": "A1",
+    "aliases": [
+      "a1"
+    ],
+    "type": "CEFRLevel",
+    "description": "CEFR Level A1",
+    "properties": {}
+  },
+  {
+    "id": "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give",
+    "label": "The more he reads, the more books I wonder to whom he will give.",
+    "aliases": [
+      "the more he reads the more books i wonder to whom he will give"
+    ],
+    "type": "Concept",
+    "description": "Auto-generated node",
+    "properties": {
+      "example_sentence": [
+        "concept:present_simple"
+      ]
+    }
+  }
+]

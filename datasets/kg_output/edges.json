@@ -1,0 +1,130 @@
+[
+  {
+    "source": "vocabulary:candide",
+    "target": "concept:optimism",
+    "relation": "example_sentence",
+    "confidence": 1.0,
+    "source_id": "wi_locness_learner_2",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:candide",
+    "target": "errorpattern:article_omission",
+    "relation": "has_error_pattern",
+    "confidence": 0.8,
+    "source_id": "wi_locness_learner_2",
+    "uncertain": false
+  },
+  {
+    "source": "concept:expectations",
+    "target": "concept:stakes",
+    "relation": "related_to",
+    "confidence": 1.0,
+    "source_id": "CoLA_3",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:litter",
+    "target": "concept:punitive_tax",
+    "relation": "related_to",
+    "confidence": 1.0,
+    "source_id": "Anthropic-HH_0",
+    "uncertain": false
+  },
+  {
+    "source": "domain:government",
+    "target": "domain:domain",
+    "relation": "belongs_to_domain",
+    "confidence": 1.0,
+    "source_id": "Anthropic-HH_0",
+    "uncertain": false
+  },
+  {
+    "source": "cefrlevel:a2",
+    "target": "concept:fluency",
+    "relation": "has_cefr_level",
+    "confidence": 1.0,
+    "source_id": "Anthropic-HH_0",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:tom_hanks",
+    "target": "cefrlevel:b1",
+    "relation": "has_cefr_level",
+    "confidence": 1.0,
+    "source_id": "Dialogsum_4",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:tom_hanks",
+    "target": "errorpattern:grammar_error",
+    "relation": "has_error_pattern",
+    "confidence": 1.0,
+    "source_id": "Dialogsum_4",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:fruit",
+    "target": "vocabulary:tree",
+    "relation": "related_to",
+    "confidence": 1.0,
+    "source_id": "CoLA_1",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:fruit",
+    "target": "vocabulary:ground",
+    "relation": "related_to",
+    "confidence": 1.0,
+    "source_id": "CoLA_1",
+    "uncertain": false
+  },
+  {
+    "source": "concept:present_simple",
+    "target": "cefrlevel:a1",
+    "relation": "has_cefr_level",
+    "confidence": 0.8,
+    "source_id": "CoLA_1",
+    "uncertain": false
+  },
+  {
+    "source": "concept:subject_verb_agreement",
+    "target": "cefrlevel:a1",
+    "relation": "has_cefr_level",
+    "confidence": 0.8,
+    "source_id": "CoLA_1",
+    "uncertain": false
+  },
+  {
+    "source": "concept:present_simple",
+    "target": "errorpattern:article_omission",
+    "relation": "has_error_pattern",
+    "confidence": 0.8,
+    "source_id": "CoLA_9",
+    "uncertain": false
+  },
+  {
+    "source": "concept:subjunctive_mood",
+    "target": "errorpattern:article_omission",
+    "relation": "has_error_pattern",
+    "confidence": 0.8,
+    "source_id": "CoLA_9",
+    "uncertain": false
+  },
+  {
+    "source": "vocabulary:will_give",
+    "target": "wordclass:noun",
+    "relation": "part_of_speech",
+    "confidence": 0.9,
+    "source_id": "CoLA_9",
+    "uncertain": false
+  },
+  {
+    "source": "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give",
+    "target": "concept:present_simple",
+    "relation": "example_sentence",
+    "confidence": 0.8,
+    "source_id": "CoLA_9",
+    "uncertain": false
+  }
+]

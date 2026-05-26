@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # run_benchmark_all_datasets.sh
-# Public QA benchmark for Vanilla CAG vs HippoRAG proxy vs GraphCAG
+# Public QA benchmark for Vanilla CAG vs HippoRAG proxy vs TRACE-CAG
 # with quota-aware dataset selection and key rotation
 #
 # Groq default model: llama-3.1-8b-instant
@@ -109,15 +109,15 @@ build_report_path() {
 DATASETS=()
 case "$DATASET_GROUP" in
   core)
-    DATASETS=(hotpotqa 2wikimultihopqa)
+    DATASETS=(hotpotqa 2wikimultihopqa musique)
     ;;
   drift)
     # State Drift evaluation — run the curated drift probes first, then larger multi-hop sets.
-    DATASETS=(graphcag_drift_probes hotpotqa 2wikimultihopqa)
+    DATASETS=(tracecag_drift_probes hotpotqa 2wikimultihopqa musique)
     ;;
   all)
-    # All 3 available datasets including the curated drift probes
-    DATASETS=(graphcag_drift_probes hotpotqa 2wikimultihopqa)
+    # All available datasets including the curated drift probes
+    DATASETS=(tracecag_drift_probes hotpotqa 2wikimultihopqa musique)
     ;;
   *)
     echo "Unknown dataset group: $DATASET_GROUP" >&2
@@ -129,7 +129,7 @@ esac
 START_TIME=$(date +%s)
 
 # Default path is multi-hop first because it is the most informative setup for
-# Vanilla CAG vs HippoRAG-style memory retrieval vs GraphCAG.
+# Vanilla CAG vs HippoRAG-style memory retrieval vs TRACE-CAG.
 for dataset in "${DATASETS[@]}"; do
   run_dataset "$dataset" "$(build_report_path "$dataset")"
 done

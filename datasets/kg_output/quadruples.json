@@ -1,0 +1,302 @@
+[
+  {
+    "subject": "vocabulary:candide",
+    "predicate": "example_sentence",
+    "object": "concept:optimism",
+    "context": {
+      "evidence": "Candide, although remaining true to the ideals of optimism, always appears to be sceptical of it.",
+      "source_id": "wi_locness_learner_2",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:optimism",
+    "predicate": "defined_as",
+    "object": "Philosophical outlook emphasizing the good in life",
+    "context": {
+      "evidence": "optimism",
+      "source_id": "wi_locness_learner_2",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:sceptical",
+    "predicate": "defined_as",
+    "object": "Having doubts or questioning the truth",
+    "context": {
+      "evidence": "sceptical",
+      "source_id": "wi_locness_learner_2",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:candide",
+    "predicate": "has_error_pattern",
+    "object": "errorpattern:article_omission",
+    "context": {
+      "evidence": "Candide, although remaining true to the ideals of optimism, always appears to be sceptical of it.",
+      "source_id": "wi_locness_learner_2",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:expectations",
+    "predicate": "related_to",
+    "object": "concept:stakes",
+    "context": {
+      "evidence": "His expectations lower, the higher the stakes.",
+      "source_id": "CoLA_3",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:lower",
+    "predicate": "defined_as",
+    "object": "To make something smaller or less in amount.",
+    "context": {
+      "evidence": "Lower",
+      "source_id": "CoLA_3",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:higher",
+    "predicate": "defined_as",
+    "object": "To make something larger or more in amount.",
+    "context": {
+      "evidence": "Higher",
+      "source_id": "CoLA_3",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:punitive_tax",
+    "predicate": "defined_as",
+    "object": "A tax imposed on people who litter",
+    "context": {
+      "evidence": "Maybe you could convince the government to implement a punitive tax on people who litter.",
+      "source_id": "Anthropic-HH_0",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:litter",
+    "predicate": "related_to",
+    "object": "concept:punitive_tax",
+    "context": {
+      "evidence": "Maybe you could convince the government to implement a punitive tax on people who litter.",
+      "source_id": "Anthropic-HH_0",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "domain:government",
+    "predicate": "belongs_to_domain",
+    "object": "domain:domain",
+    "context": {
+      "evidence": "Maybe you could convince the government to implement a punitive tax on people who litter.",
+      "source_id": "Anthropic-HH_0",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "errorpattern:grammar_error",
+    "predicate": "has_error_pattern",
+    "object": "Input: What should we do to punish people that litter?",
+    "context": {
+      "evidence": "Input: What should we do to punish people that litter?",
+      "source_id": "Anthropic-HH_0",
+      "confidence": 0.59,
+      "uncertain": true,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "cefrlevel:a2",
+    "predicate": "has_cefr_level",
+    "object": "concept:fluency",
+    "context": {
+      "evidence": "fluency:0.59 | level:A2",
+      "source_id": "Anthropic-HH_0",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:tom_hanks",
+    "predicate": "example_sentence",
+    "object": "Hello, Sunshine Flower Shop. This is Shareen speaking.",
+    "context": {
+      "evidence": "Hello, Sunshine Flower Shop. This is Shareen speaking.",
+      "source_id": "Dialogsum_4",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:tom_hanks",
+    "predicate": "has_cefr_level",
+    "object": "cefrlevel:b1",
+    "context": {
+      "evidence": "level:B1",
+      "source_id": "Dialogsum_4",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:tom_hanks",
+    "predicate": "has_error_pattern",
+    "object": "errorpattern:grammar_error",
+    "context": {
+      "evidence": "errors:Grammar error",
+      "source_id": "Dialogsum_4",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:tom_hanks",
+    "predicate": "example_sentence",
+    "object": "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance.",
+    "context": {
+      "evidence": "Tom Hanks phones to order a dozen red carnations for his mother and then pays for them with #Person2#'s assistance.",
+      "source_id": "Dialogsum_4",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:fruit",
+    "predicate": "related_to",
+    "object": "vocabulary:tree",
+    "context": {
+      "evidence": "Fruit hit the ground from the tree.",
+      "source_id": "CoLA_1",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "vocabulary:fruit",
+    "predicate": "related_to",
+    "object": "vocabulary:ground",
+    "context": {
+      "evidence": "Fruit hit the ground from the tree.",
+      "source_id": "CoLA_1",
+      "confidence": 1.0,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:present_simple",
+    "predicate": "has_cefr_level",
+    "object": "cefrlevel:a1",
+    "context": {
+      "evidence": "Fruit hit the ground from the tree.",
+      "source_id": "CoLA_1",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:subject_verb_agreement",
+    "predicate": "has_cefr_level",
+    "object": "cefrlevel:a1",
+    "context": {
+      "evidence": "Fruit hit the ground from the tree.",
+      "source_id": "CoLA_1",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "fluency"
+    }
+  },
+  {
+    "subject": "concept:present_simple",
+    "predicate": "has_error_pattern",
+    "object": "errorpattern:article_omission",
+    "context": {
+      "evidence": "The more he reads, the more books I wonder to whom he will give.",
+      "source_id": "CoLA_9",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "grammar"
+    }
+  },
+  {
+    "subject": "concept:subjunctive_mood",
+    "predicate": "has_error_pattern",
+    "object": "errorpattern:article_omission",
+    "context": {
+      "evidence": "The more he reads, the more books I wonder to whom he will give.",
+      "source_id": "CoLA_9",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "grammar"
+    }
+  },
+  {
+    "subject": "vocabulary:will_give",
+    "predicate": "part_of_speech",
+    "object": "wordclass:noun",
+    "context": {
+      "evidence": "The more he reads, the more books I wonder to whom he will give.",
+      "source_id": "CoLA_9",
+      "confidence": 0.9,
+      "uncertain": false,
+      "domain": "grammar"
+    }
+  },
+  {
+    "subject": "errorpattern:article_omission",
+    "predicate": "defined_as",
+    "object": "Error pattern where an article is missing",
+    "context": {
+      "evidence": "The more he reads, the more books I wonder to whom he will give.",
+      "source_id": "CoLA_9",
+      "confidence": 0.9,
+      "uncertain": false,
+      "domain": "grammar"
+    }
+  },
+  {
+    "subject": "concept:the_more_he_reads_the_more_books_i_wonder_to_whom_he_will_give",
+    "predicate": "example_sentence",
+    "object": "concept:present_simple",
+    "context": {
+      "evidence": "The more he reads, the more books I wonder to whom he will give.",
+      "source_id": "CoLA_9",
+      "confidence": 0.8,
+      "uncertain": false,
+      "domain": "grammar"
+    }
+  }
+]

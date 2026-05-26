@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+from collections import Counter
+import inspect
 import json
 import logging
 import os
+import random
 import re
 import statistics
 import string
@@ -16,8 +19,13 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+
 SCRIPT_DIR = Path(__file__).resolve().parent
+AI_SERVICE_ROOT = SCRIPT_DIR.parent.parent
 SCRIPTS_DIR = SCRIPT_DIR.parent / "scripts"
+if str(AI_SERVICE_ROOT) not in sys.path:
+    sys.path.insert(0, str(AI_SERVICE_ROOT))
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
@@ -39,6 +47,12 @@ def _safe_float_env(name: str, default: float) -> float:
         return max(0.0, float(raw))
     except ValueError:
         return default
+
+
+def _split_csv_env(value: str | None) -> list[str]:
+    if not value:
+        return []
+    return [item.strip() for item in value.split(",") if item.strip()]
 
 
 def _setup_logging(log_path: Path | None) -> None:
@@ -95,6 +109,11 @@ class QaRunResult:
     rouge_l_f1: float
     bleu1: float
     models_used: list[str]
+    ttft_ms: int = 0
+    completion_tokens_per_sec: float = 0.0
+    graph_update_latency_ms: int = 0
+    graph_nodes_added: int = 0
+    graph_edges_added: int = 0
     prompt_tokens: int = 0
     completion_tokens: int = 0
     total_tokens: int = 0
@@ -110,12 +129,14 @@ class QaRunResult:
     cached_level: str | None = None
     drift_label_source: str = "none"
     llm_provider: str = "groq"
+    repeat_index: int = 0
 
 
 @dataclass(frozen=True)
 class ModeConfig:
     name: str
     label: str
+    runtime_family: str
     cache_policy: str
     retrieval_policy: str
     benchmark_ranker: str
@@ -123,9 +144,28 @@ class ModeConfig:
 
 
 MODE_CONFIGS: dict[str, ModeConfig] = {
+    "ai_plain": ModeConfig(
+        name="ai_plain",
+        label="AI plain baseline (no RAG/CAG/Graph)",
+        runtime_family="plain",
+        cache_policy="off",
+        retrieval_policy="full",
+        benchmark_ranker="flat",
+        description="Direct QA generation baseline without TRACE-CAG routing, graph retrieval, or cache policies.",
+    ),
+    "v3_baseline": ModeConfig(
+        name="v3_baseline",
+        label="V3 legacy baseline",
+        runtime_family="v3",
+        cache_policy="on",
+        retrieval_policy="full",
+        benchmark_ranker="flat",
+        description="Legacy V3 pipeline kept for backward compatibility; not used in the core paper comparison profile.",
+    ),
     "cag_vanilla": ModeConfig(
         name="cag_vanilla",
         label="Vanilla CAG",
+        runtime_family="tracecag",
         cache_policy="on",
         retrieval_policy="full",
         benchmark_ranker="flat",
@@ -134,57 +174,91 @@ MODE_CONFIGS: dict[str, ModeConfig] = {
     "cag_flat": ModeConfig(
         name="cag_flat",
         label="CAG flat ablation",
+        runtime_family="tracecag",
         cache_policy="off",
         retrieval_policy="full",
         benchmark_ranker="flat",
         description="Legacy flat ablation without cache; kept only for backwards compatibility.",
     ),
-    "graphcag_full": ModeConfig(
-        name="graphcag_full",
-        label="GraphCAG graph ablation",
+    "tracecag_full": ModeConfig(
+        name="tracecag_full",
+        label="TRACE-CAG graph ablation",
+        runtime_family="tracecag",
         cache_policy="off",
         retrieval_policy="full",
         benchmark_ranker="graph",
         description="Graph-aware ranking on the same candidate set, cache disabled, useful as a graph-only ablation.",
     ),
+    "graphrag_proxy": ModeConfig(
+        name="graphrag_proxy",
+        label="GraphRAG proxy",
+        runtime_family="tracecag",
+        cache_policy="off",
+        retrieval_policy="full",
+        benchmark_ranker="graph",
+        description="Graph retrieval/ranking proxy on the same candidate pool, cache disabled; not a full external GraphRAG stack.",
+    ),
     "hipporag_proxy": ModeConfig(
         name="hipporag_proxy",
         label="HippoRAG proxy",
+        runtime_family="tracecag",
         cache_policy="off",
         retrieval_policy="full",
         benchmark_ranker="memory",
         description="Memory-propagation proxy over the candidate graph, not a full HippoRAG implementation.",
     ),
-    "graphcag_rapid": ModeConfig(
-        name="graphcag_rapid",
-        label="GraphCAG",
+    "tracecag_rapid": ModeConfig(
+        name="tracecag_rapid",
+        label="TRACE-CAG",
+        runtime_family="tracecag",
         cache_policy="on",
         retrieval_policy="rapid",
         benchmark_ranker="graph",
-        description="Graph-aware ranking plus RAPID cache, intended as the main GraphCAG mode.",
+        description="Memory-propagation ranking plus RAPID cache, intended as the main TRACE-CAG mode.",
+    ),
+    "tracecag_adaptive": ModeConfig(
+        name="tracecag_adaptive",
+        label="TRACE-CAG Adaptive (bandit+constraints)",
+        runtime_family="tracecag",
+        cache_policy="on",
+        retrieval_policy="adaptive",
+        benchmark_ranker="graph",
+        description="Adaptive constrained controller that tunes reuse/ranking/budget online for balanced quality-latency-drift trade-offs.",
     ),
 }
 
 
 COMPARISON_PROFILES: dict[str, list[str]] = {
-    "public_cag_compare": ["cag_vanilla", "hipporag_proxy", "graphcag_rapid"],
-    "public_cag_quality": ["cag_vanilla", "hipporag_proxy", "graphcag_rapid"],
-    "public_cag_ablation": ["cag_vanilla", "graphcag_full", "graphcag_rapid"],
-    "public_graph_compare": ["cag_flat", "graphcag_full", "hipporag_proxy", "graphcag_rapid"],
-    "public_graph_quality": ["cag_flat", "graphcag_full", "hipporag_proxy"],
-    "public_graph_efficiency": ["cag_flat", "graphcag_rapid"],
-    "state_drift": ["cag_vanilla", "hipporag_proxy", "graphcag_rapid"],
+    "overall_plain_tracecag": ["ai_plain", "cag_vanilla", "graphrag_proxy", "hipporag_proxy", "tracecag_rapid"],
+    "before_after_tracecag": ["ai_plain", "tracecag_rapid"],
+    "before_after_tracecag_adaptive": ["tracecag_rapid", "tracecag_adaptive"],
+    "overall_v3_tracecag": ["v3_baseline", "cag_vanilla", "hipporag_proxy", "tracecag_rapid"],
+    "realworld_cag_hipporag_tracecag": ["cag_vanilla", "hipporag_proxy", "tracecag_rapid"],
+    "public_cag_compare": ["cag_vanilla", "hipporag_proxy", "tracecag_rapid"],
+    "public_cag_balanced": ["cag_vanilla", "tracecag_rapid", "tracecag_adaptive"],
+    "public_cag_quality": ["cag_vanilla", "hipporag_proxy", "tracecag_rapid"],
+    "public_cag_ablation": ["cag_vanilla", "graphrag_proxy", "tracecag_rapid"],
+    "public_graph_compare": ["cag_flat", "tracecag_full", "hipporag_proxy", "tracecag_rapid"],
+    "public_graph_quality": ["cag_flat", "tracecag_full", "hipporag_proxy"],
+    "public_graph_efficiency": ["cag_flat", "tracecag_rapid"],
+    "state_drift": ["cag_vanilla", "hipporag_proxy", "tracecag_rapid"],
+}
+
+_REAL_EVAL_RECOMMENDED_PROFILES: set[str] = {
+    "realworld_cag_hipporag_tracecag",
+    "public_cag_compare",
 }
 
 
 DATASET_RATIONALE: dict[str, str] = {
-    "graphcag_drift_probes": "Curated GraphCAG drift-probe set with exact-hit, near-hit, and unsafe drift cases labeled for PCC evaluation.",
+    "tracecag_drift_probes": "Curated TRACE-CAG drift-probe set with exact-hit, near-hit, and unsafe drift cases labeled for PCC evaluation.",
     "hotpotqa": "Best default for graph-vs-non-graph comparison because bridge/comparison questions reward multi-hop evidence chaining.",
     "2wikimultihopqa": "Good second multi-hop benchmark for entity-link chains and compositional questions.",
+    "musique": "MuSiQue answerable validation set — HippoRAG key benchmark for 2-4 hop reasoning chains with paragraph-level evidence.",
 }
 
 # State Drift datasets — only multi-hop benchmarks expose meaningful PCC drift
-STATE_DRIFT_DATASETS: list[str] = ["graphcag_drift_probes", "hotpotqa", "2wikimultihopqa"]
+STATE_DRIFT_DATASETS: list[str] = ["tracecag_drift_probes", "hotpotqa", "2wikimultihopqa", "musique"]
 
 _CACHED_INPUT_DISCOUNT = 0.5
 
@@ -341,6 +415,54 @@ def _extract_token_usage(output: dict[str, Any], metadata: dict[str, Any], query
     }
 
 
+def _extract_graph_update_metrics(metadata: dict[str, Any], output: dict[str, Any]) -> dict[str, int]:
+    graph_update: dict[str, Any] = {}
+    retrieval_meta = metadata.get("retrieval_meta")
+    if isinstance(retrieval_meta, dict):
+        nested = retrieval_meta.get("graph_update")
+        if isinstance(nested, dict):
+            graph_update.update(nested)
+
+    top_level_update = metadata.get("graph_update")
+    if isinstance(top_level_update, dict):
+        graph_update.update(top_level_update)
+
+    output_update = output.get("graph_update")
+    if isinstance(output_update, dict):
+        graph_update.update(output_update)
+
+    return {
+        "graph_update_latency_ms": max(0, _coerce_int(graph_update.get("latency_ms"))),
+        "graph_nodes_added": max(0, _coerce_int(graph_update.get("nodes_added"))),
+        "graph_edges_added": max(0, _coerce_int(graph_update.get("edges_added"))),
+    }
+
+
+def _estimate_ttft_ms(
+    metadata: dict[str, Any],
+    *,
+    latency_ms: int,
+    cache_hit: bool,
+    completion_tokens: int,
+) -> int:
+    reported_ttft = max(0, _coerce_int(metadata.get("ttft_ms")))
+    if reported_ttft > 0:
+        return min(latency_ms, reported_ttft) if latency_ms > 0 else reported_ttft
+    if latency_ms <= 0:
+        return 0
+    if cache_hit or completion_tokens <= 1:
+        return latency_ms
+    # Non-stream benchmark fallback: use a stable fraction of E2E latency when TTFT is unavailable.
+    return max(1, int(round(latency_ms * 0.35)))
+
+
+def _estimate_completion_tokens_per_sec(completion_tokens: int, latency_ms: int, ttft_ms: int) -> float:
+    if completion_tokens <= 0 or latency_ms <= 0:
+        return 0.0
+    decode_ms = max(1.0, float(latency_ms - min(ttft_ms, latency_ms)))
+    return float(completion_tokens) / (decode_ms / 1000.0)
+
+
 def _extract_drift_labels(metadata: dict[str, Any], level: str) -> dict[str, Any]:
     expected_cache_decision = _coerce_decision(_first_present(metadata, _DECISION_KEYS))
     expected_safe_reuse = _coerce_bool(_first_present(metadata, _SAFE_REUSE_KEYS))
@@ -406,11 +528,125 @@ def _resolve_dataset_path(dataset: Path | None, dataset_preset: str | None) -> P
     return dataset or DATASET_PRESETS["hotpotqa"]
 
 
+def _resolve_primary_providers(mode: ModeConfig, requested_provider: str) -> set[str]:
+    if mode.runtime_family == "v3":
+        return {"v3"}
+    provider = requested_provider.strip().lower()
+    if provider == "auto":
+        return {"groq", "gemini", "ollama"}
+    return {provider}
+
+
+def _validate_runtime_eval_configuration(*, args: Any, mode_configs: list[ModeConfig]) -> tuple[float, bool]:
+    real_eval = bool(args.real_eval)
+    if args.max_fallback_rate is not None and not (0.0 <= args.max_fallback_rate <= 1.0):
+        raise SystemExit("--max-fallback-rate must be in [0, 1].")
+
+    max_fallback_rate = args.max_fallback_rate if args.max_fallback_rate is not None else (0.10 if real_eval else 1.0)
+    require_primary_provider = bool(args.require_primary_provider or real_eval)
+
+    if real_eval and not args.allow_template_benchmark:
+        if str(args.generation_policy).lower() == "template":
+            raise SystemExit("real-eval requires --generation-policy auto (template is disabled)")
+        if str(args.llm_provider).lower() == "template":
+            raise SystemExit("real-eval requires a real provider (--llm-provider auto|groq|gemini|ollama)")
+
+    if real_eval and args.comparison_profile not in _REAL_EVAL_RECOMMENDED_PROFILES:
+        _LOG.warning(
+            "real-eval running with profile=%s. Recommended for 3-architecture comparison: %s",
+            args.comparison_profile,
+            ", ".join(sorted(_REAL_EVAL_RECOMMENDED_PROFILES)),
+        )
+
+    # Sanity check: real-eval should include the three target architectures when user requested that comparison.
+    mode_names = {mode.name for mode in mode_configs}
+    wanted = {"cag_vanilla", "hipporag_proxy", "tracecag_rapid"}
+    if real_eval and wanted.issubset(mode_names) is False and args.comparison_profile in _REAL_EVAL_RECOMMENDED_PROFILES:
+        raise SystemExit("Selected profile does not include all required modes: cag_vanilla, hipporag_proxy, tracecag_rapid")
+
+    return max_fallback_rate, require_primary_provider
+
+
+def _collect_eval_violations(
+    *,
+    summaries: dict[str, dict[str, Any]],
+    mode_configs: list[ModeConfig],
+    max_fallback_rate: float,
+    require_primary_provider: bool,
+    expected_total_runs: int,
+) -> list[str]:
+    violations: list[str] = []
+    for mode in mode_configs:
+        summary = summaries.get(mode.name, {})
+        fallback_rate = float(summary.get("fallback_rate") or 0.0)
+        has_primary = bool(summary.get("primary_provider_present", False))
+        n_total = int(summary.get("n_total") or 0)
+        if n_total != expected_total_runs:
+            violations.append(
+                f"mode={mode.name}: n_total={n_total} does not match expected_total_runs={expected_total_runs} (possible stale checkpoint contamination)",
+            )
+        if require_primary_provider and not has_primary:
+            violations.append(
+                f"mode={mode.name}: no primary-provider outputs detected (likely template/fallback-only run)",
+            )
+        if fallback_rate > max_fallback_rate:
+            violations.append(
+                f"mode={mode.name}: fallback_rate={fallback_rate:.3f} exceeds threshold={max_fallback_rate:.3f}",
+            )
+    return violations
+
+
 def _normalize_answer(text: str) -> str:
     text = text.lower().strip()
     text = "".join(ch for ch in text if ch not in string.punctuation)
     text = re.sub(r"\b(a|an|the)\b", " ", text)
     return " ".join(text.split())
+
+
+def _coerce_yes_no(text: str) -> str | None:
+    normalized = _normalize_answer(text)
+    if normalized in {"yes", "no", "unknown"}:
+        return normalized
+    if normalized.startswith("yes "):
+        return "yes"
+    if normalized.startswith("no "):
+        return "no"
+    if normalized.startswith("unknown "):
+        return "unknown"
+    return None
+
+
+def _extract_final_answer_text(text: str) -> str:
+    raw = str(text or "").strip()
+    if not raw:
+        return ""
+
+    # Remove common wrappers/prefixes that LLMs may emit despite strict prompts.
+    raw = re.sub(r"```(?:text)?", "", raw, flags=re.IGNORECASE)
+    raw = raw.replace("```", "").strip()
+    raw = re.sub(r"^\s*(final\s+answer|answer)\s*:\s*", "", raw, flags=re.IGNORECASE)
+
+    # Prefer the first non-empty line to avoid explanations in following lines.
+    lines = [line.strip() for line in raw.splitlines() if line.strip()]
+    candidate = lines[0] if lines else raw
+
+    # If model still emits long explanatory sentence, keep leading clause only.
+    if len(candidate.split()) > 20:
+        candidate = re.split(r"[.;!?]", candidate, maxsplit=1)[0].strip()
+
+    return candidate.strip(" \t\n\r\"'`“”")
+
+
+def _prepare_prediction_for_eval(prediction: str) -> str:
+    answer = _extract_final_answer_text(prediction)
+    yes_no = _coerce_yes_no(answer)
+    return yes_no or answer
+
+
+def _prepare_reference_for_eval(reference: str) -> str:
+    answer = _extract_final_answer_text(reference)
+    yes_no = _coerce_yes_no(answer)
+    return yes_no or answer
 
 
 def _exact_match(prediction: str, reference: str) -> float:
@@ -685,6 +921,10 @@ _GEMINI_POOL: _KeyPool | None = None
 
 def _detected_output_provider(output: dict[str, Any]) -> str | None:
     models_used = [str(item).lower() for item in ((output.get("metadata") or {}).get("models_used") or [])]
+    if models_used and all("benchmark_template" in model for model in models_used):
+        return "template"
+    if models_used and all("plain_ai" in model for model in models_used):
+        return "plain_ai"
     for model in models_used:
         if model.startswith("groq/") or "groq" in model:
             return "groq"
@@ -715,12 +955,12 @@ def _clear_provider_throttle(provider: str) -> None:
         mod._PROVIDER_NEXT_REQUEST_AT.pop(provider, None)  # type: ignore[attr-defined]
 
 
-def _clear_graphcag_inprocess_caches() -> None:
+def _clear_tracecag_inprocess_caches() -> None:
     """
-    Reset GraphCAG in-process caches between modes.
+    Reset TRACE-CAG in-process caches between modes.
 
     The ai-service implementation uses module-level in-memory caches as a Redis
-    fallback. The GraphCAG pipeline is a singleton, so those caches can leak
+    fallback. The TRACE-CAG pipeline is a singleton, so those caches can leak
     across benchmark modes unless we clear them explicitly.
     """
 
@@ -739,10 +979,47 @@ def _clear_graphcag_inprocess_caches() -> None:
             store.clear()
 
 
+async def _clear_benchmark_redis_caches() -> None:
+    """Best-effort cleanup of benchmark cache keys in Redis.
+
+    This prevents prior runs from inflating cache-hit metrics in later runs.
+    """
+    try:
+        import importlib
+
+        redis_mod = importlib.import_module("api.core.redis_client")
+        RedisClient = getattr(redis_mod, "RedisClient")
+        redis_client = await RedisClient.get_instance()
+    except Exception as exc:
+        _LOG.debug("benchmark redis cleanup skipped (redis unavailable): %s", exc)
+        return
+
+    patterns = (
+        "v1:resp:*",
+        "v1:resp_bucket:*",
+        "response:v3:*",
+        "conversation:paper_*:history",
+    )
+
+    deleted_total = 0
+    for pattern in patterns:
+        cursor = 0
+        while True:
+            cursor, keys = await redis_client.scan(cursor=cursor, match=pattern, count=500)
+            if keys:
+                deleted_total += await redis_client.delete(*keys)
+            if cursor == 0:
+                break
+
+    if deleted_total:
+        _LOG.info("benchmark redis cleanup deleted %d keys", deleted_total)
+
+
 async def _analyze_with_key_rotation(
     pipeline: Any,
     sample: Any,
     *,
+    benchmark_mode: str,
     session_id: str,
     level: str,
     cache_policy: str,
@@ -755,6 +1032,7 @@ async def _analyze_with_key_rotation(
     async def _call_pipeline() -> dict[str, Any]:
         benchmark_metadata = dict(sample.metadata or {})
         benchmark_metadata["_benchmark_ranker"] = benchmark_ranker
+        benchmark_metadata["_benchmark_mode"] = benchmark_mode
         return await pipeline.analyze(  # type: ignore[return-value]
             sample.text,
             session_id=session_id,
@@ -813,7 +1091,8 @@ async def _analyze_with_key_rotation(
     if not llm_failed:
         if active_key and _GROQ_POOL and _detected_output_provider(output) == "groq":
             _GROQ_POOL.on_success(active_key)
-        output.setdefault("_benchmark_provider", used_provider)
+        detected = _detected_output_provider(output)
+        output.setdefault("_benchmark_provider", detected or used_provider)
         return output
 
     # --- Mark current key and try all immediately-available Groq keys ---
@@ -876,14 +1155,78 @@ async def _analyze_with_key_rotation(
                 output.setdefault("_benchmark_provider", used_provider)
                 return output
 
-    last_output.setdefault("_benchmark_provider", used_provider)
+    detected = _detected_output_provider(last_output)
+    last_output.setdefault("_benchmark_provider", detected or used_provider)
     return last_output
+
+
+async def _build_v3_pipeline() -> Any:
+    import importlib
+
+    ai_service_root = SCRIPT_DIR.parents[1]
+    if str(ai_service_root) not in sys.path:
+        sys.path.insert(0, str(ai_service_root))
+
+    v3_mod = importlib.import_module("api.services.v3_pipeline")
+    V3Pipeline = getattr(v3_mod, "V3Pipeline")
+    pipeline = V3Pipeline()
+    await pipeline.initialize()
+    return pipeline
+
+
+async def _analyze_plain_baseline(
+    sample: Any,
+    *,
+    generation_policy: str,
+) -> dict[str, Any]:
+    """Run a pure AI baseline without TRACE-CAG routing/retrieval/cache.
+
+    The baseline calls the benchmark QA generator directly with the provided
+    question/context pair, skipping cache gates and graph retrieval layers.
+    """
+
+    import importlib
+
+    ai_service_root = SCRIPT_DIR.parents[1]
+    if str(ai_service_root) not in sys.path:
+        sys.path.insert(0, str(ai_service_root))
+
+    nodes_mod = importlib.import_module("api.services.graph_cag.nodes_v2")
+    qa_generator = getattr(nodes_mod, "_generate_benchmark_qa_response")
+
+    context = str((sample.metadata or {}).get("context") or "")
+    start_time = time.time()
+    state = {
+        "user_input": sample.text,
+        "retrieved_context": context,
+        "benchmark_context": context,
+        "generation_policy": generation_policy,
+        "cache_policy": "off",
+    }
+
+    core = await qa_generator(state, start_time)
+    metadata = {
+        "latency_ms": int((time.time() - start_time) * 1000),
+        "cache_hit": False,
+        "cache_decision": "full",
+        "cache_layer": "none",
+        "reuse_risk": 1.0,
+        "models_used": [str(item) for item in (core.get("models_used") or ["plain_ai"])],
+    }
+    output = {
+        "tutor_response": str(core.get("tutor_response") or ""),
+        "metadata": metadata,
+    }
+    provider = _detected_output_provider(output) or "plain_ai"
+    output["_benchmark_provider"] = provider
+    return output
 
 
 async def _run_mode(
     *,
     dataset_name: str,
     mode_name: str,
+    runtime_family: str,
     samples: list[Any],
     level: str,
     cache_policy: str,
@@ -891,11 +1234,57 @@ async def _run_mode(
     generation_policy: str,
     benchmark_ranker: str,
     use_gemini_fallback: bool,
+    cache_repeats: int,
     checkpoint_path: Path | None = None,
 ) -> list[QaRunResult]:
-    pipeline = await _build_pipeline(use_gemini_fallback=use_gemini_fallback)
+    def _is_qa_benchmark_sample(item: Any) -> bool:
+        task = str(getattr(item, "task", "") or "").strip().lower()
+        return task in {"multihop_qa", "retrieval_qa", "qa"}
+
+    use_v3_native = runtime_family == "v3"
+    v3_supports_benchmark_mode = False
+    fallback_graph_pipeline: Any = None
+    if runtime_family == "plain":
+        pipeline = None
+    elif runtime_family == "v3":
+        try:
+            pipeline = await _build_v3_pipeline()
+            try:
+                analyze_sig = inspect.signature(pipeline.analyze)
+                params = set(analyze_sig.parameters.keys())
+                v3_supports_benchmark_mode = {
+                    "benchmark_task",
+                    "benchmark_context",
+                }.issubset(params)
+            except Exception:
+                v3_supports_benchmark_mode = False
+
+            if any(_is_qa_benchmark_sample(sample) for sample in samples) and not v3_supports_benchmark_mode:
+                _LOG.warning(
+                    "v3 runtime is not benchmark-QA aware (missing benchmark_task/benchmark_context). "
+                    "Using TRACE-CAG baseline emulation for valid QA evaluation.",
+                )
+                print(
+                    "  warning: V3 pipeline is not QA-benchmark aware; switching to TRACE-CAG baseline emulation",
+                    flush=True,
+                )
+                fallback_graph_pipeline = await _build_pipeline(use_gemini_fallback=use_gemini_fallback)
+                pipeline = fallback_graph_pipeline
+                use_v3_native = False
+        except Exception as exc:
+            _LOG.warning(
+                "v3 runtime unavailable (%s). Falling back to TRACE-CAG baseline emulation (cache=off, retrieval=full).",
+                exc,
+            )
+            print("  warning: V3 runtime unavailable, fallback to TRACE-CAG baseline emulation", flush=True)
+            pipeline = await _build_pipeline(use_gemini_fallback=use_gemini_fallback)
+            fallback_graph_pipeline = pipeline
+            use_v3_native = False
+    else:
+        pipeline = await _build_pipeline(use_gemini_fallback=use_gemini_fallback)
     results: list[QaRunResult] = []
     start_index = 0
+    total_runs = len(samples) * max(cache_repeats, 1)
 
     if checkpoint_path and checkpoint_path.exists():
         try:
@@ -920,42 +1309,172 @@ async def _run_mode(
                 for item in raw_items
             ]
             start_index = len(results)
-            _LOG.info("checkpoint  Resuming %s from sample %d/%d", mode_name, start_index, len(samples))
+            _LOG.info("checkpoint  Resuming %s from run %d/%d", mode_name, start_index, total_runs)
             if start_index:
-                print(f"  resuming from checkpoint: {start_index}/{len(samples)} done", flush=True)
-                _render_progress(start_index, len(samples), results)
+                print(f"  resuming from checkpoint: {start_index}/{total_runs} done", flush=True)
+                _render_progress(start_index, total_runs, results)
         except Exception as exc:
             _LOG.warning("checkpoint  Could not load checkpoint (%s), starting fresh", exc)
             results = []
             start_index = 0
 
     if start_index == 0:
-        _clear_graphcag_inprocess_caches()
+        _clear_tracecag_inprocess_caches()
+        await _clear_benchmark_redis_caches()
 
-    for index, sample in enumerate(samples):
-        if index < start_index:
+    adaptive_feedback_reporter = None
+    adaptive_snapshot_reader = None
+    if mode_name == "tracecag_adaptive":
+        try:
+            import importlib
+
+            nodes_mod = importlib.import_module("api.services.graph_cag.nodes_v2")
+            candidate_reporter = getattr(nodes_mod, "report_adaptive_benchmark_feedback", None)
+            candidate_snapshot = getattr(nodes_mod, "get_adaptive_controller_snapshot", None)
+            if callable(candidate_reporter):
+                adaptive_feedback_reporter = candidate_reporter
+            if callable(candidate_snapshot):
+                adaptive_snapshot_reader = candidate_snapshot
+        except Exception as exc:
+            _LOG.warning("adaptive feedback hook unavailable: %s", exc)
+
+    for run_index in range(total_runs):
+        if run_index < start_index:
             continue
+        index = run_index // max(cache_repeats, 1)
+        repeat_index = run_index % max(cache_repeats, 1)
+        sample = samples[index]
         sample_level = _resolve_sample_level(sample, level)
-        output = await _analyze_with_key_rotation(
-            pipeline,
-            sample,
-            session_id=f"paper_{mode_name}_{index}",
-            level=sample_level,
-            cache_policy=cache_policy,
-            retrieval_policy=retrieval_policy,
-            generation_policy=generation_policy,
-            benchmark_ranker=benchmark_ranker,
-        )
+        if runtime_family == "plain":
+            output = await _analyze_plain_baseline(
+                sample,
+                generation_policy=generation_policy,
+            )
+        elif runtime_family == "v3" and use_v3_native:
+            try:
+                v3_response = await pipeline.analyze(
+                    text=sample.text,
+                    session_id=f"paper_{mode_name}_{index}_r{repeat_index}",
+                    user_id="benchmark-user",
+                    learner_profile={"level": sample_level},
+                )
+                if hasattr(v3_response, "model_dump"):
+                    output = v3_response.model_dump(by_alias=True)
+                elif isinstance(v3_response, dict):
+                    output = v3_response
+                else:
+                    output = {}
+                output.setdefault("_benchmark_provider", "v3")
+            except Exception as exc:
+                _LOG.warning(
+                    "v3 runtime failed during run (%s). Switching to TRACE-CAG baseline emulation for remaining samples.",
+                    exc,
+                )
+                if fallback_graph_pipeline is None:
+                    fallback_graph_pipeline = await _build_pipeline(use_gemini_fallback=use_gemini_fallback)
+                pipeline = fallback_graph_pipeline
+                use_v3_native = False
+                output = await _analyze_with_key_rotation(
+                    pipeline,
+                    sample,
+                    benchmark_mode=mode_name,
+                    session_id=f"paper_{mode_name}_{index}_r{repeat_index}",
+                    level=sample_level,
+                    cache_policy="off",
+                    retrieval_policy="full",
+                    generation_policy="template",
+                    benchmark_ranker="flat",
+                )
+                meta = output.setdefault("metadata", {})
+                meta["v3_fallback"] = True
+                output["_benchmark_provider"] = "tracecag_v3_fallback"
+        elif runtime_family == "v3":
+            output = await _analyze_with_key_rotation(
+                pipeline,
+                sample,
+                benchmark_mode=mode_name,
+                session_id=f"paper_{mode_name}_{index}_r{repeat_index}",
+                level=sample_level,
+                cache_policy="off",
+                retrieval_policy="full",
+                generation_policy="template",
+                benchmark_ranker="flat",
+            )
+            meta = output.setdefault("metadata", {})
+            meta["v3_fallback"] = True
+            output["_benchmark_provider"] = "tracecag_v3_fallback"
+        else:
+            output = await _analyze_with_key_rotation(
+                pipeline,
+                sample,
+                benchmark_mode=mode_name,
+                session_id=f"paper_{mode_name}_{index}_r{repeat_index}",
+                level=sample_level,
+                cache_policy=cache_policy,
+                retrieval_policy=retrieval_policy,
+                generation_policy=generation_policy,
+                benchmark_ranker=benchmark_ranker,
+            )
         prediction = str(output.get("tutor_response") or "").strip()
         references = _extract_references(sample.expected)
+        prediction_eval = _prepare_prediction_for_eval(prediction)
+        references_eval = [_prepare_reference_for_eval(ref) for ref in references]
         metadata = output.get("metadata") or {}
+        if not metadata:
+            # Some pipeline variants emit benchmark telemetry at top-level instead of metadata.
+            metadata = {
+                "latency_ms": output.get("latency_ms"),
+                "cache_hit": output.get("cache_hit"),
+                "cache_decision": output.get("cache_decision"),
+                "cache_layer": output.get("cache_layer"),
+                "reuse_risk": output.get("reuse_risk"),
+                "retrieval_trace": output.get("retrieval_trace"),
+                "retrieval_meta": output.get("retrieval_meta"),
+                "models_used": output.get("models_used"),
+                "adaptive_profile": output.get("adaptive_profile"),
+            }
         actual_provider = output.get("_benchmark_provider", "groq")
         sample_metadata = dict(sample.metadata or {})
         merged_metadata = {**sample_metadata, **metadata}
-        retrieval_trace = metadata.get("retrieval_trace") or []
+        retrieval_trace = (
+            metadata.get("retrieval_trace")
+            or output.get("retrieval_trace")
+            or []
+        )
         gold_retrieval_ids = _extract_gold_retrieval_ids(sample)
         drift_labels = _extract_drift_labels(merged_metadata, sample_level)
         token_usage = _extract_token_usage(output, metadata, sample.text, prediction)
+        graph_update_metrics = _extract_graph_update_metrics(metadata, output)
+
+        if runtime_family == "plain":
+            cache_hit = False
+            cache_decision = "full"
+            cache_layer = "none"
+            reuse_risk = 1.0
+        elif runtime_family == "v3" and use_v3_native:
+            cache_meta = metadata.get("cache") or {}
+            cache_hit = bool(cache_meta.get("hit") or False)
+            cache_decision = "reuse" if cache_hit else "full"
+            cache_layer = "L0" if cache_hit else "none"
+            reuse_risk = 0.0 if cache_hit else 1.0
+        else:
+            cache_hit = bool(metadata.get("cache_hit") or False)
+            cache_decision = str(metadata.get("cache_decision") or "full")
+            cache_layer = str(metadata.get("cache_layer") or "none")
+            reuse_risk = float(metadata.get("reuse_risk") or 1.0)
+
+        latency_ms = max(0, int(metadata.get("latency_ms") or 0))
+        ttft_ms = _estimate_ttft_ms(
+            metadata,
+            latency_ms=latency_ms,
+            cache_hit=cache_hit,
+            completion_tokens=token_usage["completion_tokens"],
+        )
+        completion_tps = _estimate_completion_tokens_per_sec(
+            completion_tokens=token_usage["completion_tokens"],
+            latency_ms=latency_ms,
+            ttft_ms=ttft_ms,
+        )
 
         results.append(
             QaRunResult(
@@ -963,22 +1482,27 @@ async def _run_mode(
                 mode=mode_name,
                 task=sample.task or "unknown",
                 query=sample.text,
-                prediction=prediction,
-                references=references,
-                latency_ms=int(metadata.get("latency_ms") or 0),
-                cache_hit=bool(metadata.get("cache_hit") or False),
-                cache_decision=str(metadata.get("cache_decision") or "full"),
-                cache_layer=str(metadata.get("cache_layer") or "none"),
-                reuse_risk=float(metadata.get("reuse_risk") or 1.0),
+                prediction=prediction_eval,
+                references=references_eval,
+                latency_ms=latency_ms,
+                cache_hit=cache_hit,
+                cache_decision=cache_decision,
+                cache_layer=cache_layer,
+                reuse_risk=reuse_risk,
                 recall_at_1=_recall_at_k(retrieval_trace, gold_retrieval_ids, 1),
                 recall_at_3=_recall_at_k(retrieval_trace, gold_retrieval_ids, 3),
                 recall_at_5=_recall_at_k(retrieval_trace, gold_retrieval_ids, 5),
                 mrr_at_5=_mrr_at_k(retrieval_trace, gold_retrieval_ids, 5),
-                exact_match=_best_metric(prediction, references, _exact_match),
-                token_f1=_best_metric(prediction, references, _token_f1),
-                rouge_l_f1=_best_metric(prediction, references, _rouge_l_f1),
-                bleu1=_best_metric(prediction, references, _bleu1),
+                exact_match=_best_metric(prediction_eval, references_eval, _exact_match),
+                token_f1=_best_metric(prediction_eval, references_eval, _token_f1),
+                rouge_l_f1=_best_metric(prediction_eval, references_eval, _rouge_l_f1),
+                bleu1=_best_metric(prediction_eval, references_eval, _bleu1),
                 models_used=[str(item) for item in (metadata.get("models_used") or [])],
+                ttft_ms=ttft_ms,
+                completion_tokens_per_sec=completion_tps,
+                graph_update_latency_ms=graph_update_metrics["graph_update_latency_ms"],
+                graph_nodes_added=graph_update_metrics["graph_nodes_added"],
+                graph_edges_added=graph_update_metrics["graph_edges_added"],
                 prompt_tokens=token_usage["prompt_tokens"],
                 completion_tokens=token_usage["completion_tokens"],
                 total_tokens=token_usage["total_tokens"],
@@ -994,12 +1518,35 @@ async def _run_mode(
                 cached_level=drift_labels["cached_level"],
                 drift_label_source=drift_labels["drift_label_source"],
                 llm_provider=actual_provider,
+                repeat_index=repeat_index,
             )
         )
-        _render_progress(len(results), len(samples), results)
+
+        if adaptive_feedback_reporter is not None:
+            adaptive_profile = str(
+                merged_metadata.get("adaptive_profile")
+                or (((merged_metadata.get("retrieval_meta") or {}).get("adaptive") or {}).get("profile"))
+                or "balanced"
+            ).strip().lower()
+            incorrect_reuse = bool(cache_decision in {"reuse", "patch"} and drift_labels.get("expected_safe_reuse") is False)
+            try:
+                adaptive_feedback_reporter(
+                    profile_name=adaptive_profile,
+                    token_f1=results[-1].token_f1,
+                    exact_match=results[-1].exact_match,
+                    recall_at_1=results[-1].recall_at_1,
+                    recall_at_3=results[-1].recall_at_3,
+                    recall_at_5=results[-1].recall_at_5,
+                    latency_ms=results[-1].latency_ms,
+                    incorrect_reuse=incorrect_reuse,
+                )
+            except Exception as exc:
+                _LOG.debug("adaptive feedback update failed: %s", exc)
+
+        _render_progress(len(results), total_runs, results)
         _LOG.debug(
-            "sample[%d]  mode=%s  EM=%.2f  F1=%.2f  cache=%s  lat=%dms",
-            index, mode_name,
+            "run[%d] sample[%d] repeat[%d]  mode=%s  EM=%.2f  F1=%.2f  cache=%s  lat=%dms",
+            run_index, index, repeat_index, mode_name,
             results[-1].exact_match, results[-1].token_f1,
             results[-1].cache_decision, results[-1].latency_ms,
         )
@@ -1013,6 +1560,12 @@ async def _run_mode(
                 pass  # don't fail benchmark on checkpoint write error
 
     print()  # end the progress line
+    if adaptive_snapshot_reader is not None:
+        try:
+            snapshot = adaptive_snapshot_reader()
+            _LOG.info("adaptive controller snapshot (%s): %s", mode_name, snapshot)
+        except Exception:
+            pass
     return results
 
 
@@ -1025,7 +1578,7 @@ def _percentile(values: list[int], p: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# State Drift: PCC Metrics (GraphCAG-specific, paper §4.1)
+# State Drift: PCC Metrics (TRACE-CAG-specific, paper §4.1)
 # ---------------------------------------------------------------------------
 # These metrics are only meaningful when cache_policy="on".
 # Vanilla CAG reports them as a cache baseline without PCC gating.
@@ -1037,16 +1590,16 @@ _PCC_QUALITY_THRESHOLD = 0.30  # F1 floor for "quality preserved"
 
 def _compute_state_drift_metrics(results: list[QaRunResult], cache_policy: str) -> dict[str, Any]:
     """
-    Compute GraphCAG State Drift metrics from a mode's run results.
+    Compute TRACE-CAG State Drift metrics from a mode's run results.
 
-    Metrics:
+        Metrics:
             PCC Precision:  P(label says safe reuse | decision ∈ {reuse, patch})
             PCC Recall:     P(decision ∈ {reuse, patch} | label says safe reuse)
             Level Isolation Rate: fraction of reuse/patch decisions that satisfy
-                                                        labeled same-level constraints when available
+                                labeled same-level constraints
             Drift Detection Accuracy: fraction of decisions matching labeled drift
-                                                                expectations, with quality-based fallback
-      Incorrect Reuse Rate ★: P(quality degraded | decision ∈ {reuse, patch})
+                                    expectations
+          Incorrect Reuse Rate ★: P(label says unsafe | decision ∈ {reuse, patch})
     """
     n = len(results)
     if n == 0 or cache_policy != "on":
@@ -1076,39 +1629,45 @@ def _compute_state_drift_metrics(results: list[QaRunResult], cache_policy: str) 
     patch_count = sum(1 for r in results if r.cache_decision == "patch")
     full_count = len(full_results)
 
+    # PCC metrics are label-grounded only.
+    if not labeled_results:
+        return {
+            "available": True,
+            "n": n,
+            "label_grounded_n": 0,
+            "label_coverage": 0.0,
+            "metric_basis": "unavailable-no-labels",
+            "pcc_precision": None,
+            "pcc_recall": None,
+            "level_isolation_rate": None,
+            "drift_detection_accuracy": None,
+            "incorrect_reuse_rate": None,
+            "reuse_count": reuse_count,
+            "patch_count": patch_count,
+            "full_count": full_count,
+            "cache_hit_count": len(cache_hits),
+        }
+
     # PCC Precision: among reuse/patch decisions, safe reuse rate.
-    # Prefer labeled drift probes when present; otherwise fall back to answer quality.
     if labeled_reuse_or_patch:
         safe_reuse_count = sum(1 for r in labeled_reuse_or_patch if r.expected_safe_reuse is True)
         pcc_precision = safe_reuse_count / len(labeled_reuse_or_patch)
-    elif reuse_or_patch:
-        quality_preserved = sum(1 for r in reuse_or_patch if r.token_f1 >= _PCC_QUALITY_THRESHOLD)
-        pcc_precision = quality_preserved / len(reuse_or_patch)
     else:
         pcc_precision = None
 
     # PCC Recall: among labeled safe-reuse probes, how often the system reused.
-    # Fall back to cache-hit coverage if labels are absent.
     if labeled_safe:
         pcc_recall = sum(1 for r in labeled_safe if r.cache_decision in {"reuse", "patch"}) / len(labeled_safe)
-    elif cache_hits:
-        pcc_recall = len(reuse_or_patch) / len(cache_hits)
     else:
         pcc_recall = None
 
-    # Level Isolation Rate: use labeled same-level constraints when available.
+    # Level Isolation Rate: label-grounded only.
     if labeled_level_checks:
         level_isolation_rate = sum(1 for r in labeled_level_checks if r.expected_level_isolation is True) / len(labeled_level_checks)
     else:
-        inferred_level_checks = [r for r in reuse_or_patch if r.cached_level and r.request_level]
-        if inferred_level_checks:
-            level_isolation_rate = (
-                sum(1 for r in inferred_level_checks if r.cached_level == r.request_level) / len(inferred_level_checks)
-            )
-        else:
-            level_isolation_rate = 1.0 if reuse_or_patch else None
+        level_isolation_rate = None
 
-    # Drift Detection Accuracy: exact decision match when labeled, otherwise quality fallback.
+    # Drift Detection Accuracy: exact decision match for labeled probes.
     if labeled_results:
         correct = 0
         total = 0
@@ -1123,21 +1682,12 @@ def _compute_state_drift_metrics(results: list[QaRunResult], cache_policy: str) 
                 correct += 1
         drift_detection_accuracy = correct / total if total > 0 else None
     else:
-        correct = 0
-        total = len(results)
-        for r in reuse_or_patch:
-            if r.token_f1 >= _PCC_QUALITY_THRESHOLD:
-                correct += 1
-        correct += full_count  # conservative fallback when no drift labels exist
-        drift_detection_accuracy = correct / total if total > 0 else None
+        drift_detection_accuracy = None
 
-    # ★ Incorrect Reuse Rate: labeled unsafe reuse when available, otherwise quality-degraded reuse.
+    # ★ Incorrect Reuse Rate: labeled unsafe reuse only.
     if labeled_reuse_or_patch:
         incorrect = sum(1 for r in labeled_reuse_or_patch if r.expected_safe_reuse is False)
         incorrect_reuse_rate = incorrect / len(labeled_reuse_or_patch)
-    elif reuse_or_patch:
-        incorrect = sum(1 for r in reuse_or_patch if r.token_f1 < _PCC_QUALITY_THRESHOLD)
-        incorrect_reuse_rate = incorrect / len(reuse_or_patch)
     else:
         incorrect_reuse_rate = None
 
@@ -1146,7 +1696,7 @@ def _compute_state_drift_metrics(results: list[QaRunResult], cache_policy: str) 
         "n": n,
         "label_grounded_n": len(labeled_results),
         "label_coverage": (len(labeled_results) / n) if n > 0 else 0.0,
-        "metric_basis": "labels" if labeled_results else "quality-fallback",
+        "metric_basis": "labels",
         "pcc_precision": pcc_precision,
         "pcc_recall": pcc_recall,
         "level_isolation_rate": level_isolation_rate,
@@ -1159,25 +1709,75 @@ def _compute_state_drift_metrics(results: list[QaRunResult], cache_policy: str) 
     }
 
 
-def _summarize(results: list[QaRunResult], primary_provider: str = "groq") -> dict[str, Any]:
-    # Split results by provider
-    primary_results = _results_for_primary_provider(results, primary_provider)
-    fallback_results = [r for r in results if r.llm_provider != primary_provider]
-    # Use only primary-provider samples for fair metrics
-    scored = primary_results if primary_results else results
+def _summarize(
+    results: list[QaRunResult],
+    primary_provider: str = "groq",
+    allowed_primary_providers: set[str] | None = None,
+) -> dict[str, Any]:
+    def _slice_metrics(items: list[QaRunResult]) -> dict[str, Any]:
+        latencies_local = [result.latency_ms for result in items]
+        ttft_local = [result.ttft_ms for result in items]
+        graph_update_lat_local = [result.graph_update_latency_ms for result in items]
+        total_latency_s_local = sum(max(result.latency_ms, 0) for result in items) / 1000.0
+        completion_tokens_local = sum(max(result.completion_tokens, 0) for result in items)
+        return {
+            "n": len(items),
+            "exact_match": statistics.mean(result.exact_match for result in items) if items else 0.0,
+            "token_f1": statistics.mean(result.token_f1 for result in items) if items else 0.0,
+            "cache_hit_rate": statistics.mean(1.0 if result.cache_hit else 0.0 for result in items) if items else 0.0,
+            "latency_ms_mean": statistics.mean(latencies_local) if latencies_local else 0.0,
+            "latency_ms_p50": _percentile(latencies_local, 50),
+            "latency_ms_p95": _percentile(latencies_local, 95),
+            "ttft_ms_mean": statistics.mean(ttft_local) if ttft_local else 0.0,
+            "ttft_ms_p50": _percentile(ttft_local, 50),
+            "ttft_ms_p95": _percentile(ttft_local, 95),
+            "throughput_rps": (len(items) / total_latency_s_local) if total_latency_s_local > 0 else 0.0,
+            "completion_tokens_per_sec": (
+                completion_tokens_local / total_latency_s_local
+                if total_latency_s_local > 0
+                else 0.0
+            ),
+            "graph_update_latency_ms_mean": (
+                statistics.mean(graph_update_lat_local)
+                if graph_update_lat_local
+                else 0.0
+            ),
+            "graph_nodes_added_mean": statistics.mean(result.graph_nodes_added for result in items) if items else 0.0,
+            "graph_edges_added_mean": statistics.mean(result.graph_edges_added for result in items) if items else 0.0,
+        }
+
+    # Split results by provider. Some modes (e.g. v3_baseline) intentionally
+    # use a non-LLM runtime provider label like "v3" and should not be counted
+    # as provider fallback.
+    primary_providers = allowed_primary_providers or {primary_provider}
+    primary_results = [result for result in results if result.llm_provider in primary_providers]
+    fallback_results = [r for r in results if r.llm_provider not in primary_providers]
+    # Use only primary-provider samples when available; otherwise include all.
+    has_primary = len(primary_results) > 0
+    scored = primary_results if has_primary else results
+    excluded_results = fallback_results if has_primary else []
     latencies = [result.latency_ms for result in scored]
+    ttfts = [result.ttft_ms for result in scored]
     prompt_tokens_total = sum(result.prompt_tokens for result in scored)
     completion_tokens_total = sum(result.completion_tokens for result in scored)
     total_tokens_total = sum(result.total_tokens for result in scored)
     cached_tokens_total = sum(result.cached_tokens for result in scored)
     effective_prompt_tokens_total = sum(result.effective_prompt_tokens for result in scored)
+    total_latency_seconds = sum(max(result.latency_ms, 0) for result in scored) / 1000.0
+    graph_update_latency = [result.graph_update_latency_ms for result in scored]
+    graph_nodes_total = sum(result.graph_nodes_added for result in scored)
+    graph_edges_total = sum(result.graph_edges_added for result in scored)
     usage_sources = sorted({result.usage_source for result in scored})
+    decision_counts = Counter(result.cache_decision for result in scored)
+    warm_runs = [result for result in scored if result.repeat_index > 0]
+    cold_runs = [result for result in scored if result.repeat_index == 0]
     return {
         "n": len(scored),
         "n_total": len(results),
-        "n_fallback": len(fallback_results),
-        "fallback_rate": len(fallback_results) / max(len(results), 1),
-        "fallback_providers": list({r.llm_provider for r in fallback_results}),
+        "n_fallback": len(excluded_results),
+        "fallback_rate": len(excluded_results) / max(len(results), 1),
+        "fallback_providers": list({r.llm_provider for r in excluded_results}),
+        "primary_provider_present": has_primary,
         "recall_at_1": statistics.mean(result.recall_at_1 for result in scored) if scored else 0.0,
         "recall_at_3": statistics.mean(result.recall_at_3 for result in scored) if scored else 0.0,
         "recall_at_5": statistics.mean(result.recall_at_5 for result in scored) if scored else 0.0,
@@ -1192,6 +1792,24 @@ def _summarize(results: list[QaRunResult], primary_provider: str = "groq") -> di
         "latency_ms_mean": statistics.mean(latencies) if latencies else 0.0,
         "latency_ms_p50": _percentile(latencies, 50),
         "latency_ms_p95": _percentile(latencies, 95),
+        "ttft_ms_mean": statistics.mean(ttfts) if ttfts else 0.0,
+        "ttft_ms_p50": _percentile(ttfts, 50),
+        "ttft_ms_p95": _percentile(ttfts, 95),
+        "throughput_rps": (len(scored) / total_latency_seconds) if total_latency_seconds > 0 else 0.0,
+        "completion_tokens_per_sec": (
+            completion_tokens_total / total_latency_seconds
+            if total_latency_seconds > 0
+            else 0.0
+        ),
+        "graph_update_latency_ms_mean": (
+            statistics.mean(graph_update_latency)
+            if graph_update_latency
+            else 0.0
+        ),
+        "graph_nodes_added_total": graph_nodes_total,
+        "graph_edges_added_total": graph_edges_total,
+        "graph_nodes_added_mean": (graph_nodes_total / len(scored)) if scored else 0.0,
+        "graph_edges_added_mean": (graph_edges_total / len(scored)) if scored else 0.0,
         "prompt_tokens_total": prompt_tokens_total,
         "completion_tokens_total": completion_tokens_total,
         "total_tokens_total": total_tokens_total,
@@ -1204,6 +1822,16 @@ def _summarize(results: list[QaRunResult], primary_provider: str = "groq") -> di
             else 0.0
         ),
         "usage_sources": usage_sources,
+        "decision_distribution": {
+            "reuse": decision_counts.get("reuse", 0),
+            "patch": decision_counts.get("patch", 0),
+            "full": decision_counts.get("full", 0),
+            "other": max(0, len(scored) - sum(decision_counts.get(k, 0) for k in ("reuse", "patch", "full"))),
+        },
+        "cache_slices": {
+            "cold_start": _slice_metrics(cold_runs),
+            "warm_cache": _slice_metrics(warm_runs),
+        },
     }
 
 
@@ -1228,12 +1856,30 @@ def _build_application_reuse_view(summary: dict[str, Any]) -> dict[str, Any]:
             "cache_hit_rate": summary.get("cache_hit_rate", 0.0),
             "l0_rate": summary.get("l0_rate", 0.0),
             "l1_rate": summary.get("l1_rate", 0.0),
+            "decision_distribution": summary.get("decision_distribution", {}),
         },
         "latency": {
             "mean_ms": summary.get("latency_ms_mean", 0.0),
             "p50_ms": summary.get("latency_ms_p50", 0.0),
             "p95_ms": summary.get("latency_ms_p95", 0.0),
         },
+        "response_timing": {
+            "ttft_mean_ms": summary.get("ttft_ms_mean", 0.0),
+            "ttft_p50_ms": summary.get("ttft_ms_p50", 0.0),
+            "ttft_p95_ms": summary.get("ttft_ms_p95", 0.0),
+        },
+        "throughput": {
+            "requests_per_sec": summary.get("throughput_rps", 0.0),
+            "completion_tokens_per_sec": summary.get("completion_tokens_per_sec", 0.0),
+        },
+        "graph_update": {
+            "latency_mean_ms": summary.get("graph_update_latency_ms_mean", 0.0),
+            "nodes_added_mean": summary.get("graph_nodes_added_mean", 0.0),
+            "edges_added_mean": summary.get("graph_edges_added_mean", 0.0),
+            "nodes_added_total": summary.get("graph_nodes_added_total", 0),
+            "edges_added_total": summary.get("graph_edges_added_total", 0),
+        },
+        "cache_slices": summary.get("cache_slices", {}),
     }
 
 
@@ -1253,18 +1899,121 @@ def _build_provider_prompt_caching_view(summary: dict[str, Any]) -> dict[str, An
     }
 
 
+def _build_architecture_comparison_view(
+    summaries: dict[str, dict[str, Any]],
+    *,
+    reference_mode: str = "tracecag_rapid",
+) -> dict[str, Any]:
+    ref = summaries.get(reference_mode)
+    if not ref:
+        return {
+            "reference_mode": reference_mode,
+            "comparisons": {},
+        }
+
+    def _safe_float(value: Any) -> float:
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return 0.0
+
+    ref_f1 = _safe_float(ref.get("token_f1"))
+    ref_em = _safe_float(ref.get("exact_match"))
+    ref_lat = _safe_float(ref.get("latency_ms_mean"))
+    ref_ttft = _safe_float(ref.get("ttft_ms_mean"))
+    ref_rps = _safe_float(ref.get("throughput_rps"))
+    ref_cache = _safe_float(ref.get("cache_hit_rate"))
+    ref_graph_update = _safe_float(ref.get("graph_update_latency_ms_mean"))
+    ref_warm_lat = _safe_float((ref.get("cache_slices") or {}).get("warm_cache", {}).get("latency_ms_mean"))
+
+    comparisons: dict[str, Any] = {}
+    for mode_name, summary in summaries.items():
+        if mode_name == reference_mode:
+            continue
+        mode_f1 = _safe_float(summary.get("token_f1"))
+        mode_em = _safe_float(summary.get("exact_match"))
+        mode_lat = _safe_float(summary.get("latency_ms_mean"))
+        mode_ttft = _safe_float(summary.get("ttft_ms_mean"))
+        mode_rps = _safe_float(summary.get("throughput_rps"))
+        mode_cache = _safe_float(summary.get("cache_hit_rate"))
+        mode_graph_update = _safe_float(summary.get("graph_update_latency_ms_mean"))
+        mode_warm_lat = _safe_float((summary.get("cache_slices") or {}).get("warm_cache", {}).get("latency_ms_mean"))
+
+        comparisons[mode_name] = {
+            "delta_token_f1": ref_f1 - mode_f1,
+            "delta_exact_match": ref_em - mode_em,
+            "delta_cache_hit_rate": ref_cache - mode_cache,
+            "delta_latency_ms_mean": ref_lat - mode_lat,
+            "delta_ttft_ms_mean": ref_ttft - mode_ttft,
+            "delta_throughput_rps": ref_rps - mode_rps,
+            "delta_graph_update_latency_ms_mean": ref_graph_update - mode_graph_update,
+            "delta_warm_latency_ms_mean": ref_warm_lat - mode_warm_lat,
+            "relative_f1_lift_pct": ((ref_f1 - mode_f1) / max(abs(mode_f1), 1e-9)) * 100.0,
+            "relative_latency_reduction_pct": ((mode_lat - ref_lat) / max(abs(mode_lat), 1e-9)) * 100.0,
+            "relative_ttft_reduction_pct": ((mode_ttft - ref_ttft) / max(abs(mode_ttft), 1e-9)) * 100.0,
+            "relative_throughput_lift_pct": ((ref_rps - mode_rps) / max(abs(mode_rps), 1e-9)) * 100.0,
+            "relative_warm_latency_reduction_pct": ((mode_warm_lat - ref_warm_lat) / max(abs(mode_warm_lat), 1e-9)) * 100.0,
+        }
+
+    return {
+        "reference_mode": reference_mode,
+        "comparisons": comparisons,
+    }
+
+
+_REPORT_GROUP_DEFINITIONS: dict[str, dict[str, Any]] = {
+    "before_after_tracecag": {
+        "label": "Group 1: Before vs After TRACE-CAG",
+        "modes": ["ai_plain", "tracecag_rapid"],
+    },
+    "tracecag_vs_competitors": {
+        "label": "Group 2: TRACE-CAG vs Competitors",
+        "modes": ["tracecag_rapid", "cag_vanilla", "graphrag_proxy", "hipporag_proxy"],
+    },
+}
+
+
+def _subset_by_modes(data: dict[str, Any], mode_names: list[str]) -> dict[str, Any]:
+    return {name: data[name] for name in mode_names if name in data}
+
+
+def _build_standard_report_groups(
+    *,
+    mode_names: list[str],
+    summaries: dict[str, dict[str, Any]],
+    application_views: dict[str, dict[str, Any]],
+    provider_views: dict[str, dict[str, Any]],
+    drift_metrics: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    groups: dict[str, dict[str, Any]] = {}
+    for group_name, spec in _REPORT_GROUP_DEFINITIONS.items():
+        selected = [name for name in spec["modes"] if name in mode_names]
+        if len(selected) < 2:
+            continue
+        groups[group_name] = {
+            "label": spec["label"],
+            "mode_order": selected,
+            "summaries": _subset_by_modes(summaries, selected),
+            "application_level_reuse": _subset_by_modes(application_views, selected),
+            "provider_prompt_caching": _subset_by_modes(provider_views, selected),
+            "state_drift": _subset_by_modes(drift_metrics, selected),
+        }
+    return groups
+
+
 def _print_summary(
     summaries: dict[str, dict[str, Any]],
     dataset_preset: str,
     mode_labels: dict[str, str] | None = None,
 ) -> None:
     print("=== Application-Level Reuse, Quality, and Latency ===")
-    print("This table is the GraphCAG controller view: retrieval quality, reuse rates, and latency at the application layer.")
+    print("This table is the TRACE-CAG controller view: retrieval quality, reuse rates, and latency at the application layer.")
     print()
     # --- Fallback warning ---
     any_fallback = any(s.get("n_fallback", 0) > 0 for s in summaries.values())
+    any_no_primary = any(not s.get("primary_provider_present", True) for s in summaries.values())
     if any_fallback:
-        print("⚠  Provider fallback detected — metrics use primary-provider samples only.")
+        print("⚠  Provider fallback detected — metrics exclude non-primary-provider samples.")
         for mode, s in summaries.items():
             n_fb = s.get("n_fallback", 0)
             if n_fb > 0:
@@ -1272,9 +2021,28 @@ def _print_summary(
                 fb_providers = ", ".join(s.get("fallback_providers", []))
                 print(f"   {label}: {n_fb}/{s['n_total']} samples fell back to {fb_providers} (excluded from metrics)")
         print()
+    if any_no_primary:
+        print("ℹ  Some modes had no primary-provider samples, so metrics include all available outputs for those modes.")
+        print()
 
     metric_headers = ["R@1", "R@3", "R@5", "MRR@5", "EM", "F1", "ROUGE-L"]
-    headers = ["Mode", "N", *metric_headers, "HitRate", "L0", "L1", "Mean(ms)", "P50(ms)", "P95(ms)"]
+    headers = [
+        "Mode",
+        "N",
+        *metric_headers,
+        "HitRate",
+        "L0",
+        "L1",
+        "Mean(ms)",
+        "P50(ms)",
+        "P95(ms)",
+        "TTFT(ms)",
+        "Req/s",
+        "Tok/s",
+        "GUpd(ms)",
+        "GNodes",
+        "GEdges",
+    ]
     rows = []
     for mode, summary in summaries.items():
         n_display = str(summary["n"])
@@ -1299,6 +2067,12 @@ def _print_summary(
             f"{summary['latency_ms_mean']:.1f}",
             f"{summary['latency_ms_p50']:.1f}",
             f"{summary['latency_ms_p95']:.1f}",
+            f"{summary.get('ttft_ms_mean', 0.0):.1f}",
+            f"{summary.get('throughput_rps', 0.0):.2f}",
+            f"{summary.get('completion_tokens_per_sec', 0.0):.1f}",
+            f"{summary.get('graph_update_latency_ms_mean', 0.0):.1f}",
+            f"{summary.get('graph_nodes_added_mean', 0.0):.2f}",
+            f"{summary.get('graph_edges_added_mean', 0.0):.2f}",
         ])
 
     widths = [max(len(headers[i]), max((len(row[i]) for row in rows), default=0)) for i in range(len(headers))]
@@ -1316,11 +2090,11 @@ def _print_state_drift_summary(
     drift_metrics: dict[str, dict[str, Any]],
     mode_labels: dict[str, str] | None = None,
 ) -> None:
-    """Print the GraphCAG State Drift: PCC Metrics table."""
+    """Print the TRACE-CAG State Drift: PCC Metrics table."""
     print()
-    print("=== State Drift: PCC Metrics (GraphCAG-specific) ===")
+    print("=== State Drift: PCC Metrics (TRACE-CAG-specific) ===")
     print("★ Incorrect Reuse Rate is the key failure metric for cache-based methods under drift; HippoRAG proxy reports N/A.")
-    print("Metrics use labeled drift metadata when available and fall back to answer-quality heuristics otherwise.")
+    print("Metrics are label-grounded only. If drift labels are absent, the table reports N/A by design.")
     print()
 
     def _pct(v: float | None) -> str:
@@ -1364,7 +2138,7 @@ def _print_token_usage_summary(
 ) -> None:
     print()
     print("=== Provider-Side Prompt Caching and Token Accounting ===")
-    print("This table is the serving-layer view: prompt/completion token usage and cached prompt-token savings independent of GraphCAG reuse correctness.")
+    print("This table is the serving-layer view: prompt/completion token usage and cached prompt-token savings independent of TRACE-CAG reuse correctness.")
     print("When provider usage fields are unavailable, prompt/completion tokens are estimated and cached tokens remain zero.")
     print()
 
@@ -1394,26 +2168,53 @@ def _print_token_usage_summary(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Paper-style public QA benchmark for GraphCAG.")
+    parser = argparse.ArgumentParser(description="Paper-style public QA benchmark for TRACE-CAG.")
     parser.add_argument("--dataset", type=Path, default=None)
-    parser.add_argument("--dataset-preset", type=str, default="hotpotqa", choices=["graphcag_drift_probes", "hotpotqa", "2wikimultihopqa"])
+    parser.add_argument("--dataset-preset", type=str, default="hotpotqa", choices=["tracecag_drift_probes", "hotpotqa", "2wikimultihopqa", "musique"])
     parser.add_argument(
         "--comparison-profile",
         type=str,
-        default="public_cag_compare",
+        default="overall_plain_tracecag",
         choices=sorted(COMPARISON_PROFILES.keys()),
-        help="Named benchmark setup for comparing vanilla CAG, GraphCAG, and the HippoRAG proxy.",
+        help="Named benchmark setup for comparing pure AI baseline vs CAG/GraphRAG-proxy/HippoRAG-proxy/TRACE-CAG.",
     )
     parser.add_argument(
         "--modes",
         type=str,
         default=None,
-        help="Optional comma-separated mode override. Available: cag_vanilla, cag_flat, graphcag_full, hipporag_proxy, graphcag_rapid.",
+        help="Optional comma-separated mode override. Available: ai_plain, v3_baseline, cag_vanilla, cag_flat, tracecag_full, graphrag_proxy, hipporag_proxy, tracecag_rapid.",
     )
     parser.add_argument("--n", type=int, default=32)
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Optional random seed for deterministic dataset sampling order.",
+    )
     parser.add_argument("--level", type=str, default="B1")
     parser.add_argument("--generation-policy", type=str, default="auto", choices=["template", "auto"])
-    parser.add_argument("--llm-provider", type=str, default="groq", choices=["auto", "groq", "gemini", "ollama", "template"])
+    parser.add_argument("--llm-provider", type=str, default="auto", choices=["auto", "groq", "gemini", "ollama", "template"])
+    parser.add_argument(
+        "--real-eval",
+        action="store_true",
+        help="Enable strict runtime-eval mode (disallow template-only config and enforce provider coverage checks).",
+    )
+    parser.add_argument(
+        "--allow-template-benchmark",
+        action="store_true",
+        help="Allow template generation in benchmark runs. Disabled by default when --real-eval is enabled.",
+    )
+    parser.add_argument(
+        "--require-primary-provider",
+        action="store_true",
+        help="Fail mode validation if no primary-provider outputs are observed.",
+    )
+    parser.add_argument(
+        "--max-fallback-rate",
+        type=float,
+        default=None,
+        help="Maximum acceptable fallback rate per mode [0..1]. In --real-eval mode defaults to 0.10.",
+    )
     parser.add_argument("--groq-model", type=str, default="llama-3.3-70b-versatile")
     parser.add_argument("--groq-rpm", type=int, default=28)
     parser.add_argument("--groq-key", type=str, default=None)
@@ -1431,6 +2232,11 @@ def main() -> None:
     )
     parser.add_argument("--enable-gemini-fallback", action="store_true")
     parser.add_argument("--enable-ollama-fallback", action="store_true")
+    parser.add_argument(
+        "--fresh-run",
+        action="store_true",
+        help="Ignore existing mode checkpoints and start from sample 0 for all modes.",
+    )
     parser.add_argument("--report-json", type=Path, default=None)
     parser.add_argument(
         "--quota-state-file",
@@ -1444,7 +2250,42 @@ def main() -> None:
         default=None,
         help="Path for the debug log file. Defaults to <report-json path>.log when --report-json is set.",
     )
+    parser.add_argument(
+        "--env-file",
+        type=Path,
+        default=SCRIPT_DIR.parent / ".env",
+        help="Optional dotenv file to load benchmark keys/config from (default: model-development/.env).",
+    )
+    parser.add_argument(
+        "--cache-repeats",
+        type=int,
+        default=1,
+        help="Repeat each sample this many times per mode to measure warm-cache behavior (default: 1).",
+    )
     args = parser.parse_args()
+
+    # Load dotenv early so key pools can be resolved from prior setup.
+    if args.env_file and args.env_file.exists():
+        load_dotenv(args.env_file, override=False)
+
+    # In real-eval mode, auto-provider should use available fallbacks by default
+    # so benchmark runs don't silently degrade to template answers.
+    if args.real_eval and args.llm_provider == "auto":
+        if not args.enable_gemini_fallback and (args.gemini_keys or os.getenv("GEMINI_KEYS") or os.getenv("GEMINI_API_KEY")):
+            args.enable_gemini_fallback = True
+        if not args.enable_ollama_fallback and os.getenv("OLLAMA_BASE_URL"):
+            args.enable_ollama_fallback = True
+
+    # Real-world evaluation should not resume stale checkpoints by default.
+    if args.real_eval and not args.fresh_run:
+        args.fresh_run = True
+        _LOG.warning("real-eval enabled without --fresh-run; forcing fresh-run to avoid checkpoint contamination")
+
+    mode_configs = _resolve_mode_configs(args.modes, args.comparison_profile)
+    max_fallback_rate, require_primary_provider = _validate_runtime_eval_configuration(
+        args=args,
+        mode_configs=mode_configs,
+    )
 
     # --- Logging setup (before anything else so all events are captured) ---
     log_path: Path | None = args.log_file
@@ -1463,6 +2304,8 @@ def main() -> None:
     os.environ["GRAPHCAG_BENCHMARK_LLM_PROVIDER"] = args.llm_provider
     os.environ["GRAPHCAG_ENABLE_GEMINI_FALLBACK"] = "1" if args.enable_gemini_fallback else "0"
     os.environ["GRAPHCAG_ENABLE_OLLAMA_FALLBACK"] = "1" if args.enable_ollama_fallback else "0"
+    os.environ.setdefault("BENCHMARK_REDIS_FAIL_FAST", "1")
+    os.environ.setdefault("BENCHMARK_REDIS_MAX_RETRIES", "1")
     # Fast-fail on 429: let _KeyPool rotation handle retries at the pool level.
     # Without this, nodes_v2 would retry 3× internally before returning, wasting
     # time that could be spent trying the next key.
@@ -1475,6 +2318,8 @@ def main() -> None:
         groq_keys_raw = [k.strip() for k in args.groq_keys.split(",") if k.strip()]
     elif args.groq_key:
         groq_keys_raw = [args.groq_key.strip()]
+    elif os.getenv("GROQ_KEYS"):
+        groq_keys_raw = _split_csv_env(os.getenv("GROQ_KEYS"))
     elif os.getenv("GROQ_API_KEY"):
         groq_keys_raw = [os.environ["GROQ_API_KEY"]]
 
@@ -1499,6 +2344,8 @@ def main() -> None:
     gemini_keys_raw: list[str] = []
     if args.gemini_keys:
         gemini_keys_raw = [k.strip() for k in args.gemini_keys.split(",") if k.strip()]
+    elif os.getenv("GEMINI_KEYS"):
+        gemini_keys_raw = _split_csv_env(os.getenv("GEMINI_KEYS"))
     elif os.getenv("GEMINI_API_KEY"):
         gemini_keys_raw = [os.environ["GEMINI_API_KEY"]]
 
@@ -1518,10 +2365,13 @@ def main() -> None:
         _LOG.info("key_pool  quota state file=%s", quota_state_file)
 
     dataset_path = _resolve_dataset_path(args.dataset, args.dataset_preset)
-    samples = list(_iter_dataset_samples(dataset_path))[: args.n]
+    samples_all = list(_iter_dataset_samples(dataset_path))
+    if args.seed is not None:
+        rng = random.Random(args.seed)
+        rng.shuffle(samples_all)
+    samples = samples_all[: args.n]
     if not samples:
         raise SystemExit(f"No samples found in dataset: {dataset_path}")
-    mode_configs = _resolve_mode_configs(args.modes, args.comparison_profile)
 
     async def runner() -> None:
         if args.report_json:
@@ -1534,8 +2384,10 @@ def main() -> None:
         sep = "─" * 70
         print()
         print(sep)
-        print(f"  GraphCAG Benchmark")
+        print(f"  TRACE-CAG Benchmark")
         print(f"  dataset : {args.dataset_preset}  ({len(samples)} samples)")
+        if args.seed is not None:
+            print(f"  seed    : {args.seed}")
         print(f"  profile : {args.comparison_profile}")
         print(f"  modes   : {', '.join(m.label for m in mode_configs)}")
         print(sep)
@@ -1571,12 +2423,22 @@ def main() -> None:
         for i, mode in enumerate(mode_configs):
             print()
             print(f"  ── [{i + 1}/{len(mode_configs)}]  {mode.label}")
-            print(f"       cache={mode.cache_policy}  retrieval={mode.retrieval_policy}  ranker={mode.benchmark_ranker}")
+            print(
+                f"       runtime={mode.runtime_family}  cache={mode.cache_policy}  "
+                f"retrieval={mode.retrieval_policy}  ranker={mode.benchmark_ranker}"
+            )
             checkpoint_path = ckpt_dir / f"{args.dataset_preset}_{mode.name}_ckpt.json"
+            if args.fresh_run and checkpoint_path.exists():
+                try:
+                    checkpoint_path.unlink()
+                    _LOG.info("checkpoint  Cleared stale checkpoint for fresh run: %s", checkpoint_path)
+                except Exception as exc:
+                    _LOG.warning("checkpoint  Could not clear checkpoint (%s): %s", checkpoint_path, exc)
             t0 = time.monotonic()
             mode_results[mode.name] = await _run_mode(
                 dataset_name=args.dataset_preset,
                 mode_name=mode.name,
+                runtime_family=mode.runtime_family,
                 samples=samples,
                 level=args.level,
                 cache_policy=mode.cache_policy,
@@ -1584,22 +2446,45 @@ def main() -> None:
                 generation_policy=args.generation_policy,
                 benchmark_ranker=mode.benchmark_ranker,
                 use_gemini_fallback=args.enable_gemini_fallback,
+                cache_repeats=max(1, args.cache_repeats),
                 checkpoint_path=checkpoint_path,
             )
             elapsed = time.monotonic() - t0
             n_done = len(mode_results[mode.name])
             _LOG.info("mode done  %s  n=%d  elapsed=%.1fs", mode.name, n_done, elapsed)
 
-        summaries = {mode.name: _summarize(mode_results[mode.name]) for mode in mode_configs}
-        application_views = {mode.name: _build_application_reuse_view(summaries[mode.name]) for mode in mode_configs}
-        provider_views = {mode.name: _build_provider_prompt_caching_view(summaries[mode.name]) for mode in mode_configs}
-        drift_metrics = {
-            mode.name: _compute_state_drift_metrics(
-                _results_for_primary_provider(mode_results[mode.name]),
-                mode.cache_policy,
+        summaries = {
+            mode.name: _summarize(
+                mode_results[mode.name],
+                primary_provider=args.llm_provider,
+                allowed_primary_providers=_resolve_primary_providers(mode, args.llm_provider),
             )
             for mode in mode_configs
         }
+        eval_violations = _collect_eval_violations(
+            summaries=summaries,
+            mode_configs=mode_configs,
+            max_fallback_rate=max_fallback_rate,
+            require_primary_provider=require_primary_provider,
+            expected_total_runs=len(samples) * max(1, args.cache_repeats),
+        )
+        application_views = {mode.name: _build_application_reuse_view(summaries[mode.name]) for mode in mode_configs}
+        provider_views = {mode.name: _build_provider_prompt_caching_view(summaries[mode.name]) for mode in mode_configs}
+        architecture_comparison = _build_architecture_comparison_view(summaries, reference_mode="tracecag_rapid")
+        drift_metrics = {
+            mode.name: _compute_state_drift_metrics(
+                _results_for_primary_provider(mode_results[mode.name]),
+                mode.cache_policy if mode.runtime_family == "tracecag" else "off",
+            )
+            for mode in mode_configs
+        }
+        standard_groups = _build_standard_report_groups(
+            mode_names=[mode.name for mode in mode_configs],
+            summaries=summaries,
+            application_views=application_views,
+            provider_views=provider_views,
+            drift_metrics=drift_metrics,
+        )
 
         # ── results ───────────────────────────────────────────────────────────
         print()
@@ -1607,18 +2492,27 @@ def main() -> None:
         print(f"  RESULTS  {args.dataset_preset}  n={len(samples)}")
         print("═" * 70)
         print(f"  {DATASET_RATIONALE.get(args.dataset_preset, 'General public QA benchmark.')}")
-        print()
-        _print_summary(summaries, args.dataset_preset, mode_labels)
-        _print_state_drift_summary(drift_metrics, mode_labels)
-        _print_token_usage_summary(summaries, mode_labels)
+        if standard_groups:
+            for group in standard_groups.values():
+                print()
+                print(group["label"])
+                _print_summary(group["summaries"], args.dataset_preset, mode_labels)
+                _print_state_drift_summary(group["state_drift"], mode_labels)
+                _print_token_usage_summary(group["summaries"], mode_labels)
+        else:
+            print()
+            _print_summary(summaries, args.dataset_preset, mode_labels)
+            _print_state_drift_summary(drift_metrics, mode_labels)
+            _print_token_usage_summary(summaries, mode_labels)
 
         # Log the summary tables to the log file too
         _LOG.info("=== QA Summary — %s ===", args.dataset_preset)
         for mode_name, s in summaries.items():
             _LOG.info(
-                "  %-24s  F1=%.3f  EM=%.3f  ROUGE-L=%.3f  cache_hit=%.3f  lat_mean=%.0fms  cached_tok=%d",
+                "  %-24s  F1=%.3f  EM=%.3f  ROUGE-L=%.3f  cache_hit=%.3f  lat_mean=%.0fms  ttft=%.0fms  rps=%.2f  graph_upd=%.1fms  cached_tok=%d",
                 mode_name, s["token_f1"], s["exact_match"], s["rouge_l_f1"],
-                s["cache_hit_rate"], s["latency_ms_mean"], s["cached_tokens_total"],
+                s["cache_hit_rate"], s["latency_ms_mean"], s.get("ttft_ms_mean", 0.0),
+                s.get("throughput_rps", 0.0), s.get("graph_update_latency_ms_mean", 0.0), s["cached_tokens_total"],
             )
         _LOG.info("=== State Drift — %s ===", args.dataset_preset)
         for mode_name, dm in drift_metrics.items():
@@ -1634,14 +2528,31 @@ def main() -> None:
             else:
                 _LOG.info("  %-24s  N/A (cache_policy=off)", mode_name)
 
+        if eval_violations:
+            print()
+            print("⚠ Runtime-eval validation issues detected:")
+            for issue in eval_violations:
+                print(f"  - {issue}")
+                _LOG.error("runtime-eval violation: %s", issue)
+
         if args.report_json:
             application_report_path = args.report_json.with_name(f"{args.report_json.stem}-application.json")
             provider_report_path = args.report_json.with_name(f"{args.report_json.stem}-provider.json")
+            grouped_report_path = args.report_json.with_name(f"{args.report_json.stem}-groups.json")
+            comparison_report_path = args.report_json.with_name(f"{args.report_json.stem}-comparison.json")
             report = {
                 "dataset": str(dataset_path),
                 "dataset_preset": args.dataset_preset,
                 "n": len(samples),
                 "comparison_profile": args.comparison_profile,
+                "seed": args.seed,
+                "run_validation": {
+                    "real_eval": bool(args.real_eval),
+                    "require_primary_provider": bool(require_primary_provider),
+                    "max_fallback_rate": float(max_fallback_rate),
+                    "passed": len(eval_violations) == 0,
+                    "violations": eval_violations,
+                },
                 "dataset_rationale": DATASET_RATIONALE.get(args.dataset_preset, "General public QA benchmark."),
                 "protocol": {
                     "context_mode": "oracle_context",
@@ -1649,7 +2560,7 @@ def main() -> None:
                     "hipporag_proxy": "memory-propagation proxy over the candidate graph; not a full HippoRAG implementation",
                     "state_drift_note": (
                         "PCC metrics (Precision, Recall, Level Isolation, Drift Detection, "
-                        "Incorrect Reuse Rate) are central to GraphCAG. Vanilla CAG can still "
+                        "Incorrect Reuse Rate) are central to TRACE-CAG. Vanilla CAG can still "
                         "be scored as a cache baseline, while HippoRAG proxy has no equivalent "
                         "state-aware cache and reports N/A."
                     ),
@@ -1662,8 +2573,8 @@ def main() -> None:
                     },
                     "state_drift_metric_policy": (
                         "When drift labels are present in dataset or pipeline metadata, PCC metrics are "
-                        "computed from those labels. Otherwise the harness falls back to answer-quality "
-                        "heuristics so the report remains usable as a lower-bound cache study."
+                        "computed from those labels. Otherwise drift metrics are marked unavailable "
+                        "instead of using quality-based fallbacks."
                     ),
                 },
                 "state_drift_datasets": STATE_DRIFT_DATASETS,
@@ -1673,11 +2584,13 @@ def main() -> None:
                 "groq_rpm": args.groq_rpm,
                 "enable_gemini_fallback": args.enable_gemini_fallback,
                 "enable_ollama_fallback": args.enable_ollama_fallback,
+                "cache_repeats": max(1, args.cache_repeats),
                 "quota_state_file": str(quota_state_file) if quota_state_file is not None else None,
                 "modes": [
                     {
                         "name": mode.name,
                         "label": mode.label,
+                        "runtime_family": mode.runtime_family,
                         "cache_policy": mode.cache_policy,
                         "retrieval_policy": mode.retrieval_policy,
                         "benchmark_ranker": mode.benchmark_ranker,
@@ -1685,7 +2598,22 @@ def main() -> None:
                     }
                     for mode in mode_configs
                 ],
-                "reported_metrics": ["R@1", "R@3", "R@5", "MRR@5", "EM", "F1", "ROUGE-L", "BLEU-1"],
+                "reported_metrics": [
+                    "R@1",
+                    "R@3",
+                    "R@5",
+                    "MRR@5",
+                    "EM",
+                    "F1",
+                    "ROUGE-L",
+                    "BLEU-1",
+                    "TTFT Mean",
+                    "Throughput (req/s)",
+                    "Completion Throughput (tok/s)",
+                    "Graph Update Latency Mean",
+                    "Graph Nodes Added Mean",
+                    "Graph Edges Added Mean",
+                ],
                 "reported_state_drift_metrics": [
                     "PCC Precision", "PCC Recall", "Level Isolation Rate",
                     "Drift Detection Accuracy", "Incorrect Reuse Rate",
@@ -1701,7 +2629,7 @@ def main() -> None:
                 ],
                 "state_drift_metric_basis": {
                     "labels": "Preferred. Uses explicit drift annotations from benchmark metadata.",
-                    "quality-fallback": "Fallback. Uses token F1 threshold when explicit drift labels are unavailable.",
+                    "unavailable-no-labels": "No fallback. Drift metrics are reported as N/A when explicit labels are unavailable.",
                 },
                 "prompt_accounting_policy": {
                     "cached_input_discount": _CACHED_INPUT_DISCOUNT,
@@ -1711,10 +2639,14 @@ def main() -> None:
                 "report_views": {
                     "application_level_reuse": application_views,
                     "provider_prompt_caching": provider_views,
+                    "architecture_comparison": architecture_comparison,
                 },
+                "standard_report_groups": standard_groups,
                 "sidecar_reports": {
                     "application_level_reuse": str(application_report_path),
                     "provider_prompt_caching": str(provider_report_path),
+                    "standard_report_groups": str(grouped_report_path),
+                    "architecture_comparison": str(comparison_report_path),
                 },
                 "summaries": summaries,
                 "state_drift": drift_metrics,
@@ -1729,7 +2661,7 @@ def main() -> None:
                 "dataset_preset": args.dataset_preset,
                 "comparison_profile": args.comparison_profile,
                 "view": "application_level_reuse",
-                "description": "Application-layer benchmark view for GraphCAG, vanilla CAG, and HippoRAG-style baselines.",
+                "description": "Application-layer benchmark view for TRACE-CAG, vanilla CAG, and HippoRAG-style baselines.",
                 "reported_metrics": [
                     "R@1",
                     "R@3",
@@ -1745,6 +2677,12 @@ def main() -> None:
                     "Latency Mean",
                     "Latency P50",
                     "Latency P95",
+                    "TTFT Mean",
+                    "Throughput (req/s)",
+                    "Completion Throughput (tok/s)",
+                    "Graph Update Latency Mean",
+                    "Graph Nodes Added Mean",
+                    "Graph Edges Added Mean",
                 ],
                 "summaries": application_views,
                 "state_drift": drift_metrics,
@@ -1754,7 +2692,7 @@ def main() -> None:
                 "dataset_preset": args.dataset_preset,
                 "comparison_profile": args.comparison_profile,
                 "view": "provider_prompt_caching",
-                "description": "Serving-layer token-accounting view; orthogonal to GraphCAG application-layer reuse correctness.",
+                "description": "Serving-layer token-accounting view; orthogonal to TRACE-CAG application-layer reuse correctness.",
                 "prompt_accounting_policy": report["prompt_accounting_policy"],
                 "reported_metrics": [
                     "Prompt Tokens",
@@ -1767,12 +2705,32 @@ def main() -> None:
                 ],
                 "summaries": provider_views,
             }
+            grouped_report = {
+                "dataset": str(dataset_path),
+                "dataset_preset": args.dataset_preset,
+                "comparison_profile": args.comparison_profile,
+                "view": "standard_report_groups",
+                "description": "Standardized two-group report layout for paper write-up: before/after TRACE-CAG and TRACE-CAG vs competitors.",
+                "groups": standard_groups,
+            }
+            comparison_report = {
+                "dataset": str(dataset_path),
+                "dataset_preset": args.dataset_preset,
+                "comparison_profile": args.comparison_profile,
+                "view": "architecture_comparison",
+                "description": "Direct delta view using TRACE-CAG as reference vs competing architectures.",
+                "comparison": architecture_comparison,
+            }
             application_report_path.write_text(json.dumps(application_report, indent=2), encoding="utf-8")
             provider_report_path.write_text(json.dumps(provider_report, indent=2), encoding="utf-8")
+            grouped_report_path.write_text(json.dumps(grouped_report, indent=2), encoding="utf-8")
+            comparison_report_path.write_text(json.dumps(comparison_report, indent=2), encoding="utf-8")
             print()
             print(f"  \u2713  report \u2192 {args.report_json}")
             print(f"  \u2713  app    \u2192 {application_report_path}")
             print(f"  \u2713  token  \u2192 {provider_report_path}")
+            print(f"  \u2713  groups \u2192 {grouped_report_path}")
+            print(f"  \u2713  delta  \u2192 {comparison_report_path}")
             if log_path:
                 print(f"  \u2713  log    \u2192 {log_path}")
             _LOG.info("report saved: %s", args.report_json)
@@ -1781,6 +2739,9 @@ def main() -> None:
                 ckpt = ckpt_dir / f"{args.dataset_preset}_{mode.name}_ckpt.json"
                 if ckpt.exists():
                     ckpt.unlink(missing_ok=True)
+
+        if args.real_eval and eval_violations:
+            raise RuntimeError("Real-eval quality gates failed. Review report validation block and fix provider/fallback configuration.")
 
     asyncio.run(runner())
 

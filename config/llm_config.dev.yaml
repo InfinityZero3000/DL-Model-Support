@@ -7,7 +7,7 @@ mode: development
 models:
   # Grammar & Vocabulary Model - LARGE
   grammar_model:
-    base_model: "Qwen/Qwen2.5-1.5B-Instruct"
+    base_model: "Qwen/Qwen3-1.7B"
     model_size: "1.5B"
     quantized_size: "900MB"  # Q4_K_M
     ram_usage: "2GB"
