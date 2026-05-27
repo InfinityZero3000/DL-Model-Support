@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-04-29T20:10:51.414218",
+  "created_at": "2026-05-27T09:04:58.607925",
   "input_dir": "/Users/nguyenhuuthang/Documents/RepoGitHub/LexiLingo/ai-service/model-development/datasets/training_data",
   "output_dir": "/Users/nguyenhuuthang/Documents/RepoGitHub/LexiLingo/ai-service/model-development/datasets/training_data_clean",
   "splits": {
@@ -34,6 +34,22 @@
       "vocab_key_words_added": 267,
       "task_vocabulary_out": 373,
       "vocab_key_words_type_fixed": 106
+    },
+    "test.jsonl": {
+      "total_in": 5376,
+      "task_grammar_in": 1174,
+      "total_out": 4919,
+      "task_grammar_out": 1174,
+      "task_fluency_in": 1445,
+      "task_fluency_out": 1444,
+      "task_dialogue_in": 1348,
+      "dedup_removed": 457,
+      "task_dialogue_out": 892,
+      "task_vocabulary_in": 1409,
+      "vocab_key_words_added": 1005,
+      "task_vocabulary_out": 1409,
+      "vocab_key_words_type_fixed": 404,
+      "fluency_reasoning_removed": 115
     }
   }
 }
