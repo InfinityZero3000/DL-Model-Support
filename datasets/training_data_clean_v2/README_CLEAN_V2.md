@@ -6,6 +6,7 @@ Clean-v2 keeps train/validation/test separate, removes duplicate prompt leakage,
 repairs vocabulary keywords into real lists, keeps fluency feedback as a target,
 adds Vietnamese tutor explanations as a supervised task, and caps only the most
 repetitive train fluency scores.
+Metadata is normalized to a fixed flat schema for HuggingFace `load_dataset`.
 
 Files:
 

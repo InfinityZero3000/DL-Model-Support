@@ -251,6 +251,47 @@ def normalize_score(value: Any) -> float | None:
     return round(score, 2)
 
 
+def safe_str(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (int, float, bool)):
+        return str(value)
+    return stable_json(value)
+
+
+def safe_int(value: Any, default: int = -1) -> int:
+    if isinstance(value, bool):
+        return int(value)
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def normalize_metadata(metadata: dict[str, Any], split_name: str, dedup_key: str) -> dict[str, Any]:
+    """Return a fixed, flat metadata schema so HuggingFace JSON loading can infer safely."""
+    return {
+        "source": safe_str(metadata.get("source")),
+        "index": safe_int(metadata.get("index")),
+        "raw_text": safe_str(metadata.get("raw_text")),
+        "raw_response": safe_str(metadata.get("raw_response")),
+        "file": safe_str(metadata.get("file")),
+        "type": safe_str(metadata.get("type")),
+        "estimated_level": safe_str(metadata.get("estimated_level")),
+        "context_sentences": safe_int(metadata.get("context_sentences")),
+        "word_count": safe_int(metadata.get("word_count")),
+        "grammatical": bool(metadata.get("grammatical")) if metadata.get("grammatical") is not None else False,
+        "has_grammatical": metadata.get("grammatical") is not None,
+        "error_count": safe_int(metadata.get("error_count")),
+        "error_type": safe_str(metadata.get("error_type")),
+        "quality_score": safe_int(metadata.get("quality_score")),
+        "clean_v2_split": split_name,
+        "clean_v2_dedup_key": dedup_key,
+    }
+
+
 def default_fluency_feedback(score: float, metadata: dict[str, Any], user_text: str) -> str:
     words = re.findall(r"[A-Za-z]+", user_text)
     word_count = len(words)
@@ -452,11 +493,7 @@ def clean_records(
         if output is None:
             continue
 
-        metadata = dict(metadata)
-        metadata["clean_v2"] = {
-            "split": split_name,
-            "dedup_key": keys[0],
-        }
+        metadata = normalize_metadata(metadata, split_name, keys[0])
         cleaned.append(make_chat_record(task, user_text, output, metadata))
         stats["total_out"] += 1
         stats[f"task_{task}_out"] += 1
@@ -757,6 +794,7 @@ Clean-v2 keeps train/validation/test separate, removes duplicate prompt leakage,
 repairs vocabulary keywords into real lists, keeps fluency feedback as a target,
 adds Vietnamese tutor explanations as a supervised task, and caps only the most
 repetitive train fluency scores.
+Metadata is normalized to a fixed flat schema for HuggingFace `load_dataset`.
 
 Files:
 
