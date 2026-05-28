@@ -1,0 +1,605 @@
+{
+  "created_at": "2026-05-28T09:45:09.959788",
+  "input_dir": "model-development/datasets/training_data",
+  "downloaded_dir": "model-development/scripts/downloaded_datasets",
+  "explanation_source": "model-development/datasets/training_data/vietnamese_explanations.jsonl",
+  "output_dir": "model-development/datasets/training_data_clean_v2",
+  "clean_v2_policy": {
+    "preserve_raw_splits": true,
+    "remove_cross_split_duplicate_prompts": true,
+    "vocabulary_keywords": "parse list/string, otherwise extract from input text",
+    "fluency_target": "fluency_score + feedback",
+    "explanation_target": "JSON object with Vietnamese explanation text",
+    "include_explanations": true,
+    "explanation_quality_threshold": 50,
+    "explanation_validation_ratio": 0.05,
+    "explanation_test_ratio": 0.05,
+    "max_train_per_fluency_score": 1200,
+    "include_downloaded_in_train": false
+  },
+  "splits": {
+    "train": {
+      "cleaning_stats": {
+        "total_in": 21504,
+        "task_dialogue_in": 5301,
+        "total_out": 21499,
+        "task_dialogue_out": 5296,
+        "task_grammar_in": 4707,
+        "task_grammar_out": 4707,
+        "task_vocabulary_in": 5686,
+        "vocabulary_metadata_keywords_replaced": 1083,
+        "vocabulary_keywords_extracted": 5133,
+        "task_vocabulary_out": 5686,
+        "task_fluency_in": 5810,
+        "fluency_feedback_added": 5323,
+        "task_fluency_out": 5810,
+        "vocabulary_keywords_added": 4050,
+        "fluency_reasoning_kept_as_feedback": 487,
+        "dedup_removed": 5,
+        "task_dialogue_dedup_removed": 5,
+        "fluency_score_cap_removed": 1786,
+        "fluency_score_0.88_cap_removed": 1106,
+        "fluency_score_0.91_cap_removed": 321,
+        "fluency_score_0.93_cap_removed": 359,
+        "total_out_after_cap": 19713
+      },
+      "summary": {
+        "samples": 23428,
+        "task_counts": {
+          "dialogue": 5296,
+          "explanation": 3715,
+          "fluency": 4024,
+          "grammar": 4707,
+          "vocabulary": 5686
+        },
+        "task_percent": {
+          "dialogue": 0.2261,
+          "explanation": 0.1586,
+          "fluency": 0.1718,
+          "grammar": 0.2009,
+          "vocabulary": 0.2427
+        },
+        "output_diversity": {
+          "dialogue": {
+            "rows": 5296,
+            "unique_outputs": 4685,
+            "top_output_rate": 0.0011
+          },
+          "grammar": {
+            "rows": 4707,
+            "unique_outputs": 4707,
+            "top_output_rate": 0.0002
+          },
+          "vocabulary": {
+            "rows": 5686,
+            "unique_outputs": 5134,
+            "top_output_rate": 0.055
+          },
+          "fluency": {
+            "rows": 4024,
+            "unique_outputs": 102,
+            "top_output_rate": 0.2212
+          },
+          "explanation": {
+            "rows": 3715,
+            "unique_outputs": 3715,
+            "top_output_rate": 0.0003
+          }
+        },
+        "vocabulary_level_counts": {
+          "A2": 485,
+          "B1": 1985,
+          "B2": 1618,
+          "C1": 1598
+        },
+        "vocabulary_keyword_count_distribution": {
+          "1": 387,
+          "2": 212,
+          "3": 168,
+          "4": 457,
+          "5": 630,
+          "6": 3832
+        },
+        "fluency_score_top_counts": {
+          "0.88": 1200,
+          "0.93": 1200,
+          "0.91": 1200,
+          "0.75": 33,
+          "0.89": 27,
+          "0.83": 25,
+          "0.94": 24,
+          "0.87": 24,
+          "0.85": 20,
+          "0.84": 20,
+          "0.92": 19,
+          "0.86": 19
+        }
+      },
+      "explanation_rows_added": 3715
+    },
+    "validation": {
+      "cleaning_stats": {
+        "total_in": 1412,
+        "task_fluency_in": 381,
+        "fluency_feedback_added": 347,
+        "total_out": 1412,
+        "task_fluency_out": 381,
+        "fluency_reasoning_kept_as_feedback": 34,
+        "task_grammar_in": 309,
+        "task_grammar_out": 309,
+        "task_dialogue_in": 349,
+        "task_dialogue_out": 349,
+        "task_vocabulary_in": 373,
+        "vocabulary_keywords_added": 267,
+        "vocabulary_keywords_extracted": 335,
+        "task_vocabulary_out": 373,
+        "vocabulary_metadata_keywords_replaced": 68
+      },
+      "summary": {
+        "samples": 1620,
+        "task_counts": {
+          "dialogue": 349,
+          "explanation": 208,
+          "fluency": 381,
+          "grammar": 309,
+          "vocabulary": 373
+        },
+        "task_percent": {
+          "dialogue": 0.2154,
+          "explanation": 0.1284,
+          "fluency": 0.2352,
+          "grammar": 0.1907,
+          "vocabulary": 0.2302
+        },
+        "output_diversity": {
+          "fluency": {
+            "rows": 381,
+            "unique_outputs": 35,
+            "top_output_rate": 0.2336
+          },
+          "grammar": {
+            "rows": 309,
+            "unique_outputs": 309,
+            "top_output_rate": 0.0032
+          },
+          "dialogue": {
+            "rows": 349,
+            "unique_outputs": 347,
+            "top_output_rate": 0.0057
+          },
+          "vocabulary": {
+            "rows": 373,
+            "unique_outputs": 339,
+            "top_output_rate": 0.059
+          },
+          "explanation": {
+            "rows": 208,
+            "unique_outputs": 208,
+            "top_output_rate": 0.0048
+          }
+        },
+        "vocabulary_level_counts": {
+          "A2": 36,
+          "B1": 122,
+          "B2": 101,
+          "C1": 114
+        },
+        "vocabulary_keyword_count_distribution": {
+          "1": 28,
+          "2": 13,
+          "3": 9,
+          "4": 21,
+          "5": 35,
+          "6": 267
+        },
+        "fluency_score_top_counts": {
+          "0.88": 155,
+          "0.91": 106,
+          "0.93": 92,
+          "0.94": 3,
+          "0.9": 3,
+          "0.92": 3,
+          "0.83": 2,
+          "0.81": 2,
+          "0.87": 2,
+          "0.8": 2,
+          "0.84": 2,
+          "0.75": 1
+        }
+      },
+      "explanation_rows_added": 208
+    },
+    "test": {
+      "cleaning_stats": {
+        "total_in": 5376,
+        "task_grammar_in": 1174,
+        "total_out": 5373,
+        "task_grammar_out": 1174,
+        "task_fluency_in": 1445,
+        "fluency_feedback_added": 1330,
+        "task_fluency_out": 1445,
+        "task_dialogue_in": 1348,
+        "task_dialogue_out": 1345,
+        "task_vocabulary_in": 1409,
+        "vocabulary_keywords_added": 1005,
+        "vocabulary_keywords_extracted": 1273,
+        "task_vocabulary_out": 1409,
+        "vocabulary_metadata_keywords_replaced": 268,
+        "fluency_reasoning_kept_as_feedback": 115,
+        "dedup_removed": 3,
+        "task_dialogue_dedup_removed": 3
+      },
+      "summary": {
+        "samples": 5581,
+        "task_counts": {
+          "dialogue": 1345,
+          "explanation": 208,
+          "fluency": 1445,
+          "grammar": 1174,
+          "vocabulary": 1409
+        },
+        "task_percent": {
+          "dialogue": 0.241,
+          "explanation": 0.0373,
+          "fluency": 0.2589,
+          "grammar": 0.2104,
+          "vocabulary": 0.2525
+        },
+        "output_diversity": {
+          "grammar": {
+            "rows": 1174,
+            "unique_outputs": 1174,
+            "top_output_rate": 0.0009
+          },
+          "fluency": {
+            "rows": 1445,
+            "unique_outputs": 72,
+            "top_output_rate": 0.254
+          },
+          "dialogue": {
+            "rows": 1345,
+            "unique_outputs": 1301,
+            "top_output_rate": 0.0022
+          },
+          "vocabulary": {
+            "rows": 1409,
+            "unique_outputs": 1277,
+            "top_output_rate": 0.0532
+          },
+          "explanation": {
+            "rows": 208,
+            "unique_outputs": 208,
+            "top_output_rate": 0.0048
+          }
+        },
+        "vocabulary_level_counts": {
+          "A2": 128,
+          "B1": 484,
+          "B2": 411,
+          "C1": 386
+        },
+        "vocabulary_keyword_count_distribution": {
+          "1": 95,
+          "2": 50,
+          "3": 44,
+          "4": 103,
+          "5": 168,
+          "6": 949
+        },
+        "fluency_score_top_counts": {
+          "0.88": 567,
+          "0.91": 397,
+          "0.93": 377,
+          "0.75": 9,
+          "0.92": 8,
+          "0.84": 7,
+          "0.9": 6,
+          "0.81": 5,
+          "0.83": 4,
+          "0.6": 4,
+          "0.85": 4,
+          "0.82": 4
+        }
+      },
+      "explanation_rows_added": 208
+    }
+  },
+  "explanations": {
+    "used": true,
+    "source_report": {
+      "source": "model-development/datasets/training_data/vietnamese_explanations.jsonl",
+      "available": true,
+      "quality_threshold": 50,
+      "source_total": 4869,
+      "usable_rows": 4131,
+      "filter_stats": {
+        "drop_low_quality": 737,
+        "drop_duplicate_input": 1
+      },
+      "quality_distribution": {
+        "10": 16,
+        "20": 7,
+        "25": 34,
+        "30": 112,
+        "35": 21,
+        "40": 135,
+        "45": 412,
+        "50": 180,
+        "55": 476,
+        "60": 232,
+        "65": 1080,
+        "70": 317,
+        "75": 245,
+        "80": 456,
+        "85": 738,
+        "90": 101,
+        "100": 307
+      },
+      "error_type_counts": {
+        "modal_verb": 374,
+        "double_negative": 309,
+        "word_order": 286,
+        "subject_verb_agreement": 260,
+        "comparative_superlative": 258,
+        "singular_plural": 256,
+        "pronoun_wrong": 251,
+        "adjective_adverb": 237,
+        "past_tense": 235,
+        "article_missing": 232,
+        "gerund_infinitive": 231,
+        "conditional": 220,
+        "article_unnecessary": 213,
+        "verb_form_wrong": 209,
+        "present_continuous": 161,
+        "article_wrong": 157,
+        "past_participle": 139,
+        "preposition_wrong": 103
+      }
+    },
+    "split_report": {
+      "validation_ratio": 0.05,
+      "test_ratio": 0.05,
+      "split_counts": {
+        "train": 3715,
+        "validation": 208,
+        "test": 208
+      },
+      "per_error_type": {
+        "adjective_adverb": {
+          "train": 213,
+          "validation": 12,
+          "test": 12
+        },
+        "article_missing": {
+          "train": 208,
+          "validation": 12,
+          "test": 12
+        },
+        "article_unnecessary": {
+          "train": 191,
+          "validation": 11,
+          "test": 11
+        },
+        "article_wrong": {
+          "train": 141,
+          "validation": 8,
+          "test": 8
+        },
+        "comparative_superlative": {
+          "train": 232,
+          "validation": 13,
+          "test": 13
+        },
+        "conditional": {
+          "train": 198,
+          "validation": 11,
+          "test": 11
+        },
+        "double_negative": {
+          "train": 279,
+          "validation": 15,
+          "test": 15
+        },
+        "gerund_infinitive": {
+          "train": 207,
+          "validation": 12,
+          "test": 12
+        },
+        "modal_verb": {
+          "train": 336,
+          "validation": 19,
+          "test": 19
+        },
+        "past_participle": {
+          "train": 125,
+          "validation": 7,
+          "test": 7
+        },
+        "past_tense": {
+          "train": 211,
+          "validation": 12,
+          "test": 12
+        },
+        "preposition_wrong": {
+          "train": 93,
+          "validation": 5,
+          "test": 5
+        },
+        "present_continuous": {
+          "train": 145,
+          "validation": 8,
+          "test": 8
+        },
+        "pronoun_wrong": {
+          "train": 225,
+          "validation": 13,
+          "test": 13
+        },
+        "singular_plural": {
+          "train": 230,
+          "validation": 13,
+          "test": 13
+        },
+        "subject_verb_agreement": {
+          "train": 234,
+          "validation": 13,
+          "test": 13
+        },
+        "verb_form_wrong": {
+          "train": 189,
+          "validation": 10,
+          "test": 10
+        },
+        "word_order": {
+          "train": 258,
+          "validation": 14,
+          "test": 14
+        }
+      }
+    },
+    "cleaning_stats": {
+      "train": {
+        "total_in": 3715,
+        "task_explanation_in": 3715,
+        "total_out": 3715,
+        "task_explanation_out": 3715
+      },
+      "validation": {
+        "total_in": 208,
+        "task_explanation_in": 208,
+        "total_out": 208,
+        "task_explanation_out": 208
+      },
+      "test": {
+        "total_in": 208,
+        "task_explanation_in": 208,
+        "total_out": 208,
+        "task_explanation_out": 208
+      }
+    }
+  },
+  "cross_split_overlap_after_cleaning": {
+    "train_vs_validation": 0,
+    "train_vs_test": 0,
+    "validation_vs_test": 0
+  },
+  "downloaded_datasets": {
+    "available": true,
+    "files": {
+      "dialogue_data.json": {
+        "rows": 1000,
+        "task_counts": {
+          "dialogue": 1000
+        }
+      },
+      "fluency_data.json": {
+        "rows": 1350,
+        "task_counts": {
+          "fluency": 1350
+        }
+      },
+      "grammar_data.json": {
+        "rows": 35,
+        "task_counts": {
+          "grammar": 35
+        }
+      },
+      "unified_training_data.json": {
+        "rows": 2397,
+        "task_counts": {
+          "dialogue": 1000,
+          "fluency": 1350,
+          "grammar": 35,
+          "vocabulary": 12
+        }
+      },
+      "vocabulary_data.json": {
+        "rows": 12,
+        "task_counts": {
+          "vocabulary": 12
+        }
+      }
+    },
+    "candidate_cleaning_stats": {
+      "total_in": 2397,
+      "task_dialogue_in": 1000,
+      "total_out": 1878,
+      "task_dialogue_out": 997,
+      "task_fluency_in": 1350,
+      "fluency_reasoning_kept_as_feedback": 864,
+      "task_fluency_out": 864,
+      "dedup_removed": 519,
+      "task_fluency_dedup_removed": 486,
+      "task_grammar_in": 35,
+      "task_grammar_dedup_removed": 30,
+      "task_dialogue_dedup_removed": 3,
+      "task_vocabulary_in": 12,
+      "vocabulary_metadata_keywords_replaced": 12,
+      "vocabulary_keywords_extracted": 12,
+      "task_vocabulary_out": 12,
+      "task_grammar_out": 5,
+      "overlap_or_duplicate_removed": 519
+    },
+    "candidate_summary": {
+      "samples": 1878,
+      "task_counts": {
+        "dialogue": 997,
+        "fluency": 864,
+        "grammar": 5,
+        "vocabulary": 12
+      },
+      "task_percent": {
+        "dialogue": 0.5309,
+        "fluency": 0.4601,
+        "grammar": 0.0027,
+        "vocabulary": 0.0064
+      },
+      "output_diversity": {
+        "dialogue": {
+          "rows": 997,
+          "unique_outputs": 994,
+          "top_output_rate": 0.002
+        },
+        "fluency": {
+          "rows": 864,
+          "unique_outputs": 74,
+          "top_output_rate": 0.0347
+        },
+        "vocabulary": {
+          "rows": 12,
+          "unique_outputs": 12,
+          "top_output_rate": 0.0833
+        },
+        "grammar": {
+          "rows": 5,
+          "unique_outputs": 5,
+          "top_output_rate": 0.2
+        }
+      },
+      "vocabulary_level_counts": {
+        "A2": 2,
+        "B1": 6,
+        "B2": 4
+      },
+      "vocabulary_keyword_count_distribution": {
+        "4": 1,
+        "6": 11
+      },
+      "fluency_score_top_counts": {
+        "0.89": 42,
+        "0.81": 40,
+        "0.9": 39,
+        "0.86": 39,
+        "0.88": 39,
+        "0.91": 39,
+        "0.92": 36,
+        "0.83": 36,
+        "0.8": 35,
+        "0.84": 34,
+        "0.87": 34,
+        "0.93": 33
+      }
+    },
+    "used_in_train": false
+  }
+}
